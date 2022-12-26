@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface IRecruitTableService extends IService<RecruitTable> {
     RecruitTable postRecruitTable(RecruitTableDTO recruitTableDTO);
-    List<RecruitTable> getPostRecruitTable();
+    List<RecruitTable> getPostRecruitTable(int id);
+    List<RecruitTable> getAllRecruitTable();
 
+    boolean deleteRT(int id);
 }
