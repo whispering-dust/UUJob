@@ -14,21 +14,21 @@ public class ApplicationService extends ServiceImpl<ApplicationMapper, Applicati
     @Override
     public Application postApplication(ApplicationDTO applicationDTO) {//提交简历申请
         //保存application
-        Application application=new Application(applicationDTO.getProfile_id(),applicationDTO.getRecruittable_id(),applicationDTO.getDate());
+        Application application=new Application(applicationDTO.getResume_id(),applicationDTO.getJob_id(),applicationDTO.getDate());
         save(application);
         return application;
     }
 
     @Override
-    public boolean deleteApplicationById(int profileId) {
-       return removeById(profileId);
+    public boolean deleteApplicationById(int resumeId) {
+       return removeById(resumeId);
     }
 
 
     @Override
-    public List<Application> getTableProfile(int tableId) {
+    public List<Application> getJobResume(int jobId) {
         QueryWrapper<Application> wrapper = new QueryWrapper<>();
-        wrapper.eq("recruittable_id",tableId);
+        wrapper.eq("job_id", jobId);
         return list(wrapper);
     }
 }

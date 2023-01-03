@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface IApplicationService extends IService<Application> {
     Application postApplication(ApplicationDTO applicationDTO);
-    boolean deleteApplicationById(int profileId);
-    List<Application> getTableProfile(int tableId);
+    boolean deleteApplicationById(int resumeId);
+    List<Application> getJobResume(int jobId);
 }

@@ -22,8 +22,13 @@ public class User implements Serializable {
     private short role;
     private String company;
     private String position;
-    //mybatis-plus需要使用和数据表一致的构造函数
-    public User(Integer id, String account, String password, String name, String phone, short role, String company, String position) {
+    private int company_id;
+
+    public User() {
+        ;
+    }
+
+    public User(Integer id, String account, String password, String name, String phone, short role, String company, String position, int company_id) {
         this.id = id;
         this.account = account;
         this.password = password;
@@ -32,69 +37,7 @@ public class User implements Serializable {
         this.role = role;
         this.company = company;
         this.position = position;
+        this.company_id = company_id;
     }
-
-    public User() {
-        ;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getAccount() {
-        return account;
-    }
-
-    public void setAccount(String account) {
-        this.account = account;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public short getRole() {
-        return role;
-    }
-
-    public String getCompany() {
-        return company;
-    }
-
-    public void setCompany(String company) {
-        this.company = company;
-    }
-
-    public String getPosition() {
-        return position;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
-    }
+    
 }
