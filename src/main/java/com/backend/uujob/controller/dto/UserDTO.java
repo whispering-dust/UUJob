@@ -12,5 +12,4 @@ public class UserDTO {
     private short role;
     private String company;
     private String position;
-    private int company_id;
 }
