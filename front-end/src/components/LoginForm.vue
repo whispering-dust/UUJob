@@ -4,16 +4,23 @@
     ref="loginForm"
     :model="loginUser"
     :rules="rules"
-    label-width="100px"
-    class="loginForm sign-in-form"
+    label-width="30px"
+    class="loginForm sign-in-form card bg-dark text-white"
   >
-    <el-form-item label="账号" prop="account">
+  <div class="card-body">
+    <span class="clearfix"></span>
+    <h4 class="heading h3 text-white pt-3 pb-5">欢迎来到UUJOB交流平台,<br>
+      请登录你的账户吧.</h4>
+  </div>
+    <el-form-item label="" prop="account">
+      <h5 class="h5 text-white ">账号</h5>
       <el-input
         v-model="loginUser.account"
         placeholder="Enter your user name..."
       ></el-input>
     </el-form-item>
-    <el-form-item label="密码" prop="password">
+    <el-form-item label="" prop="password">
+      <h5 class=" h5 text-white ">密码</h5>
       <el-input
         v-model="loginUser.password"
         type="password"
@@ -103,7 +110,7 @@ export default {
 <style scoped>
 /* form */
 .loginForm {
-  margin-top: 20px;
+  margin-top: 0px;
   background-color: #fff;
   padding: 20px 40px 20px 20px;
   border-radius: 5px;

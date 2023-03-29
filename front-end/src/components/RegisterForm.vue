@@ -5,8 +5,13 @@
     :model="registerUser"
     :rules="registerRules"
     label-width="100px"
-    class="registerForm sign-up-form"
+    class="registerForm sign-up-form card bg-dark text-white"
   >
+  <div class="card-body">
+    <span class="clearfix"></span>
+    <h4 class="heading h4 text-white pt-3 text-center">请提供你的信息,
+      注册账户</h4>
+  </div>
     <el-form-item label="账号" prop="account">
       <el-input
         v-model="registerUser.account"
@@ -118,4 +123,23 @@ export default {
 };
 </script>
 <style scoped>
+.registerForm {
+  margin-top: 0px;
+  background-color: #fff;
+  padding: 20px 40px 20px 20px;
+  border-radius: 5px;
+  box-shadow: 0px 5px 10px #cccc;
+}
+
+.submit-btn {
+  width: 100%;
+}
+.tiparea {
+  text-align: right;
+  font-size: 12px;
+  color: #333;
+}
+.tiparea p a {
+  color: #409eff;
+}
 </style>

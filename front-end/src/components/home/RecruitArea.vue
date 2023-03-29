@@ -2,33 +2,43 @@
     
     <div class="box-card-up">
       <span style="font-size:large;">招聘栏信息</span>
-      <div style="float:right"><el-button type="primary" plain>全部</el-button></div>  
-    </div>
-      <div class="demo-collapse">
-          <div v-for="recruitObj in recruitObjs">
-            <el-card class="box-card">    
-              <template #header>
-                <div class="card-header">
-                  <span style="font-size:larger">{{recruitObj.title}}</span>
-                  <el-button class="button" type="success" @click="apply(recruitObj.id)"> Apply</el-button>
-                  <!-- @click="apply(recruitObj.id)" -->
-                
-                </div>
-              </template>
-              <div class="salary">
-                {{recruitObj.salary}}
-              </div>          
-              <div class="position">
-                {{recruitObj.position}}
-              </div>
-              
-              <div class="description">
-                {{recruitObj.description}}
-              </div>              
-              
-          </el-card> 
+      <div style="float:right"><el-button type="primary" plain>全部</el-button></div> 
+
+      <div v-for="recruitObj in recruitObjs">
+        <el-card class="box-card" shadow="hover">    
+          <template #header>
+            <div class="card-header">
+              <span style="font-size:larger">{{recruitObj.title}}</span>
+              <el-button class="button" type="success" @click="apply(recruitObj.id)"> Apply</el-button>
+              <!-- @click="apply(recruitObj.id)" -->
+            
+            </div>
+          </template>
+          <div class="salary">
+            {{recruitObj.salary}}
+          </div>          
+          <div class="position">
+            {{recruitObj.position}}
           </div>
-      </div>
+          
+          <div class="description">
+            {{recruitObj.description}}
+          </div>              
+          
+      </el-card> 
+      </div> 
+
+      <div class="pagination">
+          <el-pagination
+            v-model="currentPage"
+            :page-size="pageSize"
+            layout="prev, pager, next"
+            :total="recruitObjs.length"
+            @current-change="handlePageChange"
+          />
+        </div>
+      
+    </div>
 
       <el-dialog v-model="dialogApplyVisible" title="请填写简历信息">
         <Apply :tableId="select_id"></Apply>
@@ -50,6 +60,10 @@ export default{
     return {
       select_id:"",
       dialogApplyVisible: false,
+      pagedRecruitObjs: [], // 当前页展示的求职帖子的数组
+      currentPage: 1, // 当前页码
+      pageSize: 4, // 每页显示的数量
+      totalRecruitObjs: 0, // 总的求职帖子数量
       recruitObjs :[
         {
           id:"1",
@@ -59,13 +73,26 @@ export default{
           description:"快来家人们",
         },
         {
-          id:"2",
-          title:"性感腾讯在线招人",
-          position:"游戏架构师",
-          salary:"5w-8w",
-          description:"爱来来不来滚",
+          id:"1",
+          title:"蔚蓝求职",
+          position:"算法工程师",
+          salary:"1.5w-2w",
+          description:"快来家人们",
+        },{
+          id:"1",
+          title:"蔚蓝求职",
+          position:"算法工程师",
+          salary:"1.5w-2w",
+          description:"快来家人们",
         },
-
+        {
+          id:"1",
+          title:"蔚蓝求职",
+          position:"算法工程师",
+          salary:"1.5w-2w",
+          description:"快来家人们",
+        },
+       
       ]
     }
   },
@@ -106,13 +133,25 @@ export default{
       })
 
     },
+
+    handlePageChange(currentPage) {
+      this.currentPage = currentPage;
+    },
+
+    paginatedRecruits() {
+      const startIndex = (this.currentPage - 1) * this.pageSize;
+      const endIndex = startIndex + this.pageSize;
+      return this.recruitObjs.slice(startIndex, endIndex);
+    },
   },
   mounted(){
     this.getRecruitList();
+
+    this.paginatedRecruits();
   },
 }
 
-</script>\
+</script>
 
   <style>
   .card-header {

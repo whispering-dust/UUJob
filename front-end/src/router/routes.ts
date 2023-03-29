@@ -1,5 +1,11 @@
 const routes = [
     {
+      name: '/',
+      path: '/',
+      meta: {keepAlive: true},
+      component: () => import('@/view/Home.vue')
+    },
+    {
         name: 'Login',
         path: '/login',
         meta: {keepAlive: false},
