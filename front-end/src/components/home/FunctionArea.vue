@@ -49,8 +49,7 @@ export default{
   
   .box-card2 {
     margin-top: 50px;
-    margin-left: 100px;
-    width: 250px;
+    width: 100%;
   }
   </style>
   

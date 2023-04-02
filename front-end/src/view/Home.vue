@@ -1,10 +1,10 @@
 <template>
   <section class="spotlight parallax bg-cover bg-size--cover" data-spotlight="fullscreen" style="background-image: url('../assets/images/backgrounds/img-3.jpg')">
     <span class="mask bg-dark alpha-7">
-      <el-container class="container">
+      <div class="container">
         <div class="row">
-          <div class="col-md-8">
-            <section class="bg-cover" >             
+          <div class="col-md-8" >
+            <section class="container" >             
               <RecruitArea></RecruitArea>
             </section>
             
@@ -13,7 +13,7 @@
             <FunctionArea></FunctionArea>  
           </div>
         </div>
-      </el-container>
+      </div>
     </span>
     
   </section>

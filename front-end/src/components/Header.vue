@@ -11,7 +11,7 @@
               <router-link class="nav-link " to="../home">首页/求职</router-link>
             </li>
             <li class="nav-item">
-                <a class="nav-link " href="../community" >交流论坛</a>
+                <a class="nav-link " href="../forum" >交流论坛</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link" href="../myspace">个人中心</a>

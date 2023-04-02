@@ -1,7 +1,7 @@
 <template>
     
     <div class="box-card-up">
-      <span style="font-size:large;">招聘栏信息</span>
+      <h4 class="heading h3 text-white pt-3">求职招聘栏</h4>
       <div style="float:right"><el-button type="primary" plain>全部</el-button></div> 
 
       <div v-for="recruitObj in recruitObjs">
@@ -66,19 +66,6 @@ export default{
       totalRecruitObjs: 0, // 总的求职帖子数量
       recruitObjs :[
         {
-          id:"1",
-          title:"蔚蓝求职",
-          position:"算法工程师",
-          salary:"1.5w-2w",
-          description:"快来家人们",
-        },
-        {
-          id:"1",
-          title:"蔚蓝求职",
-          position:"算法工程师",
-          salary:"1.5w-2w",
-          description:"快来家人们",
-        },{
           id:"1",
           title:"蔚蓝求职",
           position:"算法工程师",
@@ -169,7 +156,7 @@ export default{
   }
   
   .box-card {
-    width: 800px;
+    width: 100%;
     margin-bottom: 10px;
   }
   .box-card-up {
@@ -177,6 +164,7 @@ export default{
     height: 100%;
     margin-top: 10px;
     margin-bottom: 20px;
+    overflow: hidden;
   }
 
   .position{

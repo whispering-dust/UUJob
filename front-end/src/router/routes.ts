@@ -19,12 +19,18 @@ const routes = [
         component: () => import('@/view/Home.vue')
     },
     {
+      name: 'Forum',
+      path: '/forum',
+      meta: {keepAlive: true},
+      component: () => import('@/view/Forum.vue')
+    },
+    {
       name: 'ManagePosted',
       path: '/manageposted',
       meta: {keepAlive: true},
       component: () => import('@/view/ManagePosted.vue')
     },
-        {
+    {
       name: 'Position',
       path: '/Position',
       meta: {keepAlive: true},
