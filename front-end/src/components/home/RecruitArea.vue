@@ -2,7 +2,18 @@
     
     <div class="box-card-up">
       <h4 class="heading h3 text-white pt-3">求职招聘栏</h4>
-      <div style="float:right"><el-button type="primary" plain>全部</el-button></div> 
+      <el-menu
+        :default-active="activeIndex"
+        class="el-menu  rounded"
+        mode="horizontal"
+        style="margin-bottom: 10px;"
+        @select="handleSelect"
+      >
+          <el-menu-item index="0">全部</el-menu-item>
+          <el-menu-item index="1">岗位</el-menu-item>
+          <el-menu-item index="2">企业</el-menu-item>
+          <el-menu-item index="3">喜好</el-menu-item>
+      </el-menu>
 
       <div v-for="recruitObj in recruitObjs">
         <el-card class="box-card" shadow="hover">    
@@ -79,6 +90,34 @@ export default{
           salary:"1.5w-2w",
           description:"快来家人们",
         },
+        {
+          id:"1",
+          title:"蔚蓝求职",
+          position:"算法工程师",
+          salary:"1.5w-2w",
+          description:"快来家人们",
+        },
+        {
+          id:"1",
+          title:"蔚蓝求职",
+          position:"算法工程师",
+          salary:"1.5w-2w",
+          description:"快来家人们",
+        },
+        {
+          id:"1",
+          title:"蔚蓝求职",
+          position:"算法工程师",
+          salary:"1.5w-2w",
+          description:"快来家人们",
+        },
+        {
+          id:"1",
+          title:"蔚蓝求职",
+          position:"算法工程师",
+          salary:"1.5w-2w",
+          description:"快来家人们",
+        },
        
       ]
     }
@@ -140,7 +179,7 @@ export default{
 
 </script>
 
-  <style>
+  <style scoped>
   .card-header {
     display: flex;
     justify-content: space-between;
@@ -162,8 +201,6 @@ export default{
   .box-card-up {
     width: 100%;
     height: 100%;
-    margin-top: 10px;
-    margin-bottom: 20px;
     overflow: hidden;
   }
 

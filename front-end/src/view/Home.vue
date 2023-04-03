@@ -1,7 +1,12 @@
 <template>
-  <section class="spotlight parallax bg-cover bg-size--cover" data-spotlight="fullscreen" style="background-image: url('../assets/images/backgrounds/img-3.jpg')">
-    <span class="mask bg-dark alpha-7">
-      <div class="container">
+  <!-- <div class="spotlight parallax bg-cover bg-size--cover no-repeat fixed" data-spotlight="fullscreen" style="background-image: url('../assets/images/backgrounds/img-3.jpg')" >
+    <span ">
+      
+    </span>
+  </div> -->
+  <div class="home">
+    <div class="backmask">
+      <div class="container main">
         <div class="row">
           <div class="col-md-8" >
             <section class="container" >             
@@ -14,10 +19,10 @@
           </div>
         </div>
       </div>
-    </span>
+    </div>
     
-  </section>
-    
+  </div> 
+  
 
 </template>
 
@@ -37,11 +42,14 @@ export default{
 
 <style>
 .home{
-    background-color: rgb(245, 245, 245);
+    background-color: rgb(200, 137, 137);
     width: 100%;
     height: 100%;
-    left: 0;
-    min-height: 800px;
+    background-image: url('../../public/assets/images/backgrounds/img-2.jpg');
+}
+.backmask{
+  background-color: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(20px);
 }
 .main{
   width: 100%;
