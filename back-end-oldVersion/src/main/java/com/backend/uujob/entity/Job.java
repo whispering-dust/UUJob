@@ -19,8 +19,6 @@ public class Job implements Serializable {
     private Date date;
     private short status;
     private String description;
-    private String company;
-    private int company_id;
 
     public Job(Integer publisher_id){
         this.id = 0;//自动递增而不指定
