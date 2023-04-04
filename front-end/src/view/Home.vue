@@ -7,7 +7,16 @@
   <div class="home">
     <div class="backmask">
       <div class="container main">
-        <div class="row">
+        <br>
+        <div class="container" style="height: 70px;width:70%">
+          <div class=" bg-dark card row" style="justify-content: center;height: 100%;">
+            <el-input round v-model="input" placeholder="Please input" clearable  style="height:100% ;  width:85%;margin:5px;">
+            </el-input>
+            <el-link  @click="searchSubmit" :underline="false" style="height: 100%;margin-right:20px;"><h3 class="text-white">搜索</h3></el-link>
+          </div>
+        </div>
+
+        <div class="row">   
           <div class="col-md-8" >
             <section class="container" >             
               <RecruitArea></RecruitArea>
@@ -29,18 +38,32 @@
 <script lang="ts">
 import  RecruitArea   from "@/components/home/RecruitArea.vue";
 import FunctionArea from "@/components/home/FunctionArea.vue";
+import {
+  Search,
+} from '@element-plus/icons-vue'
 
 export default{
-    name:"Home",
-    components:{
-      RecruitArea,
-      FunctionArea,
-    },
-
+  name:"Home",
+  components:{
+    RecruitArea,
+    FunctionArea,
+  },
+  data(){
+    return {
+      Search,
+      input:'',
+    }
+  },
+  methods: {
+    searchSubmit(){
+      alert('Search')
+    }
+  },
 };
 </script>
 
-<style>
+<style scoped>
+
 .home{
     background-color: rgb(200, 137, 137);
     width: 100%;

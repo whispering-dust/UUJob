@@ -36,37 +36,64 @@
                    <el-menu-item index="3">课程</el-menu-item>
                </el-menu>
                
-               <div class="post-area">
-                   <div class="post-list pt-1">
-                   <div v-for="post in posts" :key="post.id" class="post-item">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="row align-items-center">
-                                <div class="col-8">
-                                    <h4 class="heading h5 mb-0">{{ post.title }}</h4>
-                                </div>
-                                <div class="col-4">
-                                    <div class="card-icon-actions text-right">
-                                        <a href="#" class="favorite" data-toggle="tooltip" data-original-title="Save to favorites"><i class="fas fa-star"></i></a>
+               <div class="post-area row">
+                   <div class="post-list pt-1 col-8">
+                        <div v-for="post in posts" :key="post.id" class="post-item">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="row align-items-center">
+                                        <div class="col-8">
+                                            <h4 class="heading h5 mb-0">{{ post.title }}</h4>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="card-icon-actions text-right">
+                                                <a href="#" class="favorite" data-toggle="tooltip" data-original-title="Save to favorites"><i class="fas fa-star"></i></a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="card-body">
+                                    <p class="card-text">{{ post.content }}</p>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="row align-items-center">
+                                        <div class="col-6">
+                                            <el-button type="primary" round>详情</el-button>
+                                        </div>
+                                        <div class="col-6 text-right">
+                                            <span class="text-muted">{{ post.date }}</span>
+                                        </div>
+                                    </div>
+                                </div>           
                             </div>
                         </div>
-                        <div class="card-body">
-                            <p class="card-text">{{ post.content }}</p>
-                        </div>
-                        <div class="card-footer">
-                            <div class="row align-items-center">
-                                <div class="col-6">
-                                    <el-button type="primary">详情</el-button>
-                                </div>
-                                <div class="col-6 text-right">
-                                    <span class="text-muted">{{ post.date }}</span>
-                                </div>
-                            </div>
-                        </div>           
-                       </div>
                    </div>
+
+                   <div class="post-right pt-1 col-4">
+                        <div class="card funtion">
+                            <div class="card-header">
+                                <h4>功能面板</h4>
+                            </div>
+                            <div class="card-body">
+                                <el-tooltip
+                                    class="box-item"
+                                    effect="dark"
+                                    content="发布帖子"
+                                    placement="top"
+                                >
+                                    <el-button circle size="large"><el-icon ><document /></el-icon></el-button>
+                                </el-tooltip>
+                            </div>
+                        </div>
+
+                        <div class="card funtion">
+                            <div class="card-header">
+                                <h4>热点事件</h4>
+                            </div>
+                            <div class="card-body">
+                               
+                            </div>
+                        </div>
                    </div>
                </div>        
            </div>
@@ -77,12 +104,18 @@
 
 <script>
 import {ref } from 'vue';
+import {
+  Document,
+  Menu as IconMenu,
+  User,
+  Setting,
+} from '@element-plus/icons-vue'
+
 export default {
   data() {
 
     const activeIndex = ref(0); 
-    return {
-    
+    return {    
         activeIndex,
         posts: [
             {
@@ -120,6 +153,14 @@ export default {
 <style scoped>
 .post-area{
     width: 100%;
+}
+
+.post-list{
+    width: 100%;
+}
+
+.funtion{
+    margin-bottom: 10px;
 }
 .main{
     background-color: rgb(200, 137, 137);
