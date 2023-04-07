@@ -21,6 +21,6 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IUserS
         //在MyBatis-Plus中，通常通过QueryWrapper完成查询，其返回值类型为尖括号的类型
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         wrapper.eq("id",id);
-        return getOne(wrapper).getName();
+        return getOne(wrapper).getUserName();
     }
 }
