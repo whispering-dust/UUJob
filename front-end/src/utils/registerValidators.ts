@@ -2,7 +2,6 @@ import { ref } from "vue";
 
 //用户注册数据接口
 interface RegisterUser {
-  account: string;
   name: string;
   phone: string;
   password: string;
@@ -11,7 +10,6 @@ interface RegisterUser {
 }
 
 export const registerUser = ref<RegisterUser>({
-  account:"",
   name: "",
   phone: "",
   password: "",
@@ -31,12 +29,6 @@ interface RegisterRules {
     message: string;
     trigger: string;
   })[];
-  account: {
-    type: string;
-    message: string;
-    required: boolean;
-    trigger: string;
-  }[];
   password: ({
     required: boolean;
     message: string;
@@ -85,14 +77,6 @@ export const registerRules = ref<RegisterRules>({
       min: 2,
       max: 30,
       message: "长度在2到30个字符",
-      trigger: "blur",
-    },
-  ],
-  account: [
-    {
-      type: "account",
-      message: "account is incorrect...",
-      required: true,
       trigger: "blur",
     },
   ],

@@ -12,13 +12,7 @@
     <h4 class="heading h4 text-white pt-3 text-center">请提供你的信息,
       注册账户</h4>
   </div>
-    <el-form-item label="账号" prop="account">
-      <el-input
-        v-model="registerUser.account"
-        placeholder="Enter Account..."
-      ></el-input>
-    </el-form-item>
-    <el-form-item label="姓名" prop="name">
+    <el-form-item label="用户名" prop="name">
       <el-input
           v-model="registerUser.name"
           placeholder="Enter UserName..."
@@ -93,7 +87,6 @@ export default {
             method: "post",
             url: "http://localhost:9090/user/register",
             data: {
-              account: ctx.registerUser.account,
               password: ctx.registerUser.password,
               name: ctx.registerUser.name,
               phone: ctx.registerUser.phone,
@@ -103,6 +96,7 @@ export default {
             // 注册成功
             if(response.data.code == 0){
                 alert("注册成功");
+                alert("你的账号为"+response.data.data.userId);//弹窗输出返回的账号
                 console.log(response.data.data);
             }
             // 注册失败提示信息

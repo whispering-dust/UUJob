@@ -21,10 +21,10 @@
         <ul class="navbar-nav ml-auto">
             
             <li class="nav-item">
-                <a class="nav-link nav-link-icon" href="#"><i class="fas fa-cogs"></i></a>
+                <a class="nav-link nav-link-icon" href="#"><el-icon style="font-size: 25px;"><Setting /></el-icon></a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link nav-link-icon" href="#" id="navbar_1_dropdown_2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-bell"></i></a>
+                <a class="nav-link nav-link-icon" href="#" id="navbar_1_dropdown_2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ><el-icon style="font-size: 25px;"><Bell /></el-icon></a>
                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-xl py-0">
                     <div class="py-3 px-3">
                         <h5 class="heading h6 mb-0">Notifications</h5>
@@ -64,7 +64,9 @@
                 </div>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link nav-link-icon" href="#" id="navbar_1_dropdown_3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i></a>
+                <a class="nav-link nav-link-icon" href="#" id="navbar_1_dropdown_3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><div class="block">
+                    <el-avatar :size="25" :src="circleUrl" />
+                </div></a>
                 <div class="dropdown-menu dropdown-menu-right">
                     <h6 class="dropdown-header">User menu</h6>
                     <a class="dropdown-item" href="#">
@@ -86,7 +88,7 @@
 </template>
 <script>
 
-import { Search } from '@element-plus/icons-vue'
+import { Search,Bell,Setting } from '@element-plus/icons-vue'
 export default {
     data() {
       return {

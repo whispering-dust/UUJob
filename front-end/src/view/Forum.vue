@@ -3,26 +3,32 @@
         <div class="box">
             <div class="container">
                 <!-- 广告位轮播 -->
-                <div id="carouselExampleSlidesOnly" class="carousel slide my-carousel pt-1 " data-ride="carousel" style=" height: 250px; overflow: hidden; ">
-                   <div class="card bg-dark alpha-container text-white border-0 overflow-hidden">
-                       <div class="carousel-inner">
-                           <div class="carousel-item active">
-                               <img class="d-block w-100" src="../../public/assets/images/prv/img-2.jpg" alt="First slide">
-                           </div>
-                           <div class="carousel-item">
-                               <img class="d-block w-100" src="../../public/assets/images/prv/img-1.jpg" alt="Second slide">
-                           </div>
-                           <div class="carousel-item">
-                               <img class="d-block w-100" src="../../public/assets/images/prv/img-3.jpg" alt="Second slide">
-                           </div>
-                           <div class="carousel-item">
-                               <img class="d-block w-100" src="../../public/assets/images/prv/img-4.jpg" alt="Second slide">
-                           </div>
-                       </div>
-   
-                   </div>
-   
-               </div>
+                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style=" height: 250px; overflow: hidden; ">
+                    <ol class="carousel-indicators">
+                      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                    </ol>
+                    <div class="carousel-inner">
+                      <div class="carousel-item active">
+                        <img class="d-block w-100" src="../../public/assets/images/prv/img-2.jpg" alt="First slide">
+                      </div>
+                      <div class="carousel-item">
+                        <img class="d-block w-100" src="../../public/assets/images/prv/img-1.jpg" alt="Second slide">
+                      </div>
+                      <div class="carousel-item">
+                        <img class="d-block w-100" src="../../public/assets/images/prv/img-3.jpg" alt="Third slide">
+                      </div>
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="sr-only">Next</span>
+                    </a>
+                  </div>
    
                <el-menu
                    :default-active="activeIndex"
@@ -58,10 +64,21 @@
                                 <div class="card-footer">
                                     <div class="row align-items-center">
                                         <div class="col-6">
-                                            <el-button type="primary" round>详情</el-button>
+                                            <el-button type="primary" round>详情</el-button>                               
                                         </div>
                                         <div class="col-6 text-right">
-                                            <span class="text-muted">{{ post.date }}</span>
+                                            <ul class="list-inline mb-0">
+                                                <li class="list-inline-item pr-2">
+                                                    <a href="#"><i class="fas fa-heart mr-1"></i> 50</a>
+                                                </li>
+                                                <li class="list-inline-item pr-2">
+                                                    <i class="fas fa-eye text-muted mr-1"></i> 750
+                                                </li>
+                                                <li class="list-inline-item ">
+                                                    <span class="text-muted">{{ post.date }}</span>
+                                                </li>
+                                            </ul>
+                                            
                                         </div>
                                     </div>
                                 </div>           
@@ -88,7 +105,7 @@
 
                         <div class="card funtion">
                             <div class="card-header">
-                                <h4>热点事件</h4>
+                                <h4>热点</h4>
                             </div>
                             <div class="card-body">
                                
@@ -158,7 +175,6 @@ export default {
 .post-list{
     width: 100%;
 }
-
 .funtion{
     margin-bottom: 10px;
 }

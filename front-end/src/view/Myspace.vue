@@ -1,60 +1,62 @@
 <template>
   <div class="myspace">
-    <el-container class="myspace">
-      <el-aside >
-        <el-radio-group v-model="isCollapse" >
-          <el-radio-button :label="!isCollapse">
-            <el-icon ><Grid /></el-icon>
-          </el-radio-button>
-        </el-radio-group>
-        <el-menu
-          default-active="2"
-          class="el-menu-vertical-demo"
-          :collapse="isCollapse"
-          @open="handleOpen"
-          @close="handleClose"
-        >
-      
-          <router-link class="alink" to="../myspace/userInfo">
-            <el-menu-item index="1">
-              <el-icon><User /></el-icon>
+      <div class="row">
+        <div class="col-2 bg-dark" style="min-height: 800px;">
+          <el-menu
+            active-text-color="#a3cef1"
+            background-color="#343a40"
+            class="el-menu-vertical-demo"
+            text-color="#fff"
+            style="width: 100%; border-right: 0px;"
+            @open="handleOpen"
+            @close="handleClose"
+          >
+            <el-sub-menu index="1">
               <template #title>
-                我的账户信息
+                <el-icon><User /></el-icon>
+                <span>个人信息</span>
               </template>
-            </el-menu-item>
-          </router-link>
-      
-          <router-link class="alink" to="../myspace/myProfile">
-            <el-menu-item index="2">
-              <el-icon><icon-menu /></el-icon>
-              <template #title>我的简历</template>
-            </el-menu-item>
-          </router-link>
-          
-          <router-link class="alink" to="../myspace/historyPostList">
-            <el-menu-item index="3">
-              <el-icon><document /></el-icon>
-              <template #title>历史投递列表</template>
-            </el-menu-item>
-          </router-link>
-          
-          <router-link class="alink" to="../myspace/sysNotice">
-            <el-menu-item index="4">
-              <el-icon><setting /></el-icon>
-              <template #title>通知</template>
-            </el-menu-item>
-          </router-link>
-        </el-menu>
-      </el-aside>
-  
-      <el-main class="pro">
-        <div style="width: 80% ; float:left">
-          <router-view></router-view>
+              <a href="../myspace/userInfo" class="text-white" ><el-menu-item index="1-1"> 账号信息</el-menu-item></a>
+              <a href="../myspace/password" class="text-white" ><el-menu-item index="1-2">修改密码</el-menu-item></a>
+           </el-sub-menu>
+            <a class="text-white" href="../myspace/profile" >
+              <el-menu-item index="2">
+                <el-icon><icon-menu /></el-icon>
+                我的简历
+              </el-menu-item>
+            </a>
+            <a class="text-white" href="../myspace/chatList" >
+              <el-menu-item index="3">
+                <el-icon><ChatLineRound /></el-icon>
+                联系人
+              </el-menu-item>
+            </a>
+            <a class="text-white" href="../myspace/historyJob" >
+              <el-menu-item index="3">
+                <el-icon><Document /></el-icon>
+                我的投递
+              </el-menu-item>
+            </a>
+            <el-sub-menu index="4">
+              <template #title>
+                <el-icon><Star /></el-icon>
+                <span>我的收藏</span>
+              </template>
+              <a href="../myspace/starPosts" class="text-white"><el-menu-item index="4-1">关注帖子</el-menu-item></a>
+              <a href="../myspace/starJobs" class="text-white"><el-menu-item index="4-2">关注职招</el-menu-item></a>
+            </el-sub-menu>
+          </el-menu>
+        
         </div>
-      </el-main>
-    </el-container>
+
+        <div class="col-10">
+          <el-container>
+            <router-view ></router-view>
+          </el-container>
+        </div>
+      </div>
   </div>
-  
+
   
 </template>
 
@@ -65,6 +67,8 @@ import {
   Menu as IconMenu,
   User,
   Setting,
+  ChatLineRound,
+  Star,
 } from '@element-plus/icons-vue'
 
 const isCollapse = ref(true)
@@ -92,7 +96,5 @@ const handleClose = (key: string, keyPath: string[]) => {
   background-color: rgb(245, 245, 245);
     width: 100%;
     height: 100%;
-    position: absolute;
-    left: 0;
 }
 </style>

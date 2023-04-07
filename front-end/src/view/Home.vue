@@ -9,7 +9,7 @@
       <div class="container main">
         <br>
         <div class="container" style="height: 70px;width:70%">
-          <div class=" bg-dark card row" style="justify-content: center;height: 100%;">
+          <div class="card row" style="justify-content: center;height: 100%; background-color:#343a40;">
             <el-input round v-model="input" placeholder="Please input" clearable  style="height:100% ;  width:85%;margin:5px;">
             </el-input>
             <el-link  @click="searchSubmit" :underline="false" style="height: 100%;margin-right:20px;"><h3 class="text-white">搜索</h3></el-link>

@@ -49,21 +49,16 @@ const routes = [
         // },
 
         {
-            path: '/myspace/historyPostList',
+            path: '/myspace/historyJob',
             name: 'history',
-            component: () => import('@//components/myspace/HistoryPostList.vue')
+            component: () => import('@//components/myspace/HistoryJob.vue')
           },
 
           {
-            path: '/myspace/myProfile',
+            path: '/myspace/profile',
             name: 'myProfile',
-            component: () => import('@/components/myspace/MyProfile.vue')
+            component: () => import('@/components/myspace/Profile.vue')
           },
-          // {
-          //   path: '/myspace/sysNotice',
-          //   name: 'sysNotice',
-          //   component: () => import('@/components/myspace/SysNotice.vue')
-          // },
 
         ]
 

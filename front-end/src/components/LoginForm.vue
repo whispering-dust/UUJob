@@ -16,7 +16,7 @@
       <h5 class="h5 text-white ">账号</h5>
       <el-input
         v-model="loginUser.account"
-        placeholder="Enter your user name..."
+        placeholder="Enter account provided by us..."
       ></el-input>
     </el-form-item>
     <el-form-item label="" prop="password">
