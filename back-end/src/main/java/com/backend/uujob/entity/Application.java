@@ -1,11 +1,17 @@
 package com.backend.uujob.entity;
 
-
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.github.jeffreyning.mybatisplus.anno.MppMultiId;
 import java.sql.Timestamp;
 
 public class Application {
-
+  @MppMultiId
+  @TableField(value="profile_id")
   private Integer profileId;
+  @MppMultiId
+  @TableField(value="jobId")
   private Integer jobId;
   private Timestamp date;
   private Integer status;
