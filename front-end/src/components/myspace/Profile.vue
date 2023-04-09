@@ -119,19 +119,23 @@
             border>
             <el-descriptions-item>
                 <template #label>
-                    <div class="cell-item">
+                    <div class="cell-item" >
                         自我介绍
                     </div>
-                </template>               
-                {{Profile.description}}
+                </template>
+                <div style="min-height:100px">
+                    {{Profile.description}}
+                </div>               
             </el-descriptions-item>
             <el-descriptions-item>
                 <template #label>
                     <div class="cell-item">
                         荣誉奖项
                     </div>
-                </template>               
-                {{Profile.honor}}
+                </template>
+                <div style="min-height:100px">
+                    {{Profile.honor}}
+                </div>              
             </el-descriptions-item>
         </el-descriptions>
     </el-card>

@@ -8,13 +8,13 @@
     <div class="collapse navbar-collapse" id="navbar_example_1">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <router-link class="nav-link " to="../home">首页/求职</router-link>
+              <router-link class="nav-link " to="/home">首页/求职</router-link>
             </li>
             <li class="nav-item">
-                <a class="nav-link " href="../forum" >交流论坛</a>
+                <a class="nav-link " href="/forum" >交流论坛</a>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link" href="../myspace">个人中心</a>
+              <a class="nav-link" href="/myspace">个人中心</a>
             </li>
             
         </ul>
@@ -77,7 +77,7 @@
                         <i class="fas fa-cog text-primary"></i>Settings
                     </a>
                     <div class="dropdown-divider" role="presentation"></div>
-                    <a class="dropdown-item" href="./login">
+                    <a class="dropdown-item" href="/login">
                         <i class="fas fa-sign-out-alt text-primary"></i>Sign out
                     </a>
                 </div>

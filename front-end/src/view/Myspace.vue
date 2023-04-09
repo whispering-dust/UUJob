@@ -16,34 +16,34 @@
                 <el-icon><User /></el-icon>
                 <span>个人信息</span>
               </template>
-              <a href="../myspace/userInfo" class="text-white" ><el-menu-item index="1-1"> 账号信息</el-menu-item></a>
-              <a href="../myspace/password" class="text-white" ><el-menu-item index="1-2">修改密码</el-menu-item></a>
+              <router-link to="/myspace/userInfo" class="text-white" ><el-menu-item index="1-1"> 账号信息</el-menu-item></router-link>
+              <router-link to="/myspace/password" class="text-white" ><el-menu-item index="1-2">修改密码</el-menu-item></router-link>
            </el-sub-menu>
-            <a class="text-white" href="../myspace/profile" >
+            <router-link class="text-white" to="/myspace/profile" >
               <el-menu-item index="2">
                 <el-icon><icon-menu /></el-icon>
                 我的简历
               </el-menu-item>
-            </a>
-            <a class="text-white" href="../myspace/chatList" >
+            </router-link>
+            <router-link class="text-white" to="/myspace/chatList" >
               <el-menu-item index="3">
                 <el-icon><ChatLineRound /></el-icon>
                 联系人
               </el-menu-item>
-            </a>
-            <a class="text-white" href="../myspace/historyJob" >
+            </router-link>
+            <router-link class="text-white" to="/myspace/historyJob" >
               <el-menu-item index="3">
                 <el-icon><Document /></el-icon>
                 我的投递
               </el-menu-item>
-            </a>
+            </router-link>
             <el-sub-menu index="4">
               <template #title>
                 <el-icon><Star /></el-icon>
                 <span>我的收藏</span>
               </template>
-              <a href="../myspace/starPosts" class="text-white"><el-menu-item index="4-1">关注帖子</el-menu-item></a>
-              <a href="../myspace/starJobs" class="text-white"><el-menu-item index="4-2">关注职招</el-menu-item></a>
+              <router-link to="/myspace/starPosts" class="text-white"><el-menu-item index="4-1">关注帖子</el-menu-item></router-link>
+              <router-link to="/myspace/starJobs" class="text-white"><el-menu-item index="4-2">关注职招</el-menu-item></router-link>
             </el-sub-menu>
           </el-menu>
         

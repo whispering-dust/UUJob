@@ -67,12 +67,9 @@
                                             <el-button type="primary" round>详情</el-button>                               
                                         </div>
                                         <div class="col-6 text-right">
-                                            <ul class="list-inline mb-0">
+                                            <ul class="list-inline mb-0">                                               
                                                 <li class="list-inline-item pr-2">
-                                                    <a href="#"><i class="fas fa-heart mr-1"></i> 50</a>
-                                                </li>
-                                                <li class="list-inline-item pr-2">
-                                                    <i class="fas fa-eye text-muted mr-1"></i> 750
+                                                    <el-icon><View /></el-icon> 750
                                                 </li>
                                                 <li class="list-inline-item ">
                                                     <span class="text-muted">{{ post.date }}</span>
@@ -126,7 +123,9 @@ import {
   Menu as IconMenu,
   User,
   Setting,
-} from '@element-plus/icons-vue'
+  View,
+} from '@element-plus/icons-vue';
+import axios from "axios";
 
 export default {
   data() {
