@@ -37,6 +37,10 @@ export default{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin: 0px;
+    border-bottom: 0px;
+    padding: 0px;
+    width: 100%;
   }
   
   .text {

@@ -4,7 +4,7 @@
       <h4 class="heading h3 text-white pt-3">求职招聘栏</h4>
       <el-menu
         :default-active="activeIndex"
-        class="el-menu  rounded"
+        class="el-menu rounded"
         mode="horizontal"
         style="margin-bottom: 10px;"
         @select="handleSelect"
@@ -20,18 +20,21 @@
           <template #header>
             <div class="card-header">
               <span style="font-size:larger">{{recruitObj.title}}</span>
-              <el-button class="button" type="success" @click="apply(recruitObj.id)"> Apply</el-button>
-              <!-- @click="apply(recruitObj.id)" -->
-            
+              <el-button class="button" type="success" @click="apply(recruitObj.id)"> Apply</el-button>            
             </div>
           </template>
-          <div class="salary">
-            {{recruitObj.salary}}
-          </div>          
-          <div class="position">
-            {{recruitObj.position}}
+          <div class="row">
+            <div class="col-10">          
+              <div class="position">
+                {{recruitObj.position}}
+              </div>
+            </div>
+            <div class="col-2">              
+              <div class="salary">
+                {{recruitObj.salary}}
+              </div>              
+            </div>
           </div>
-          
           <div class="description">
             {{recruitObj.description}}
           </div>              
@@ -184,6 +187,10 @@ export default{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin: 0px;
+    border-bottom: 0px;
+    padding: 0px;
+    width: 100%;
   }
   
   .text {
