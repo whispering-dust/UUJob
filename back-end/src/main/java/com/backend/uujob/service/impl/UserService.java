@@ -23,4 +23,12 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IUserS
         wrapper.eq("id",id);
         return getOne(wrapper).getUserName();
     }
+
+    @Override
+    public User getByUserName(String userName) {
+        //在MyBatis-Plus中，通常通过QueryWrapper完成查询，其返回值类型为尖括号的类型
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        wrapper.eq("userName",userName);
+        return getOne(wrapper);
+    }
 }
