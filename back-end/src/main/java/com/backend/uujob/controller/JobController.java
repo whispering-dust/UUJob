@@ -32,7 +32,4 @@ public class JobController {
         return Result.success(jobService.list());
     }
 
-
-
-
 }

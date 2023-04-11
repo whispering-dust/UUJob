@@ -19,14 +19,14 @@ public class ApplicationService extends ServiceImpl<ApplicationMapper, Applicati
     @Override
     public List<Application> getByJobId(int jobId){
         QueryWrapper<Application> wrapper = new QueryWrapper<>();
-        wrapper.eq("jobId",jobId);
+        wrapper.eq("job_id",jobId);
         return applicationMapper.selectList(wrapper);
     }
 
     @Override
     public List<Application> getByProfileId(int profileId){
         QueryWrapper<Application> wrapper = new QueryWrapper<>();
-        wrapper.eq("profileId",profileId);
+        wrapper.eq("profile_id",profileId);
         return applicationMapper.selectList(wrapper);
     }
 }

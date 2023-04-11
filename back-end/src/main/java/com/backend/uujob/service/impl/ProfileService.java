@@ -18,7 +18,7 @@ public class ProfileService extends ServiceImpl<ProfileMapper, Profile> implemen
     @Override
     public Profile getByUserId(int userId){
         QueryWrapper<Profile> wrapper = new QueryWrapper<>();
-        wrapper.eq("seekerId",userId);
+        wrapper.eq("seeker_id",userId);
         return getOne(wrapper);
     }
 
