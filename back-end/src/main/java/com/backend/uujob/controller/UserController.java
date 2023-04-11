@@ -45,16 +45,18 @@ public class UserController {
     @PostMapping("/registration")
     public Result registration(@RequestBody User user) {
         User targetUser = userService.getByUserName(user.getUserName());
-
+        user.setStatus(0);
+        System.out.println(user.getId());
         if(targetUser != null){
             return Result.error(Constants.CODE_500,"用户已存在");
         }
 
         userService.save(user);
+        System.out.println(user.getId());
         return Result.success(user.getId());
     }
 
-    @GetMapping("/login")
+    @PostMapping ("/login")
     public Result login(@RequestBody User user) {
         User targetUser = userService.getByUserName(user.getUserName());
 

@@ -1,40 +1,23 @@
 <!-- 登录自定义组件 -->
 <template>
-  <el-form
-    ref="loginForm"
-    :model="loginUser"
-    :rules="rules"
-    label-width="30px"
-    class="loginForm sign-in-form card bg-dark text-white"
-  >
-  <div class="card-body">
-    <span class="clearfix"></span>
-    <h4 class="heading h3 text-white pt-3 pb-5">欢迎来到UUJOB交流平台,<br>
-      请登录你的账户吧.</h4>
-  </div>
+  <el-form ref="loginForm" :model="loginUser" :rules="rules" label-width="30px"
+    class="loginForm sign-in-form card bg-dark text-white">
+    <div class="card-body">
+      <span class="clearfix"></span>
+      <h4 class="heading h3 text-white pt-3 pb-5">欢迎来到UUJOB交流平台,<br>
+        请登录你的账户吧.</h4>
+    </div>
     <el-form-item label="" prop="userName">
       <h5 class="h5 text-white ">用户名</h5>
-      <el-input
-        v-model="loginUser.userName"
-        placeholder="Enter userName defined by youself..."
-      ></el-input>
+      <el-input v-model="loginUser.userName" placeholder="Enter userName defined by youself..."></el-input>
     </el-form-item>
     <el-form-item label="" prop="password">
       <h5 class=" h5 text-white ">密码</h5>
-      <el-input
-        v-model="loginUser.password"
-        type="password"
-        placeholder="Enter Password..."
-      ></el-input>
+      <el-input v-model="loginUser.password" type="password" placeholder="Enter Password..."></el-input>
     </el-form-item>
 
     <el-form-item>
-      <el-button
-        @click="handleLogin('loginForm')"
-        type="primary"
-        class="submit-btn"
-        >提交</el-button
-      >
+      <el-button @click="handleLogin('loginForm')" type="primary" class="submit-btn">提交</el-button>
     </el-form-item>
 
     <!-- 找回密码 -->
@@ -76,7 +59,7 @@ export default {
           alert("submit!");
           axios({
             method: "post",
-            url: "http://localhost:9090/user/login",
+            url: "http://localhost:9090/users/login",
             data: {
               userName: ctx.loginUser.userName,
               password: ctx.loginUser.password,
@@ -87,7 +70,7 @@ export default {
               // alert("登录成功");
               console.log(response.data.data);
               /*修改全局用户变量*/
-              var userId = response.data.data.id;
+              var userId = response.data.data;
               store.commit("setUserId", userId);
 
               console.log(store.state);
@@ -123,11 +106,13 @@ export default {
 .submit-btn {
   width: 100%;
 }
+
 .tiparea {
   text-align: right;
   font-size: 12px;
   color: #333;
 }
+
 .tiparea p a {
   color: #409eff;
 }
