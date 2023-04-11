@@ -97,6 +97,11 @@ export default {
             if(response.data.code == 0){
                 alert("注册成功");
                 alert("你的账号为"+response.data.data.userId);//弹窗输出返回的账号
+                
+                useStore().state.commit("setUserId",response.data.data.userId);                
+                useStore().state.commit("setUserName",ctx.registerUser.name);
+                useStore().state.commit("setRole",ctx.registerUser.role);
+                
                 console.log(response.data.data);
             }
             // 注册失败提示信息

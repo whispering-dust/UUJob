@@ -12,11 +12,11 @@
     <h4 class="heading h3 text-white pt-3 pb-5">欢迎来到UUJOB交流平台,<br>
       请登录你的账户吧.</h4>
   </div>
-    <el-form-item label="" prop="account">
-      <h5 class="h5 text-white ">账号</h5>
+    <el-form-item label="" prop="userName">
+      <h5 class="h5 text-white ">用户名</h5>
       <el-input
-        v-model="loginUser.account"
-        placeholder="Enter account provided by us..."
+        v-model="loginUser.userName"
+        placeholder="Enter userName defined by youself..."
       ></el-input>
     </el-form-item>
     <el-form-item label="" prop="password">
@@ -78,7 +78,7 @@ export default {
             method: "post",
             url: "http://localhost:9090/user/login",
             data: {
-              account: ctx.loginUser.account,
+              userName: ctx.loginUser.userName,
               password: ctx.loginUser.password,
             },
           }).then(function (response) {
@@ -88,7 +88,10 @@ export default {
               console.log(response.data.data);
               /*修改全局用户变量*/
               var userId = response.data.data.id;
-              store.commit("set", userId);
+              store.commit("setUserId", userId);
+
+              console.log(store.state);
+
               // window.localStorage.setItem("token",userId);
               router.push("../home");
             } // 登录失败输出错误信息

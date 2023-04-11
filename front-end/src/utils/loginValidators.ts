@@ -3,20 +3,20 @@ import { ref } from "vue";
 //用户账号数据接口
 // 用户账号数据类型定义
 interface User {
-  account: string;
+  userName: string;
   password: string;
 }
 
 //类型匹配与输出
 export const loginUser = ref<User>({
-  account: "",
+  userName: "",
   password: "",
 });
 
 
 // 校验规则接口
 interface Rules {
-  account: {
+  userName: {
     type: string;
     message: string;
     required: boolean;
@@ -38,10 +38,10 @@ interface Rules {
 }
 
 export const rules = ref<Rules>({
-  account: [
+  userName: [
     {
-      type: "account",
-      message: "account is incorrect...",
+      type: "userName",
+      message: "userName is incorrect...",
       required: true,
       trigger: "blur",
     },
