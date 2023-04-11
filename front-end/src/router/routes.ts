@@ -65,7 +65,7 @@ const routes = [
             component: () => import('@/components/myspace/ChatList.vue'),
             children:[
               {
-                path: '/myspace/chatList/:id',
+                path: '/myspace/chatList/chatRoom/:userId',
                 name: 'chatRoom',
                 component: () => import('@/components/myspace/ChatRoom.vue')
               },

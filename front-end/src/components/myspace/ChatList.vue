@@ -10,10 +10,11 @@
                 style="width: 100%; border-right: 0px;"
               >
               <div v-for="userChat in userChatList" :key="userChat.id">
-                <router-link class="text-white" to="/myspace/chatList/:id" >
-                    <el-menu-item >
+                <router-link class="text-white" :to="{ name: 'chatRoom', params: { userId : userChat.userId} }" >
+                    <el-menu-item :index="userChat.id">
                       <el-avatar :size="30" :src="circleUrl" />
                       <div class="pl-3">联系人</div>
+                      <div>{{userChat.userId}}</div>
                     </el-menu-item>
                   </router-link>       
               </div>
@@ -32,40 +33,37 @@
 </template>
 
 <script>
-import {ref } from 'vue';
+import { watch, ref } from 'vue'
 import axios from "axios";
 
-export default{
-    data(){
+export default{  
+  data(){
 
-        return{
-            userChatList:[
-                {
-                    id:1,
-                    userId:'111',
-                    userName:'张三',
-                },
-                {
-                    id:2,
-                    userId:'222',
-                    userName:'张三',
-                },
-                {
-                    id:3,
-                    userId:'333',
-                    userName:'张三',
-                }, 
-            ]
-        }
-    },
-    methods: {
-        async getUserChatList(){
+      return{
+          userChatList:[
+              {
+                  id:1,
+                  userId:'111',
+                  userName:'张三',
+              },
+              {
+                  id:2,
+                  userId:'222',
+                  userName:'张三',
+              },
+              {
+                  id:3,
+                  userId:'333',
+                  userName:'张三',
+              }, 
+          ]
+      }
+  },
+  methods: {
+      async getUserChatList(){
 
-        }
-    },
-    mounteds(){
-
-    },
+      }
+  },
 }
 
 </script>
