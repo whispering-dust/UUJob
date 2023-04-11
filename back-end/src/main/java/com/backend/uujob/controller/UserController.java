@@ -62,7 +62,7 @@ public class UserController {
             return Result.error(Constants.CODE_500,"用户不存在");
         }
 
-        if(targetUser.getPassword() == user.getPassword()){
+        if(targetUser.getPassword().equals(user.getPassword())){
             return Result.success(targetUser.getId());
         }
 
