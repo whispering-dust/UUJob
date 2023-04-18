@@ -3,9 +3,9 @@
         <div class="row container">
             <div class="col-6 font-weight-bold" style="font-size: large;"> 我的简历</div>
             <div class="col-6 float-right" style="margin-right:0px;text-align: right;">
-                <el-button type="primary" @click="init"><el-icon>
+                <el-button type="primary" @click="edit"><el-icon>
                         <Edit />
-                    </el-icon></el-button>
+                    </el-icon>编辑</el-button>
             </div>
         </div>
         <div class="row">
@@ -151,6 +151,7 @@ import axios from "axios";
 export default {
     data() {
         return {
+            userAvator:'',
             Profile: {
                 name: "张三",
                 sex: "男",
@@ -167,6 +168,9 @@ export default {
         }
     },
     methods: {
+        edit(){
+            
+        },
         async getProfile() {
             let that = this;
             //首先从user表里面获取部分信息
@@ -185,6 +189,15 @@ export default {
                     that.Profile = [];
                     that.Profile.name = response.data.data.name;
                     that.Profile.phone = response.data.data.phone;
+                    that.Profile.sex=response.data.data.sex;
+                    that.Profile.email=response.data.data.email;
+                    that.Profile.edu=response.data.data.education;
+                    that.Profile.college=response.data.data.college;
+                    that.Profile.major=response.data.data.major;
+                    that.Profile.expected_location=response.data.data.expectedLocation;
+                    that.Profile.description=response.data.data.personalDescription;
+                    that.Profile.honor=response.data.data.reward;
+
                     alert(Profile);
                 }
                 else {
@@ -199,8 +212,8 @@ export default {
 
     },
     mounted() {
-
-        alert(useStore().state.userId)
+        this.userAvator=useStore().state.userAvator
+        alert(useStore().state.userId);
         this.getProfile();
     },
 }

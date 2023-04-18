@@ -42,7 +42,7 @@
       </el-card> 
       </div> 
 
-      <div class="pagination">
+      <!-- <div class="pagination">
           <el-pagination
             v-model="currentPage"
             :page-size="pageSize"
@@ -50,7 +50,7 @@
             :total="recruitObjs.length"
             @current-change="handlePageChange"
           />
-        </div>
+        </div> -->
       
     </div>
 
@@ -64,6 +64,7 @@
 import { ref } from 'vue';
 import axios from "axios";
 import Apply from "@/components/home/Apply.vue";
+import { useStore } from "vuex";
 
 export default{
   components:{
@@ -141,7 +142,7 @@ export default{
       let that = this ;
       axios({
         method: "get",
-        url: "http://localhost:9090/job/allJob",
+        url: "http://localhost:9090/jobs/basis",
       }).then(function (response) {
         if(response.data.code == "200"){
         that.recruitObjs=[];
@@ -177,6 +178,7 @@ export default{
     this.getRecruitList();
 
     this.paginatedRecruits();
+
   },
 }
 

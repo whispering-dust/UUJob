@@ -1,30 +1,35 @@
 <template>
-    <div>
+    <div class="recruit-card">
         <el-form :model="form" label-width="80px">
             <el-form-item label="发布用户">
-                <span>{{ form.userId }}</span>
+                <span>{{ form.userName }}</span>
             </el-form-item>
 
-            <el-col :span="11">
+            <el-col style="width:500px">
                 <el-form-item label="标题">
                     <el-input v-model="form.title" />
                 </el-form-item>
             </el-col>
 
-            <el-col :span="5">
+            <el-col style="width:500px">
                 <el-form-item label="招聘岗位">
                     <el-input v-model="form.position" />
                 </el-form-item>
             </el-col>
 
-            <el-col :span="8">
+            <el-col style="width:500px">
                 <el-form-item label="招聘工资">
                     <el-input v-model="form.salary" />
                 </el-form-item>
             </el-col>
+            <el-col style="width:300px">
+                <el-form-item label="位置/城市">
+                    <el-input v-model="form.location" />
+                </el-form-item>
+            </el-col>
 
-            <el-form-item label="详细描述">
-                <el-input v-model="form.description" type="textarea" />
+            <el-form-item label="详细描述" >
+                <el-input v-model="form.description" type="textarea" style="min-height: 200px;width: 600px;"/>
             </el-form-item>
 
             <el-form-item>
@@ -69,12 +74,14 @@ export default {
             Delete, Check,
             dialogVisible,
             size,
+            userId: useStore().state.userId,
             form: {
-                userId: useStore().state.userId,
+                userName: useStore().state.userName,
                 title: "标题",
                 position: "",
                 salary: "",
                 description: "",
+                location:"",
             },
         }
     },
@@ -88,15 +95,17 @@ export default {
         },
         async submit() {
             let that = this;
+            //alert(this.userId)
             axios({
                 method: "post",
-                url: "http://localhost:9090/recruitTable/post",
+                url: "http://localhost:9090/jobs",
                 data: {
-                    publisher_id: that.form.userId,
+                    publisherId: that.userId,
                     title: that.form.title,
                     position: that.form.position,
                     description: that.form.description,
                     salary: that.form.salary,
+                    location: that.form.location,
                 },
             }).then(function (response) {
                 alert(response.data.msg);
@@ -112,13 +121,16 @@ export default {
 
     },
     mounted() {
-
+        alert(this.userId)
     },
 }
 
 </script>
 
 <style scoped>
+.recruit-card{
+    height: 100%;
+}
 .el-descriptions {
     margin-top: 20px;
 }

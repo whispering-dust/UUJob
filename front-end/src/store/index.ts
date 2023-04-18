@@ -4,6 +4,7 @@ import storage from "../utils/storage"
 export default createStore({
   state: {
     userId: storage.get('userId'),
+    userAvatar:'',
     userName:"",
     profileId: storage.get('profileId'),
     role:0,//0 是求职者，1 是招聘者
@@ -12,6 +13,9 @@ export default createStore({
   getters: {
     getUserName(state){
       return state.userName;
+    },
+    getUserAvatar(state){
+      return state.userAvatar;
     },
     getUserId(state){
       return state.userId;
@@ -37,7 +41,11 @@ export default createStore({
     },
     setRole(state, value) {
       state.role = value;
-    }
+    },
+    setUserAvatar(state, value) {
+      state.userAvatar = value;
+    },
+
   },
   actions: {
   },
