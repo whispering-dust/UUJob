@@ -151,7 +151,7 @@ import axios from "axios";
 export default {
     data() {
         return {
-            userAvator:'',
+            userAvator: '',
             Profile: {
                 name: "张三",
                 sex: "男",
@@ -168,8 +168,8 @@ export default {
         }
     },
     methods: {
-        edit(){
-            
+        edit() {
+
         },
         async getProfile() {
             let that = this;
@@ -185,18 +185,18 @@ export default {
                 //     id: that.useStore().state.userId,
                 // },
             }).then(function (response) {
-                if (response.data.code === "200") {
+                if (response.data.code === 200) {
                     that.Profile = [];
                     that.Profile.name = response.data.data.name;
                     that.Profile.phone = response.data.data.phone;
-                    that.Profile.sex=response.data.data.sex;
-                    that.Profile.email=response.data.data.email;
-                    that.Profile.edu=response.data.data.education;
-                    that.Profile.college=response.data.data.college;
-                    that.Profile.major=response.data.data.major;
-                    that.Profile.expected_location=response.data.data.expectedLocation;
-                    that.Profile.description=response.data.data.personalDescription;
-                    that.Profile.honor=response.data.data.reward;
+                    that.Profile.sex = response.data.data.sex;
+                    that.Profile.email = response.data.data.email;
+                    that.Profile.edu = response.data.data.education;
+                    that.Profile.college = response.data.data.college;
+                    that.Profile.major = response.data.data.major;
+                    that.Profile.expected_location = response.data.data.expectedLocation;
+                    that.Profile.description = response.data.data.personalDescription;
+                    that.Profile.honor = response.data.data.reward;
 
                     alert(Profile);
                 }
@@ -212,7 +212,7 @@ export default {
 
     },
     mounted() {
-        this.userAvator=useStore().state.userAvator
+        this.userAvator = useStore().state.userAvator
         alert(useStore().state.userId);
         this.getProfile();
     },

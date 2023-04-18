@@ -66,13 +66,13 @@ export default {
             },
           }).then(function (response) {
             // 登录成功
-            if (response.data.code === "200") {
+            if (response.data.code === 200) {
               // alert("登录成功");
               console.log(response.data.data);
               /*修改全局用户变量*/
               var userId = response.data.data;
               store.commit("setUserId", userId);
-              store.commit("setUserName",ctx.loginUser.userName);
+              store.commit("setUserName", ctx.loginUser.userName);
               alert(ctx.loginUser.userName);
               console.log(store.state);
 

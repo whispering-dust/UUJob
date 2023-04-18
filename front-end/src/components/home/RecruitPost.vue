@@ -28,8 +28,8 @@
                 </el-form-item>
             </el-col>
 
-            <el-form-item label="详细描述" >
-                <el-input v-model="form.description" type="textarea" style="min-height: 200px;width: 600px;"/>
+            <el-form-item label="详细描述">
+                <el-input v-model="form.description" type="textarea" style="min-height: 200px;width: 600px;" />
             </el-form-item>
 
             <el-form-item>
@@ -81,7 +81,7 @@ export default {
                 position: "",
                 salary: "",
                 description: "",
-                location:"",
+                location: "",
             },
         }
     },
@@ -109,7 +109,7 @@ export default {
                 },
             }).then(function (response) {
                 alert(response.data.msg);
-                if (response.data.code === "200") {
+                if (response.data.code === 200) {
                     alert("操作成功");
                 }
                 else {
@@ -128,9 +128,10 @@ export default {
 </script>
 
 <style scoped>
-.recruit-card{
+.recruit-card {
     height: 100%;
 }
+
 .el-descriptions {
     margin-top: 20px;
 }
