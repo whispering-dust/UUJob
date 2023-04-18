@@ -37,9 +37,9 @@ public class UserController {
      * @author mapleleaf
      * @date 2023/3/28 21:59
      */
-    @GetMapping("/info")
-    public String findOne(@RequestParam int id) {
-            return userService.getNameById(id);
+    @GetMapping("")
+    public Result getUserById(@RequestParam int id) {
+            return Result.success(userService.getById(id));
     }
 
     @PostMapping("/registration")
@@ -94,6 +94,5 @@ public class UserController {
         }
         return Result.success(jobList);
     }
-
 
 }
