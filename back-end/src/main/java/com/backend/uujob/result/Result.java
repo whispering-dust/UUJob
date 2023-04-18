@@ -14,9 +14,9 @@ import lombok.NoArgsConstructor;
 public class Result {
 
     // 返回成功还是失败
-    private String code;
+    private Integer code;
     // 失败的原因
-    private String msg;
+    private String message;
     // 后台所需要携带的数据
     private Object data;
 
@@ -46,7 +46,7 @@ public class Result {
      * @param msg  错误信息
      * @return 返回封装的结果
      */
-    public static Result error(String code, String msg) {
+    public static Result error(Integer code, String msg) {
         return new Result(code, msg, null);
     }
 
