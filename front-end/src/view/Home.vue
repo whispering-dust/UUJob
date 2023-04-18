@@ -70,10 +70,12 @@ export default{
     background-color: rgb(200, 137, 137);
     width: 100%;
     height: 100%;
+    min-height:1080px;
     background-image: url('../../public/assets/images/backgrounds/img-2.jpg');
 }
 .backmask{
   background-color: rgba(255, 255, 255, 0.3);
+  min-height:1080px;
   backdrop-filter: blur(20px);
 }
 .main{

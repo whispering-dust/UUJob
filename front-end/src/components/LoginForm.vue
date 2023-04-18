@@ -72,7 +72,8 @@ export default {
               /*修改全局用户变量*/
               var userId = response.data.data;
               store.commit("setUserId", userId);
-
+              store.commit("setUserName",ctx.loginUser.userName);
+              alert(ctx.loginUser.userName);
               console.log(store.state);
 
               // window.localStorage.setItem("token",userId);
