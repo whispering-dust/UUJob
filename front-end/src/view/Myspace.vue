@@ -45,6 +45,12 @@
               <router-link to="/myspace/starPosts" class="text-white"><el-menu-item index="4-1">关注帖子</el-menu-item></router-link>
               <router-link to="/myspace/starJobs" class="text-white"><el-menu-item index="4-2">关注职招</el-menu-item></router-link>
             </el-sub-menu>
+            <router-link class="text-white" to="/myspace/myPosts" >
+              <el-menu-item index="5">
+                <el-icon><Document /></el-icon>
+                我的帖子
+              </el-menu-item>
+            </router-link>
           </el-menu>
         
         </div>

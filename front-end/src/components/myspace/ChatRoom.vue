@@ -12,6 +12,13 @@
         <input type="text" v-model="newMessage" />
         <button type="submit">发送</button>
       </form>
+
+      <el-form :model="formData" ref="vForm" :rules="rules" label-position="left" label-width="80px"
+        size="default" @submit.native.prevent>
+        <el-form-item label="rich-editor" prop="richeditor3765">
+          <vue-editor v-model="formData.richeditor3765"></vue-editor>
+        </el-form-item>
+      </el-form>
     </div>
   </template>
   

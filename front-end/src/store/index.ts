@@ -1,14 +1,24 @@
 import { createStore } from 'vuex'
+import storage from "../utils/storage"
 
 export default createStore({
   state: {
-    userId: "17b102d5-13cc-4b58-8665-30fad179dbc2",
+    userId: storage.get('userId'),
     userName:"",
-    profileId:" ",
+    profileId: storage.get('profileId'),
     role:0,//0 是求职者，1 是招聘者
     pass:0,
   },
   getters: {
+    getUserName(state){
+      return state.userName;
+    },
+    getUserId(state){
+      return state.userId;
+    },
+    getProfileId(state){
+      return state.profileId;
+    }
   },
   mutations: {
     setUserName(state,value){
@@ -16,9 +26,11 @@ export default createStore({
     },
     setUserId(state, value) {
       state.userId = value;
+      storage.set('userId',value);
     },
     setProfile(state, value) {
       state.profileId = value;
+      storage.set('profile',value);
     },
     setPass(state, value) {
       state.pass = value;
