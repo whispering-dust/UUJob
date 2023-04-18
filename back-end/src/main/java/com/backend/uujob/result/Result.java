@@ -11,14 +11,14 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Result {
+public class Result<T> {
 
     // 返回成功还是失败
     private Integer code;
     // 失败的原因
     private String message;
     // 后台所需要携带的数据
-    private Object data;
+    private T data;
 
     /**
      * 无数据的成功请求
