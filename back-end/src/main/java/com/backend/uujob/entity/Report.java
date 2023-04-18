@@ -1,8 +1,11 @@
 package com.backend.uujob.entity;
 
 
-public class Report {
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 
+public class Report {
+  @TableId(value = "id",type = IdType.AUTO)
   private Integer id;
   private Integer targetId;
   private Integer reporterId;

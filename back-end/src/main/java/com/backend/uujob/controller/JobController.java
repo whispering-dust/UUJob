@@ -2,8 +2,10 @@ package com.backend.uujob.controller;
 
 import com.backend.uujob.entity.Application;
 import com.backend.uujob.entity.Job;
+import com.backend.uujob.enums.StatusEnum;
 import com.backend.uujob.result.Result;
 import com.backend.uujob.service.IJobService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +20,7 @@ public class JobController {
 
     @PostMapping("")
     public Result addJob(@RequestBody Job job){
+        job.setStatus(StatusEnum.STATUS_SUBMIT.ordinal());
         jobService.save(job);
         return Result.success(job.getId());
     }
@@ -29,7 +32,7 @@ public class JobController {
 
     @GetMapping("/basis")
     public Result getJobList(){
-        return Result.success(jobService.list());
+        return Result.success(jobService.Published());
     }
 
 }
