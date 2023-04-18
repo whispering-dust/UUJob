@@ -42,12 +42,6 @@ const routes = [
         meta: {keepAlive: true},
         component: () => import('@/view/Myspace.vue'),
         children:[
-        // {
-        //   path: '/myspace/userInfo',
-        //   name: 'userInfo',
-        //   component: () => import('@/components/myspace/UserInfo.vue')
-        // },
-
         {
             path: '/myspace/historyJob',
             name: 'history',
@@ -58,6 +52,16 @@ const routes = [
             path: '/myspace/profile',
             name: 'myProfile',
             component: () => import('@/components/myspace/Profile.vue')
+          },
+          {
+            path: '/myspace/password',
+            name: 'password',
+            component: () => import('@/components/myspace/Password.vue')
+          },
+          {
+            path:'/myspace/userAccount',
+            name:'userAccount',
+            component:()=>import('@/components/myspace/UserAccount.vue')
           },
           {
             path: '/myspace/chatList',

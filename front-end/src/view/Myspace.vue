@@ -16,7 +16,7 @@
                 <el-icon><User /></el-icon>
                 <span>个人信息</span>
               </template>
-              <router-link to="/myspace/userInfo" class="text-white" ><el-menu-item index="1-1"> 账号信息</el-menu-item></router-link>
+              <router-link to="/myspace/userAccount" class="text-white" ><el-menu-item index="1-1"> 账号信息</el-menu-item></router-link>
               <router-link to="/myspace/password" class="text-white" ><el-menu-item index="1-2">修改密码</el-menu-item></router-link>
            </el-sub-menu>
             <router-link class="text-white" to="/myspace/profile" >

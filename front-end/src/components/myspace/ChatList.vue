@@ -7,8 +7,27 @@
               <el-input round v-model="input" placeholder="Please input" clearable  style=" width:85%;margin:5px;">
               </el-input>
 
+              <el-container>
+                <el-main>
+                  <el-list>
+                    <el-list-item v-for="chat in chats" :key="chat.id" class="chat-item">
+                      <div class="avatar-container">
+                        <img :src="chat.avatar" alt="avatar" class="avatar" />
+                      </div>
+                      <div class="info-container">
+                        <div class="username">{{ chat.username }}</div>
+                        <div class="last-message">{{ chat.lastMessage }}</div>
+                      </div>
+                      <div class="time-and-unread">
+                        <div class="time">{{ chat.time }}</div>
+                        <el-badge v-if="chat.unreadCount > 0" :value="chat.unreadCount" class="unread-badge" />
+                      </div>
+                    </el-list-item>
+                  </el-list>
+                </el-main>
+              </el-container>
 
-              <el-menu
+              <!-- <el-menu
                 active-text-color="#a3cef1"
                 background-color="#ced4da"
                 class="el-menu-vertical-demo"
@@ -22,7 +41,7 @@
                         <el-row>
                           <el-col :span="8">
                             <el-image class="avatar" src="@/assets/images/head.png" fit="cover" :preview-src-list="[]"></el-image>
-                            <!-- <div class="unread-msg-number">7</div> -->
+                            
                           </el-col>
                           <el-col :span="16">
                             <el-row style="display: flex;flex-direction:row">
@@ -44,7 +63,7 @@
                   </router-link>       
               </div>
                     
-              </el-menu>
+              </el-menu> -->
             
             </div>
     
@@ -85,6 +104,17 @@ export default{
             }, 
         ],
         input:'',
+        chats: [
+        {
+          id: 1,
+          avatar: 'https://example.com/avatar1.jpg',
+          username: '张三',
+          lastMessage: '你好！',
+          time: '下午3:45',
+          unreadCount: 2,
+        },
+        // 添加更多聊天数据
+      ],
         
       }
   },
@@ -98,6 +128,65 @@ export default{
 </script>
 
 <style scoped>
+.el-header {
+  line-height: 60px;
+  background-color: #409EFF;
+  color: #fff;
+  text-align: center;
+  font-size: 24px;
+}
+
+.chat-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.avatar-container {
+  flex: 0 0 50px;
+  margin-right: 10px;
+}
+
+.avatar {
+  width: 100%;
+  height: auto;
+  border-radius: 50%;
+}
+
+.info-container {
+  flex: 1;
+}
+
+.username {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.last-message {
+  font-size: 14px;
+  color: #999;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.time-and-unread {
+  flex: 0 0 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.time {
+  font-size: 12px;
+  color: #999;
+}
+
+.unread-badge {
+  margin-top: 5px;
+}
 .chat-item {
   display: flex;
   align-items: center;
