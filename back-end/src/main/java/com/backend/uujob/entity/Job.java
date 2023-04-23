@@ -13,6 +13,7 @@ public class Job {
   private String position;
   private String location;
   private String salary;
+  private String companyName;
   private Timestamp date;
   private String description;
   private Integer publisherId;
@@ -61,6 +62,14 @@ public class Job {
 
   public void setSalary(String salary) {
     this.salary = salary;
+  }
+
+  public String getCompanyName() {
+    return companyName;
+  }
+
+  public void setCompanyName(String companyName) {
+    this.companyName = companyName;
   }
 
 

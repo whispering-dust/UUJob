@@ -95,4 +95,13 @@ public class UserController {
         return Result.success(jobList);
     }
 
+    @GetMapping("/jobs")
+    public Result getJobByUserId(@RequestParam int userId){
+        List<Job> jobList = jobService.getListByUserId(userId);
+        if(jobList == null){
+            return Result.error(Constants.CODE_500,"该用户尚未发布岗位");
+        }
+        return Result.success(jobList);
+    }
+
 }

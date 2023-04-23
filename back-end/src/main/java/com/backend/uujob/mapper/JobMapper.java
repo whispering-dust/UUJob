@@ -8,4 +8,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @date 2023年04月07日20:35
  */
 public interface JobMapper extends BaseMapper<Job> {
+
 }

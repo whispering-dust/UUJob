@@ -11,7 +11,7 @@ public class Application {
   @TableField(value="profile_id")
   private Integer profileId;
   @MppMultiId
-  @TableField(value="jobId")
+  @TableField(value="job_id")
   private Integer jobId;
   private Timestamp date;
   private Integer status;
