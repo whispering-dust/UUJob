@@ -73,7 +73,7 @@ public class JobController {
         //申请提交时默认状态为待审核
         application.setStatus(ApplStatusEnum.APPL_STATUS_SUBMIT.ordinal());
         //获取当前时间作为申请提交时间
-        application.setDate(new java.sql.Timestamp(System.currentTimeMillis()));
+        application.setApplicationDate(new java.sql.Timestamp(System.currentTimeMillis()));
         applicationService.save(application);
         return Result.success();
     }

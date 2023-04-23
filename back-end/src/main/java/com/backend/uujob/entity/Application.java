@@ -13,8 +13,9 @@ public class Application {
   @MppMultiId
   @TableField(value="job_id")
   private Integer jobId;
-  private Timestamp date;
+  private Timestamp applicationDate;
   private Integer status;
+  private Timestamp reviewDate;
 
 
   public Integer getProfileId() {
@@ -35,12 +36,12 @@ public class Application {
   }
 
 
-  public java.sql.Timestamp getDate() {
-    return date;
+  public java.sql.Timestamp getApplicationDate() {
+    return applicationDate;
   }
 
-  public void setDate(java.sql.Timestamp date) {
-    this.date = date;
+  public void setApplicationDate(java.sql.Timestamp applicationDate) {
+    this.applicationDate = applicationDate;
   }
 
 
@@ -50,6 +51,14 @@ public class Application {
 
   public void setStatus(Integer status) {
     this.status = status;
+  }
+
+  public java.sql.Timestamp getReviewDate() {
+    return reviewDate;
+  }
+
+  public void setReviewDate(java.sql.Timestamp reviewDate) {
+    this.reviewDate = reviewDate;
   }
 
 }

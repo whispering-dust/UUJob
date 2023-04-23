@@ -1,9 +1,11 @@
 package com.backend.uujob.controller;
 
+import com.backend.uujob.controller.dto.JobApplicationDTO;
 import com.backend.uujob.entity.Application;
 import com.backend.uujob.entity.Job;
 import com.backend.uujob.entity.Profile;
 import com.backend.uujob.entity.User;
+import com.backend.uujob.enums.ApplStatusEnum;
 import com.backend.uujob.result.Constants;
 import com.backend.uujob.result.Result;
 import com.backend.uujob.service.IApplicationService;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.backend.uujob.utils.TimeUtils.timeTransfer;
 
 /**
  * @author mapleleaf
@@ -44,27 +48,26 @@ public class UserController {
 
     @PostMapping("/registration")
     public Result registration(@RequestBody User user) {
-        User targetUser = userService.getByUserName(user.getUserName());
-        user.setStatus(0);
-        System.out.println(user.getId());
+        User targetUser = userService.getByUserName(user.getUserName());  //由于用户名唯一，需要检验用户名是否存在
         if(targetUser != null){
             return Result.error(Constants.CODE_500,"用户已存在");
         }
 
+
+        user.setStatus(0);  //用户默认状态为未封禁
         userService.save(user);
-        System.out.println(user.getId());
         return Result.success(user.getId());
     }
 
     @PostMapping ("/login")
     public Result login(@RequestBody User user) {
-        User targetUser = userService.getByUserName(user.getUserName());
+        User targetUser = userService.getByUserName(user.getUserName());  //先检查用户是否存在
 
         if(targetUser == null){
             return Result.error(Constants.CODE_500,"用户不存在");
         }
 
-        if(targetUser.getPassword().equals(user.getPassword())){
+        if(targetUser.getPassword().equals(user.getPassword())){  //若存在则检验密码是否正确
             return Result.success(targetUser.getId());
         }
 
@@ -82,15 +85,28 @@ public class UserController {
 
     @GetMapping("/applications")
     public Result getApplicationByUserId(@RequestParam int userId){
-        Profile targetProtile = profileService.getByUserId(userId);
+        Profile targetProtile = profileService.getByUserId(userId);  //先获取用户拥有的简历
         if(targetProtile == null){
             return Result.error(Constants.CODE_500,"该用户尚未创建简历");
         }
 
-        List<Application> applicationList = applicationService.getByProfileId(targetProtile.getId());
-        List<Job> jobList = new ArrayList<>();
+        List<Application> applicationList = applicationService.getByProfileId(targetProtile.getId());  //再根据简历查找他被投递到哪些岗位
+        List<JobApplicationDTO> jobList = new ArrayList<>();
         for(Application a : applicationList){
-            jobList.add(jobService.getById(a.getJobId()));
+            Job j = jobService.getById(a.getJobId());
+
+            JobApplicationDTO ja = new JobApplicationDTO();  //填入申请的基本信息
+            ja.setTitle(j.getTitle());
+            ja.setPosition(j.getPosition());
+            ja.setLocation(j.getLocation());
+            ja.setSalary(j.getSalary());
+            ja.setApplicationDate(timeTransfer(a.getApplicationDate()));
+            ja.setStatus(a.getStatus());
+            if(ja.getStatus() != ApplStatusEnum.APPL_STATUS_SUBMIT.ordinal()){  //申请有结果才需要添加批复日期，否则不需要
+                ja.setReviewDate(timeTransfer(a.getReviewDate()));
+            }
+
+            jobList.add(ja);
         }
         return Result.success(jobList);
     }
