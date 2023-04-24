@@ -11,6 +11,12 @@ const routes = [
         meta: {keepAlive: false},
         component: () => import('@/view/LoginRegister.vue')
     },
+    {
+      name: 'Demo',
+      path: '/demo',
+      meta: {keepAlive: true},
+      component: () => import('@/components/TiptapEditorDemo.vue')
+  },
 
     {
         name: 'Home',
@@ -25,6 +31,12 @@ const routes = [
       component: () => import('@/view/Forum.vue')
     },
     {
+      name: 'PublishPost',
+      path: '/forum/publishPost',
+      meta: {keepAlive: true},
+      component: () => import('@/components/forum/PublishPost.vue')
+    },
+    {
       name: 'ManagePosted',
       path: '/manageposted',
       meta: {keepAlive: true},
@@ -35,6 +47,18 @@ const routes = [
       path: '/Position',
       meta: {keepAlive: true},
       component: () => import('@/view/PositionView.vue')
+    },
+    {
+      name: 'Job',
+      path: '/job/:jobId',
+      meta: {keepAlive: true},
+      component: () => import('@/view/Job.vue')
+    },
+    {
+      name: 'Apply',
+      path: '/job/:jobId/apply',
+      meta: {keepAlive: true},
+      component: () => import('@/view/Apply.vue')
     },
     {
         name: 'Myspace',
