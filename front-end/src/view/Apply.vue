@@ -41,6 +41,8 @@
 <script>
 import Profile from '@/components/myspace/Profile.vue';
 import {useRoute} from 'vue-router'
+import { useStore } from "vuex";
+import axios from "axios";
 
 export default {
     components: {
@@ -61,6 +63,7 @@ export default {
                 description: "描述",
                 honor: "荣誉",
             },
+            profileId: useStore().state.profileId,
         }
     },
     mounted(){
@@ -83,10 +86,15 @@ export default {
             this.$message.error('文件上传失败，请重试！');
         },
         submitResume() {
+            let that = this;
+            console.log("in Apply.vue: ",that.profileId,that.jobId);
             axios({
                 method: 'post',
-                url: 'http://localhost:9090/api/submit_resume',
-                data: this.profile,
+                url: 'http://localhost:9090/jobs/applications',
+                params:{
+                    profileId: that.profileId,
+                    jobId: that.jobId,
+                }
             })
             .then((response) => {
             if (response.data.code === 200) {
@@ -96,8 +104,8 @@ export default {
             }
             })
             .catch((error) => {
-            console.error(error);
-            this.$message.error('简历投递失败，请重试！');
+                console.error(error);
+                this.$message.error('简历投递失败，请重试！');
             });
         },
     },

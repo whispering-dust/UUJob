@@ -107,7 +107,7 @@ export default {
     },
   },
   mounted() {
-    console.log('初始加载profileId', this.store.state)
+    console.log('初始加载profileId', this.store.state.profileId)
     this.profileId = this.store.state.profileId;
   },
   methods: {
