@@ -4,7 +4,7 @@ import com.backend.uujob.controller.dto.PostDetailDTO;
 import com.backend.uujob.entity.Comment;
 import com.backend.uujob.entity.Post;
 import com.backend.uujob.entity.VO.CommentVO;
-import com.backend.uujob.enums.StatusEnum;
+import com.backend.uujob.enums.CensorStatusEnum;
 import com.backend.uujob.result.Constants;
 import com.backend.uujob.result.Result;
 import com.backend.uujob.service.ICommentService;
@@ -51,7 +51,7 @@ public class PostController {
 
     @PostMapping("")
     public Result addPost(@RequestBody Post post){
-        post.setStatus(StatusEnum.STATUS_SUBMIT.ordinal());
+        post.setStatus(CensorStatusEnum.CENSOR_STATUS_SUBMIT.ordinal());
         if(postService.save(post)){
             return Result.success(post.getId());
         }
