@@ -17,10 +17,11 @@ public class ApplicationService extends ServiceImpl<ApplicationMapper, Applicati
     private ApplicationMapper applicationMapper;
 
     @Override
-    public List<Application> getByJobId(int jobId){
+    public List<Application> getByJobIdAndStatus(int jobId, int status){
         QueryWrapper<Application> wrapper = new QueryWrapper<>();
         wrapper
                 .eq("job_id",jobId)
+                .eq("status", status)
                 .orderByDesc("application_date");
         return applicationMapper.selectList(wrapper);
     }
