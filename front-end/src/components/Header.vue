@@ -68,17 +68,9 @@
                     <el-avatar :size="25" :src="circleUrl" />
                 </div></a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <h6 class="dropdown-header">User menu</h6>
-                    <a class="dropdown-item" href="#">
-                        <span class="float-right badge badge-primary">4</span>
-                        <i class="fas fa-envelope text-primary"></i>Messages
-                    </a>
-                    <a class="dropdown-item" href="#">
-                        <i class="fas fa-cog text-primary"></i>Settings
-                    </a>
-                    <div class="dropdown-divider" role="presentation"></div>
+                    <h6 class="dropdown-header">用户</h6>
                     <a class="dropdown-item" href="/login">
-                        <i class="fas fa-sign-out-alt text-primary"></i>Sign out
+                        <i class="fas fa-sign-out-alt text-primary"></i>注销
                     </a>
                 </div>
             </li>

@@ -1,17 +1,20 @@
 package com.backend.uujob.controller;
 
 import com.backend.uujob.controller.dto.PostDetailDTO;
-import com.backend.uujob.entity.Profile;
+import com.backend.uujob.entity.Comment;
+import com.backend.uujob.entity.Post;
 import com.backend.uujob.entity.VO.CommentVO;
+import com.backend.uujob.enums.StatusEnum;
 import com.backend.uujob.result.Constants;
 import com.backend.uujob.result.Result;
 import com.backend.uujob.service.ICommentService;
 import com.backend.uujob.service.IPostService;
-import com.backend.uujob.service.IProfileService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
 import java.util.List;
+
 
 /**
  * @author mapleleaf
@@ -44,5 +47,37 @@ public class PostController {
         targetPost.setCommentList(commentVOList);
 
         return Result.success(targetPost);
+    }
+
+    @PostMapping("")
+    public Result addPost(@RequestBody Post post){
+        post.setStatus(StatusEnum.STATUS_SUBMIT.ordinal());
+        if(postService.save(post)){
+            return Result.success(post.getId());
+        }
+        else{
+            return Result.error();
+        }
+    }
+
+    @PutMapping("")
+    public Result modifyPost(@RequestBody Post post){
+        if(postService.updateById(post)){
+            return Result.success(post.getId());
+        }
+        return Result.error();
+    }
+
+    @PostMapping("/comments")
+    public Result addCommentForPost(@RequestBody Comment comment){
+        Long timeL = System.currentTimeMillis();
+        Timestamp time=new Timestamp(timeL);
+        comment.setDate(time);
+        if(commentService.save(comment)){
+            return Result.success(comment.getId());
+        }
+        else{
+            return Result.error();
+        }
     }
 }

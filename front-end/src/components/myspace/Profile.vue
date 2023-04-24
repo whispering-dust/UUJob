@@ -3,7 +3,7 @@
         <div class="row container">
             <div class="col-6 font-weight-bold" style="font-size: large;"> 我的简历</div>
             <div class="col-6 float-right" style="margin-right:0px;text-align: right;">
-                <el-button type="primary" @click="edit"><el-icon>
+                <el-button  type="success" style="background-color: black;" @click="edit"><el-icon>
                         <Edit />
                     </el-icon>编辑</el-button>
             </div>
@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-2">
                 <div class="block mt-3">
-                    <el-avatar shape="square" style="width:100%;min-height:150px;" :src="squareUrl" />
+                    <el-avatar shape="square" style="width:100%;min-height:150px;" :src="userAvator" />
                 </div>
             </div>
             <div class="col-10">
@@ -133,10 +133,12 @@
             </el-descriptions-item>
         </el-descriptions>
     </el-card>
+
+    <profile-edit v-model="dialogVisible" :profile="Profile" @update="updateProfile" @close="closeDialog"></profile-edit>
 </template>
   
 <script>
-import { computed, ref } from 'vue'
+import { computed, ref,watch } from 'vue'
 import { Edit } from '@element-plus/icons-vue'
 import {
     Iphone,
@@ -147,11 +149,16 @@ import {
 } from '@element-plus/icons-vue';
 import { useStore } from "vuex";
 import axios from "axios";
+import ProfileEdit from '@/components/myspace/ProfileEdit.vue'
 
 export default {
+    components:{
+        ProfileEdit
+    },
     data() {
         return {
             userAvator: '',
+            dialogVisible: false,
             Profile: {
                 name: "张三",
                 sex: "男",
@@ -169,7 +176,14 @@ export default {
     },
     methods: {
         edit() {
-
+            this.dialogVisible = true;
+        },
+        updateProfile(updatedProfile) {
+            this.Profile = updatedProfile;
+            this.dialogVisible = false;
+        },
+        closeDialog(){
+            this.dialogVisible = false;
         },
         async getProfile() {
             let that = this;
@@ -216,6 +230,13 @@ export default {
         alert(useStore().state.userId);
         this.getProfile();
     },
+    watch:{
+        // dialogVisible(newValue) {
+        // if (!newValue) {
+        //   this.getProfile();
+        // }
+        //},
+    }
 }
 
 </script>
