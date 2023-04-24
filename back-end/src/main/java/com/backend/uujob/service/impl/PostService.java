@@ -3,7 +3,7 @@ package com.backend.uujob.service.impl;
 import com.backend.uujob.controller.dto.PostDTO;
 import com.backend.uujob.controller.dto.PostDetailDTO;
 import com.backend.uujob.entity.Post;
-import com.backend.uujob.enums.StatusEnum;
+import com.backend.uujob.enums.CensorStatusEnum;
 import com.backend.uujob.mapper.PostMapper;
 import com.backend.uujob.service.IPostService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -31,7 +31,7 @@ public class PostService extends ServiceImpl<PostMapper,Post> implements IPostSe
     public List<PostDTO> getPostList() {
         QueryWrapper<Post> queryWrapper = new QueryWrapper<>();
         queryWrapper
-                .eq("status", StatusEnum.STATUS_PASS.ordinal())  //通过审核的帖子才能显示
+                .eq("status", CensorStatusEnum.CENSOR_STATUS_PASS.ordinal())  //通过审核的帖子才能显示
                 .orderByDesc("date");  //按照帖子创建时间进行降序排序后返回，方便前端显示
         List<Post> res = list(queryWrapper);
         List<PostDTO> result = new ArrayList<>();

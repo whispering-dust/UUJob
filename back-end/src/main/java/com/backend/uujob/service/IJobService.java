@@ -7,5 +7,6 @@ import java.util.List;
 
 
 public interface IJobService extends IService<Job> {
-    List<Job> Published();
+    List<Job> getPublishedList();
+    List<Job> getListByUserId(int userId);
 }
