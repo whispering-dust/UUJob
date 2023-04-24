@@ -11,7 +11,7 @@ public class Response {
   private Integer id;
   private String content;
   private Timestamp date;
-  private Integer publiserId;
+  private Integer publisherId;
   private Integer commentId;
   private Integer targetUserId;
 
@@ -43,12 +43,12 @@ public class Response {
   }
 
 
-  public Integer getPubliserId() {
-    return publiserId;
+  public Integer getPublisherId() {
+    return publisherId;
   }
 
-  public void setPubliserId(Integer publiserId) {
-    this.publiserId = publiserId;
+  public void setPublisherId(Integer publisherId) {
+    this.publisherId = publisherId;
   }
 
 

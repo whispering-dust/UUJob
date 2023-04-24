@@ -13,4 +13,5 @@ public class CommentVO {
     private String date;
     private Integer publisherId;
     private String userName;
+    private Integer responseNum;
 }

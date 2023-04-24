@@ -14,5 +14,6 @@ public class PostDetailDTO {
         private String title;
         private String content;
         private String date;
+        private Integer type;
         private List<CommentVO> commentList;
 }

@@ -14,8 +14,15 @@ public class Post {
   private Integer publisherId;
   private Timestamp date;
   private Integer status;
+  public void setType(Integer type) {
+    this.type = type;
+  }
 
+  public Integer getType() {
+    return type;
+  }
 
+  private Integer type;
   public Integer getId() {
     return id;
   }
