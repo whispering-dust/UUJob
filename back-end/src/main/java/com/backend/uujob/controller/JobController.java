@@ -1,19 +1,20 @@
 package com.backend.uujob.controller;
 
-import com.backend.uujob.entity.Application;
-import com.backend.uujob.entity.Company;
-import com.backend.uujob.entity.Job;
-import com.backend.uujob.entity.User;
+import com.backend.uujob.controller.dto.ProfileCensorDTO;
+import com.backend.uujob.entity.*;
+import com.backend.uujob.entity.VO.ProfileVO;
 import com.backend.uujob.enums.ApplStatusEnum;
 import com.backend.uujob.enums.CensorStatusEnum;
 import com.backend.uujob.result.Constants;
 import com.backend.uujob.result.Result;
-import com.backend.uujob.service.IApplicationService;
-import com.backend.uujob.service.ICompanyService;
-import com.backend.uujob.service.IJobService;
-import com.backend.uujob.service.IUserService;
+import com.backend.uujob.service.*;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.backend.uujob.utils.TimeUtils.timeTransfer;
 
 @RestController
 @RequestMapping("/jobs")
@@ -26,6 +27,8 @@ public class JobController {
     private ICompanyService companyService;
     @Resource
     private IApplicationService applicationService;
+    @Resource
+    private IProfileService profileService;
 
     @PostMapping("")
     public Result addJob(@RequestBody Job job){
@@ -70,6 +73,78 @@ public class JobController {
 
     @PostMapping("/applications")
     public Result applyForJob(@RequestBody Application application){
+        //申请提交时默认状态为待审核
+        application.setStatus(ApplStatusEnum.APPL_STATUS_SUBMIT.ordinal());
+        //获取当前时间作为申请提交时间
+        application.setApplicationDate(new java.sql.Timestamp(System.currentTimeMillis()));
+        applicationService.save(application);
+        return Result.success();
+    }
+
+    @GetMapping("/applications")
+    public Result getProfileListByJobId(@RequestParam int jobId){
+        List<Application> applicationSubList =  applicationService.getByJobIdAndStatus(jobId, ApplStatusEnum.APPL_STATUS_SUBMIT.ordinal());  //通过岗位id获取所有待处理的申请信息
+
+        List<ProfileVO> subList = new ArrayList<>();
+        for(Application a : applicationSubList){  //通过申请信息获取所有简历id，以此获取简历信息
+            Profile p = profileService.getById(a.getProfileId());
+
+            ProfileVO pvo = new ProfileVO();
+            pvo.setId(p.getId());
+            pvo.setName(p.getName());
+            pvo.setAge(p.getAge());
+            pvo.setSex(p.getSex());
+            pvo.setEmail(p.getEmail());
+            pvo.setEducation(p.getEducation());
+            pvo.setPhone(p.getPhone());
+            pvo.setCollege(p.getCollege());
+            pvo.setMajor(p.getMajor());
+            pvo.setAdmissionDate(timeTransfer(p.getAdmissionDate()));
+            pvo.setGraduationDate(timeTransfer(p.getGraduationDate()));
+            pvo.setPersonalDescription(p.getPersonalDescription());
+            pvo.setReward(p.getReward());
+            pvo.setExpectedLocation(p.getExpectedLocation());
+            pvo.setApplicationDate(timeTransfer(a.getApplicationDate()));
+
+            subList.add(pvo);
+        }
+
+        List<Application> applicationPassList =  applicationService.getByJobIdAndStatus(jobId, ApplStatusEnum.APPL_STATUS_PASS.ordinal());  //通过岗位id获取所有通过申请信息
+
+        List<ProfileVO> passList = new ArrayList<>();
+        for(Application a : applicationPassList){  //通过申请信息获取所有简历id，以此获取简历信息
+            Profile p = profileService.getById(a.getProfileId());
+
+            ProfileVO pvo = new ProfileVO();
+            pvo.setId(p.getId());
+            pvo.setName(p.getName());
+            pvo.setAge(p.getAge());
+            pvo.setSex(p.getSex());
+            pvo.setEmail(p.getEmail());
+            pvo.setEducation(p.getEducation());
+            pvo.setPhone(p.getPhone());
+            pvo.setCollege(p.getCollege());
+            pvo.setMajor(p.getMajor());
+            pvo.setAdmissionDate(timeTransfer(p.getAdmissionDate()));
+            pvo.setGraduationDate(timeTransfer(p.getGraduationDate()));
+            pvo.setPersonalDescription(p.getPersonalDescription());
+            pvo.setReward(p.getReward());
+            pvo.setExpectedLocation(p.getExpectedLocation());
+            pvo.setApplicationDate(timeTransfer(a.getApplicationDate()));
+            pvo.setReviewDate(timeTransfer(a.getReviewDate()));
+
+            passList.add(pvo);
+        }
+
+        ProfileCensorDTO censorDTO = new ProfileCensorDTO();
+        censorDTO.setSubList(subList);
+        censorDTO.setPassList(passList);
+
+        return Result.success(censorDTO);
+    }
+
+    @PutMapping("/applications")
+    public Result processApplication(@RequestBody Application application){
         //申请提交时默认状态为待审核
         application.setStatus(ApplStatusEnum.APPL_STATUS_SUBMIT.ordinal());
         //获取当前时间作为申请提交时间

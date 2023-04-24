@@ -1,10 +1,10 @@
 package com.backend.uujob.controller;
 
-import com.backend.uujob.controller.dto.JobApplicationDTO;
 import com.backend.uujob.entity.Application;
 import com.backend.uujob.entity.Job;
 import com.backend.uujob.entity.Profile;
 import com.backend.uujob.entity.User;
+import com.backend.uujob.entity.VO.JobVO;
 import com.backend.uujob.enums.ApplStatusEnum;
 import com.backend.uujob.result.Constants;
 import com.backend.uujob.result.Result;
@@ -91,11 +91,11 @@ public class UserController {
         }
 
         List<Application> applicationList = applicationService.getByProfileId(targetProtile.getId());  //再根据简历查找他被投递到哪些岗位
-        List<JobApplicationDTO> jobList = new ArrayList<>();
+        List<JobVO> jobList = new ArrayList<>();
         for(Application a : applicationList){
             Job j = jobService.getById(a.getJobId());
 
-            JobApplicationDTO ja = new JobApplicationDTO();  //填入申请的基本信息
+            JobVO ja = new JobVO();  //填入申请的基本信息
             ja.setTitle(j.getTitle());
             ja.setPosition(j.getPosition());
             ja.setLocation(j.getLocation());
