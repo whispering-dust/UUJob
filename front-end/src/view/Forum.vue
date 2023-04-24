@@ -39,7 +39,7 @@
                 </el-menu>
 
                 <div class="post-area row">
-                    <div class="post-list pt-1 col-8">
+                    <div class="post-list pt-1 col-8 pl-0">
                         <div v-for="post in posts" :key="post.id" class="post-item">
                             <div class="card">
                                 <div class="card-header">
@@ -61,7 +61,7 @@
                                 <div class="card-footer">
                                     <div class="row align-items-center">
                                         <div class="col-6">
-                                            <el-button type="primary" round>详情</el-button>
+                                            <el-button type="primary" round style="width: 100px;background-color:black;">详情</el-button>
                                         </div>
                                         <div class="col-6 text-right">
                                             <ul class="list-inline mb-0">
@@ -82,16 +82,20 @@
                         </div>
                     </div>
 
-                    <div class="post-right pt-1 col-4">
+                    <div class="post-right pt-1 col-4 pr-0">
                         <div class="card funtion">
                             <div class="card-header">
                                 <h4>功能面板</h4>
                             </div>
                             <div class="card-body">
                                 <el-tooltip class="box-item" effect="dark" content="发布帖子" placement="top">
-                                    <el-button circle size="large"><el-icon>
-                                            <document />
-                                        </el-icon></el-button>
+                                    <router-link to="/forum/publishPost">
+                                        <el-button circle size="large">
+                                            <el-icon>                            
+                                                <document />
+                                            </el-icon>
+                                        </el-button>
+                                    </router-link>
                                 </el-tooltip>
                             </div>
                         </div>
@@ -206,6 +210,7 @@ export default {
 <style scoped>
 .post-area {
     width: 100%;
+    margin: 0px;
 }
 
 .post-list {
@@ -220,7 +225,7 @@ export default {
     background-color: rgb(200, 137, 137);
     width: 100%;
     height: 100%;
-    background-image: url('../../public/assets/images/prv/img-1-800x600.jpg');
+    background-image: url('../../public/assets/images/backgrounds/img-2.jpg');
 }
 
 .box {

@@ -1,8 +1,8 @@
 <template>
     <div class="recruit-card">
         <el-form :model="form" label-width="80px">
-            <el-form-item label="发布用户">
-                <span>{{ form.userName }}</span>
+            <el-form-item label="发布用户" >
+                <span >{{ form.userName }}</span>
             </el-form-item>
 
             <el-col style="width:500px">
@@ -24,12 +24,19 @@
             </el-col>
             <el-col style="width:300px">
                 <el-form-item label="位置/城市">
-                    <el-input v-model="form.location" />
+                    <el-select v-model="form.location" placeholder="请选择城市">
+                        <el-option
+                          v-for="city in cities"
+                          :key="city.value"
+                          :label="city.label"
+                          :value="city.value"
+                        />
+                      </el-select>
                 </el-form-item>
             </el-col>
 
             <el-form-item label="详细描述">
-                <el-input v-model="form.description" type="textarea" style="min-height: 200px;width: 600px;" />
+                <el-input v-model="form.description" type="textarea" :autosize="{ minRows: 5, maxRows: 8 }" style="width: 600px;" />
             </el-form-item>
 
             <el-form-item>
@@ -41,7 +48,7 @@
         </el-form>
 
 
-        <el-dialog v-model="dialogVisible" title="Tips" width="30%" :before-close=true>
+        <el-dialog v-model="dialogVisible" title="Tips" :before-close=true>
             <span>
                 是否确定取消发布？
             </span>
@@ -62,7 +69,7 @@ import { ElMessageBox } from 'element-plus'
 import { ElNotification } from 'element-plus'
 import { Delete, Check } from '@element-plus/icons-vue'
 import { useStore } from "vuex"
-import axios from 'axios'
+import axios from 'axios';
 
 
 export default {
@@ -74,6 +81,13 @@ export default {
             Delete, Check,
             dialogVisible,
             size,
+            cities: [
+                { value: 'beijing', label: '北京' },
+                { value: 'shanghai', label: '上海' },
+                { value: 'guangzhou', label: '广州' },
+                { value: 'shenzhen', label: '深圳' },
+                // 其他城市
+            ],
             userId: useStore().state.userId,
             form: {
                 userName: useStore().state.userName,
@@ -91,7 +105,8 @@ export default {
                 title: '已取消',
                 message: '已取消！',
                 type: 'success',
-            })
+            });
+
         },
         async submit() {
             let that = this;

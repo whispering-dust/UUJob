@@ -16,6 +16,12 @@
             </el-input>
             <el-link  @click="searchSubmit" :underline="false" style="height: 100%;margin-right:20px;"><h3 class="text-white">搜索</h3></el-link>
           </div>
+       
+        </div>
+
+        <div class="container hot-list">
+          <span class="hot-item" style="font-size:larger"><strong>热门搜索:</strong></span>
+          <span class="hot-item" style="background-color:aliceblue;" v-for="item in hotList" :key="item">{{ item }}</span>
         </div>
 
         <div class="row">   
@@ -37,7 +43,7 @@
 
 </template>
 
-<script lang="ts">
+<script>
 import  RecruitArea   from "@/components/home/RecruitArea.vue";
 import FunctionArea from "@/components/home/FunctionArea.vue";
 import {
@@ -54,6 +60,7 @@ export default{
     return {
       Search,
       input:'',
+      hotList: ['算法', '数据分析师','建筑设计师'],
     }
   },
   methods: {
@@ -110,5 +117,23 @@ export default{
     border-radius: 4px;
     min-height: 36px;
   }
-
+  .hot-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 10px;
+    padding-left: 150px;
+  }
+  
+  .hot-item {
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding: 6px ;
+    padding-bottom: 0px;
+    border: 0px;
+    border-radius: 4px;
+    cursor: pointer;
+    color: black;
+    user-select: none;
+  }
 </style>

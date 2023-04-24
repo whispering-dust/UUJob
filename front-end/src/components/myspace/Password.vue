@@ -51,7 +51,7 @@
         passwordRules: [{ validator: validatePassword, trigger: 'blur' }],
         confirmPasswordRules: [{ validator: validateConfirmPassword, trigger: 'blur' }],
       };
-    },
+    }, 
     methods: {
       submitForm() {
         this.$refs.passwordForm.validate(async (valid) => {

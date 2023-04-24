@@ -9,12 +9,12 @@
       <el-menu-item index="3">喜好</el-menu-item>
     </el-menu>
 
-    <div v-for="recruitObj in recruitObjs">
+    <div v-for="recruitObj in paginatedRecruits()">
       <el-card class="box-card" shadow="hover">
         <template #header>
           <div class="card-header">
             <span style="font-size:larger">{{ recruitObj.title }}</span>
-            <el-button class="button" type="success" @click="apply(recruitObj.id)"> Apply</el-button>
+            <el-button class="button" style="background-color: black;" type="success" @click="enterJob(recruitObj.id)"> 详情</el-button>
           </div>
         </template>
         <div class="row">
@@ -35,22 +35,20 @@
 
       </el-card>
     </div>
-
-    <!-- <div class="pagination">
-          <el-pagination
-            v-model="currentPage"
-            :page-size="pageSize"
-            layout="prev, pager, next"
-            :total="recruitObjs.length"
-            @current-change="handlePageChange"
-          />
-        </div> -->
+    <el-pagination
+      @current-change="handlePageChange"
+      :current-page="currentPage"
+      :page-size="pageSize"
+      :total="totalRecruitObjs"
+      layout="prev, pager, next"
+      background>
+    </el-pagination>
 
   </div>
 
-  <el-dialog v-model="dialogApplyVisible" title="请填写简历信息">
+  <!-- <el-dialog v-model="dialogApplyVisible" title="请填写简历信息">
     <Apply :tableId="select_id"></Apply>
-  </el-dialog>
+  </el-dialog> -->
 </template>
   
 <script>
@@ -58,20 +56,31 @@ import { ref } from 'vue';
 import axios from "axios";
 import Apply from "@/components/home/Apply.vue";
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
 export default {
   components: {
     Apply,
   },
+  setup(){
+    const router = useRouter();
+
+    return {
+      router
+    }
+
+  },
   data() {
 
     return {
+      router:useRouter(),
       select_id: "",
       dialogApplyVisible: false,
       pagedRecruitObjs: [], // 当前页展示的求职帖子的数组
       currentPage: 1, // 当前页码
       pageSize: 4, // 每页显示的数量
       totalRecruitObjs: 0, // 总的求职帖子数量
+
       recruitObjs: [
         {
           id: "1",
@@ -81,28 +90,28 @@ export default {
           description: "快来家人们",
         },
         {
-          id: "1",
+          id: "2",
           title: "蔚蓝求职",
           position: "算法工程师",
           salary: "1.5w-2w",
           description: "快来家人们",
         },
         {
-          id: "1",
+          id: "3",
           title: "蔚蓝求职",
           position: "算法工程师",
           salary: "1.5w-2w",
           description: "快来家人们",
         },
         {
-          id: "1",
+          id: "4",
           title: "蔚蓝求职",
           position: "算法工程师",
           salary: "1.5w-2w",
           description: "快来家人们",
         },
         {
-          id: "1",
+          id: "5",
           title: "蔚蓝求职",
           position: "算法工程师",
           salary: "1.5w-2w",
@@ -120,11 +129,19 @@ export default {
     }
   },
   methods: {
+    handlePageChange(currentPage) {
+      this.currentPage = currentPage;
+    },
 
-    apply(id) {
-      this.dialogApplyVisible = true;
-      this.select_id = id;
-      // alert(this.select_id);
+    paginatedRecruits() {
+      const startIndex = (this.currentPage - 1) * this.pageSize;
+      const endIndex = startIndex + this.pageSize;
+      return this.recruitObjs.slice(startIndex, endIndex);
+    },
+
+    enterJob(id){
+      this.router.push("../job/"+id)
+
     },
 
     handleChange(val) {
@@ -171,6 +188,9 @@ export default {
     this.getRecruitList();
 
     this.paginatedRecruits();
+
+    this.totalRecruitObjs = this.recruitObjs.length;
+
 
   },
 }
