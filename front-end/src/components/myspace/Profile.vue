@@ -3,7 +3,7 @@
         <div class="row container">
             <div class="col-6 font-weight-bold" style="font-size: large;"> 我的简历</div>
             <div class="col-6 float-right" style="margin-right:0px;text-align: right;">
-                <el-button  type="success" style="background-color: black;" @click="edit"><el-icon>
+                <el-button type="success" style="background-color: black;" @click="edit"><el-icon>
                         <Edit />
                     </el-icon>编辑</el-button>
             </div>
@@ -138,7 +138,7 @@
 </template>
   
 <script>
-import { computed, ref,watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { Edit } from '@element-plus/icons-vue'
 import {
     Iphone,
@@ -152,7 +152,7 @@ import axios from "axios";
 import ProfileEdit from '@/components/myspace/ProfileEdit.vue'
 
 export default {
-    components:{
+    components: {
         ProfileEdit
     },
     data() {
@@ -170,7 +170,10 @@ export default {
                 expected_location: "意向城市",
                 description: "描述",
                 honor: "荣誉",
-            }
+                admissionDate: '',
+                graduationDate: '',
+            },
+            store: useStore(),
 
         }
     },
@@ -182,7 +185,7 @@ export default {
             this.Profile = updatedProfile;
             this.dialogVisible = false;
         },
-        closeDialog(){
+        closeDialog() {
             this.dialogVisible = false;
         },
         async getProfile() {
@@ -194,10 +197,7 @@ export default {
                 params: {
                     userId: useStore().state.userId
                 }
-                // data: {
-                //     //参数自己接
-                //     id: that.useStore().state.userId,
-                // },
+
             }).then(function (response) {
                 if (response.data.code === 200) {
                     that.Profile = [];
@@ -211,8 +211,13 @@ export default {
                     that.Profile.expected_location = response.data.data.expectedLocation;
                     that.Profile.description = response.data.data.personalDescription;
                     that.Profile.honor = response.data.data.reward;
+                    that.Profile.admissionDate = response.data.data.admissionDate
+                    that.Profile.graduationDate = response.data.data.graduationDate
 
-                    alert(Profile);
+                    that.store.commit("setProfile", response.data.data.id);
+                    alert('profileId:  ' + that.store.state.profileId)
+
+                    //alert(that.Profile);
                 }
                 else {
                     alert(response.data.msg);
@@ -230,7 +235,7 @@ export default {
         alert(useStore().state.userId);
         this.getProfile();
     },
-    watch:{
+    watch: {
         // dialogVisible(newValue) {
         // if (!newValue) {
         //   this.getProfile();

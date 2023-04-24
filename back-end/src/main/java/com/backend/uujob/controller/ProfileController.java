@@ -24,7 +24,7 @@ public class ProfileController {
         if(profileService.getById(profile.getId()) == null){
             return Result.error(Constants.CODE_500, "档案不存在");
         }
-        profileService.save(profile);
+        profileService.updateById(profile);
         return Result.success(profile.getId());
     }
 
