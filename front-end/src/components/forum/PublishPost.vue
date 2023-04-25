@@ -23,7 +23,7 @@
           <el-form-item label="内容">
             <div><editor-toolbar  @execute="editorExecute" /></div>
             <div class="editor-wrapper" ref="editorContainer">
-              <editor-content  :editor="editor" v-model="postForm.content" style="color:black;"/>
+              <editor-content class="my-editor" :editor="editor" v-model="postForm.content" style="color:black;"/>
             </div>
           </el-form-item>
           <el-form-item>
@@ -58,6 +58,7 @@ import Code from '@tiptap/extension-code'
 import CodeBlock from '@tiptap/extension-code-block'
 import History from '@tiptap/extension-history'
 import EditorToolbar from './EditorToolbar.vue'
+import {useStore} from 'vuex'
 
 export default {
     components: {
@@ -84,24 +85,32 @@ export default {
                 { value: 3, label: '行业动态' },
                 { value: 0, label: '其他' }
             ],
-            editor: null
+            editor: null,
+            userId : useStore().state.userId,
         }
     },
     methods:{
         submitForm() {
             console.log(this.postForm)
-            axios.post('/api/forum/posts', this.postForm)
-                .then(response => {
-                if (response.data.success) {
-                    this.$message.success('帖子发布成功')
-                    this.$router.push('/forum')
-                } else {
-                    this.$message.error(response.data.message)
-                }
-                })
-                .catch(error => {
-                this.$message.error('发布帖子失败，请稍后重试')
-                })
+            let that = this
+            axios.post('http://localhost:9090/posts',{
+              publisherId : that.userId,
+              title : that.postForm.title,
+              content : that.postForm.content,
+              type : that.postForm.category,
+              
+            })
+            .then(response => {
+            if (response.data.code == 200) {
+                this.$message.success('帖子发布成功')
+                this.$router.push('/forum')
+            } else {
+                this.$message.error(response.data.message)
+            }
+            })
+            .catch(error => {
+            this.$message.error('发布帖子失败，请稍后重试')
+            })
         },
         resetForm() {
             this.postForm = {
@@ -198,6 +207,9 @@ export default {
     mounted(){
         this.editor = new Editor({
             content:'',
+            attributes: {
+              class: 'ProseMirror',
+            },
             extensions: [
                 Bold,
                 Italic,
@@ -266,15 +278,28 @@ export default {
 .editor p {
   margin: 0;
 }
+.my-editor {
+  max-height: 680px; /* 设置文本区域的最大高度 */
+  overflow: auto; /* 当内容超出区域时，显示滚动条 */
+  border: 0px;
+}
+.ProseMirror{
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+
 .editor-wrapper {
     border: 1px solid #dcdfe6;
     border-radius: 4px;
     padding: 10px;
-    min-height: 600px;
+    height: 700px;
     width: 100%;
   }
   .editor-wrapper:focus-within {
     border-color: #409eff;
+
   }
   .editor-wrapper p {
     margin: 0;

@@ -91,7 +91,7 @@ export default {
             axios({
                 method: 'post',
                 url: 'http://localhost:9090/jobs/applications',
-                params:{
+                data:{
                     profileId: that.profileId,
                     jobId: that.jobId,
                 }
