@@ -67,9 +67,9 @@ const routes = [
         component: () => import('@/view/Myspace.vue'),
         children:[
         {
-            path: '/myspace/historyJob',
-            name: 'history',
-            component: () => import('@//components/myspace/HistoryJob.vue')
+            path: '/myspace/myPostedJobs',
+            name: 'MyPostedJobs',
+            component: () => import('@//components/myspace/MyPostedJobs.vue')
           },
 
           {

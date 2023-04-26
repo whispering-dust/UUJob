@@ -31,7 +31,7 @@
                 联系人
               </el-menu-item>
             </router-link>
-            <router-link class="text-white" to="/myspace/historyJob" >
+            <router-link class="text-white" to="/myspace/myPostedJobs" >
               <el-menu-item index="3">
                 <el-icon><Document /></el-icon>
                 我的投递
@@ -56,7 +56,7 @@
         </div>
 
         <div class="col-10">
-          <el-container>
+          <el-container style="height: 100%;width:100%;">
             <router-view ></router-view>
           </el-container>
         </div>
