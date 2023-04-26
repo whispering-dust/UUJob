@@ -96,6 +96,7 @@ public class UserController {
             Job j = jobService.getById(a.getJobId());
 
             JobVO ja = new JobVO();  //填入申请的基本信息
+            ja.setJobId(j.getId());
             ja.setTitle(j.getTitle());
             ja.setPosition(j.getPosition());
             ja.setLocation(j.getLocation());
@@ -113,6 +114,7 @@ public class UserController {
 
     @GetMapping("/jobs")
     public Result getJobByUserId(@RequestParam int userId){
+
         List<Job> jobList = jobService.getListByUserId(userId);
         if(jobList == null){
             return Result.error(Constants.CODE_500,"该用户尚未发布岗位");

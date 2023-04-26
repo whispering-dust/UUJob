@@ -9,6 +9,7 @@ import static com.backend.uujob.utils.TimeUtils.timeTransfer;
 
 @Data
 public class JobVO {
+    private Integer jobId;
     private String title;
     private String position;
     private String location;

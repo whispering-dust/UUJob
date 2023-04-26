@@ -56,7 +56,7 @@ public class JobController {
         Job targetJob = jobService.getById(job.getId());
         job.setCompanyName(targetJob.getCompanyName());
 
-        jobService.save(job);
+        jobService.updateById(job);
         return Result.success(job.getId());
     }
 
@@ -149,7 +149,7 @@ public class JobController {
         application.setStatus(ApplStatusEnum.APPL_STATUS_SUBMIT.ordinal());
         //获取当前时间作为申请提交时间
         application.setApplicationDate(new java.sql.Timestamp(System.currentTimeMillis()));
-        applicationService.save(application);
+        applicationService.updateById(application);
         return Result.success();
     }
 
