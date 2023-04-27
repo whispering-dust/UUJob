@@ -36,7 +36,7 @@
             </el-col>
 
             <el-form-item label="详细描述">
-                <el-input v-model="form.description" type="textarea" :autosize="{ minRows: 5, maxRows: 8 }" style="width: 600px;" />
+                <el-input v-model="form.description" type="textarea" :autosize="{ minRows: 5 }" style="width: 600px;" />
             </el-form-item>
 
             <el-form-item>

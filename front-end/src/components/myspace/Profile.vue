@@ -1,5 +1,5 @@
 <template>
-    <el-card class="mt-5 ml-5" style="height: 100%;width:80%;">
+    <el-card class="mt-5 ml-5" style="height: 80%;width:80%;">
         <div class="row container">
             <div class="col-6 font-weight-bold" style="font-size: large;"> 我的简历</div>
             <div class="col-6 float-right" style="margin-right:0px;text-align: right;">

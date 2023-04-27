@@ -8,8 +8,8 @@
       <el-button color="black" @click="postJob"  plain>发布岗位</el-button>
     </el-card>
 
-    <el-dialog v-model="dialogFormVisible" title="请填写表单信息" draggable >
-      <el-scrollbar  height="400px">
+    <el-dialog  top="0vh" v-model="dialogFormVisible" title="请填写表单信息" draggable lock-scroll=false>
+      <el-scrollbar >
         <RecruitPost></RecruitPost>
       </el-scrollbar>
     </el-dialog>
@@ -27,9 +27,11 @@ export default{
   data(){
     const store = useStore();
     const dialogFormVisible  =ref(false);
+
     return {
       dialogFormVisible,
       store,
+
     }
   },
   methods: {

@@ -7,7 +7,7 @@ export default createStore({
     userAvatar:'',
     userName:"",
     profileId: storage.get('profileId'),
-    role:0,//0 是求职者，1 是招聘者
+    role: storage.get('role'),//0 是求职者，1 是招聘者
     pass:0,
   },
   getters: {
@@ -41,6 +41,7 @@ export default createStore({
     },
     setRole(state, value) {
       state.role = value;
+      storage.set('role',value);
     },
     setUserAvatar(state, value) {
       state.userAvatar = value;

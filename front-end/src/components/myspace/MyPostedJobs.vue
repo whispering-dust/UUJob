@@ -13,7 +13,7 @@
           <el-card shadow="hover" class="mr-3 mt-1">
             <el-container>
               <el-aside style="padding: 0px;background-color:white" width="30%">
-                <div class="company-logo">{{ job.companyName.slice(0, 1) }}</div>          
+                <div class="company-logo">{{ job.title.slice(0, 1) }}</div>          
               </el-aside>
               <el-main style="padding: 0px;">
                 <div class="job-info">
@@ -26,13 +26,9 @@
           </el-list-item>
         </el-list>
       </el-aside>
+
+      <!-- main -->
       <el-main>
-        <!-- <h2>{{ selectedJob.title }}</h2>
-        <p>职位：{{ selectedJob.position }}</p>
-        <p>地点：{{ selectedJob.location }}</p>
-        <p>薪资：{{ selectedJob.salary }}</p>
-        <p>日期：{{ selectedJob.applicationDate }}</p>
-        <p>公司名称：{{ selectedJob.companyName }}</p> -->
         <el-card v-if="selectedJob.title" class="box-card p-0 card" shadow="never" >
           <div class="card-header p-0 mb-3" style="">
             <span style="font-size: larger;"><strong>{{selectedJob.title}}</strong></span>
@@ -47,6 +43,73 @@
   
           </div>
           <div class="row text-area p-3" v-html="formattedText">
+          </div>
+
+          <div class="row p-3">
+            <el-descriptions
+              class="margin-top"
+              title="信息栏"
+              :column="1"
+              :size="larger"
+              border
+              style="width:80%"
+            >
+              <el-descriptions-item label-class-name="my-label">
+                <template #label>
+                  <div class="cell-item">
+                    <el-icon :style="iconStyle">
+                      <user />
+                    </el-icon>
+                    发布用户
+                  </div>
+                </template>
+                {{owner.userName}}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template #label>
+                  <div class="cell-item">
+                    <el-icon :style="iconStyle">
+                      <iphone />
+                    </el-icon>
+                    联系方式
+                  </div>
+                </template>
+                {{owner.phone}}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template #label>
+                  <div class="cell-item">
+                    <el-icon :style="iconStyle">
+                      <location />
+                    </el-icon>
+                    地点
+                  </div>
+                </template>
+                {{selectedJob.location}}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template #label>
+                  <div class="cell-item">
+                    <el-icon :style="iconStyle">
+                      <tickets />
+                    </el-icon>
+                    审核状态
+                  </div>
+                </template>
+                <el-tag size="large" >{{showStatus}}</el-tag>
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template #label>
+                  <div class="cell-item">
+                    <el-icon :style="iconStyle">
+                      <tickets />
+                    </el-icon>
+                    审核日期
+                  </div>
+                </template>
+                {{selectedJob.reviewDate}}
+              </el-descriptions-item>
+          </el-descriptions>
           </div>
         </el-card>
       </el-main>
@@ -63,6 +126,7 @@
 import axios from "axios";
 import { Search } from '@element-plus/icons-vue'
 import { reactive, toRefs, watch, ref } from 'vue'
+import { useStore } from "vuex";
 
 export default {
   data() {
@@ -75,17 +139,11 @@ export default {
     ])
 
     return {
-      userId: 1,
+      userId: useStore().state.userId,
       items,
       Search,
       search: "",
-      jobText: "工作内容\n1、独立完成相关短视频的拍摄和后期剪辑工作；包含但不限于素材、视频剪辑、特效制作、添加片头、片尾和字幕等；2、理解项目需求，进行脚本的规划与制定；\n3、协调与沟通视频制作过程中的各个环节，完成制作全过程，保证成片质量；\n4、熟悉直播平台玩法和制作，对B站、小红书等视频平台的热点内容敏感，分析跑量视频特征，快速同款及精进；\n任职资格：\n1、大专以上学历，影视后期、广告编导、视觉设计相关专业毕业，一年以上相关经验；\n2、熟悉并热爱视频类广告创作，脑洞大，具有良好的审美和节奏感，有良好的内容热点嗅觉；\n3、熟练使用AE、PR、PS、edius等后期软件；\n4、熟练使用各种摄像和照片拍摄设备；\n5、乐观向上，有良好的职业素养，具有较强的团队协作精神、沟通能力和责任心。",
-      companyObj: {
-        name: '平多多',
-        description: '拼多多于2018年7月26日正式登陆纳斯达克全球精选板块，股票代码：PDD拼多多是中国新电商模式的开创者，目前拥有超过3.44亿的活跃买家和超过170万活跃商家。\n在以人为先的理念下，拼多多融合物质消费与精神消费，用户可以通过拼单，与好友分享买到便宜好货的快乐.',
-        address: '上海长宁区金虹桥商业广场金虹桥国际中心',
-        homePageUrl: 'https://www.pinduoduo.com/'
-      },
+      selectedJobText: "工作内容\n1、独立完成相关短视频的拍摄和后期剪辑工作；包含但不限于素材、视频剪辑、特效制作、添加片头、片尾和字幕等；2、理解项目需求，进行脚本的规划与制定；\n3、协调与沟通视频制作过程中的各个环节，完成制作全过程，保证成片质量；\n4、熟悉直播平台玩法和制作，对B站、小红书等视频平台的热点内容敏感，分析跑量视频特征，快速同款及精进；\n任职资格：\n1、大专以上学历，影视后期、广告编导、视觉设计相关专业毕业，一年以上相关经验；\n2、熟悉并热爱视频类广告创作，脑洞大，具有良好的审美和节奏感，有良好的内容热点嗅觉；\n3、熟练使用AE、PR、PS、edius等后期软件；\n4、熟练使用各种摄像和照片拍摄设备；\n5、乐观向上，有良好的职业素养，具有较强的团队协作精神、沟通能力和责任心。",
       JobList: [
         {
           jobId: 1,
@@ -94,7 +152,7 @@ export default {
           location: "上海",
           salary: "15K-25K",
           applicationDate: "2023-04-01",
-          companyName: "上海某科技有限公司",
+          reviewDate: null
         },
         {
           jobId: 2,
@@ -103,54 +161,84 @@ export default {
           location: "北京",
           salary: "12K-20K",
           applicationDate: "2023-04-10",
-          companyName: "北京某科技有限公司",
+          status: 0,
+          reviewDate: null
         },
       ],
       filteredJobs: [],
       selectedJob: {},
+      owner:{
+        userId:'',
+        userName:'owner',
+        phone:'13726928387',
+      }
     };
   },
   methods: {
     async getJobList() {
-      // try {
-      //   const response = await axios.get("https://your-api-endpoint.com/jobs", {
-      //     params: {
-      //       userId: this.userId,
-      //     },
-      //   });
+      try {
+        const response = await axios.get("http://localhost:9090/users/applications", {
+          params: {
+            userId: this.userId,
+          },
+        });
 
-      //   if (response.data.code === 200) {
-      //     this.JobList = response.data.data;
-      //     this.filteredJobs = this.JobList;
-      //   } else {
-      //     alert(response.data.msg);
-      //   }
-      // } catch (error) {
-      //   console.error("Failed to fetch job list:", error);
-      // }
+        if (response.data.code === 200) {
+          this.JobList = response.data.data;
+          this.filteredJobs = this.JobList;
+        } else {
+          alert(response.data.msg);
+        }
+      } catch (error) {
+        console.error("Failed to fetch job list:", error);
+      }
 
       this.filteredJobs = this.JobList;
     },
     async getJob() {
-      // try {
-      //   const response = await axios.get("https://your-api-endpoint.com/jobs", {
-      //     params: {
-      //       jobId: this.selectJobId,
-      //     },
-      //   });
+      try {
+        const response = await axios.get("http://localhost:9090/jobs", {
+          params: {
+            id: this.selectedJob.jobId,
+          },
+        });
 
-      //   if (response.data.code === 200) {
-      //     this.JobList = response.data.data;
-      //     this.filteredJobs = this.JobList;
-      //   } else {
-      //     alert(response.data.msg);
-      //   }
-      // } catch (error) {
-      //   console.error("Failed to fetch job list:", error);
-      // }
+        if (response.data.code === 200) {
+          this.selectedJobText = response.data.data.description
+          this.owner.userId = response.data.data.publisherId
+
+          this.getOwner()
+        } else {
+          alert(response.data.msg);
+        }
+      } catch (error) {
+        console.error("Failed to fetch job:", error);
+      }
+    },
+    async getOwner(){
+      try {
+        const response = await axios.get("http://localhost:9090/users", {
+          params: {
+            id: this.owner.userId,
+          },
+        });
+
+        if (response.data.code === 200) {
+          console.log(response.data.data);
+          this.owner.userName = response.data.data.userName
+          this.owner.phone = response.data.data.phone
+
+        } else {
+          alert(response.data.msg);
+        }
+      } catch (error) {
+        console.error("Failed to fetch user:", error);
+      }
     },
     selectJob(jobId) {
       this.selectedJob = this.JobList.find((job) => job.jobId === jobId);
+      this.getJob();
+      this.showStatus();
     },
     async revokeApplication() {
       try {
@@ -183,8 +271,16 @@ export default {
   computed: {
     formattedText() {
       // 将换行符替换为 <br> 标签
-      return this.jobText.replace(/\n/g, "<br>");
+      return this.selectedJobText.replace(/\n/g, "<br>");
     },
+    showStatus(){
+      if (this.selectedJob.status == 0) {
+        return "未审核"
+      }else if(this.selectedJob.status == 1){
+        return "审核已通过"
+      }
+      
+    }
   },
 };
 </script>
@@ -240,5 +336,11 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.box-card {
+  overflow-y: auto;
+}
+.my-label{
+  width: 30%;
 }
 </style>

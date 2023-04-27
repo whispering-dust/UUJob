@@ -70,11 +70,33 @@ export default {
               // alert("登录成功");
               console.log(response.data.data);
               /*修改全局用户变量*/
-              var userId = response.data.data;
+              var userId = response.data.data;              
               store.commit("setUserId", userId);
               store.commit("setUserName", ctx.loginUser.userName);
-              alert(ctx.loginUser.userName);
+              alert("欢迎登录，用户："+ctx.loginUser.userName);
               console.log(store.state);
+
+              //获取用户身份
+              axios({
+                method: "get",
+                url: "http://localhost:9090/users",
+                params: {
+                  id: userId
+                },
+              }).then(function (response) {
+                // 登录成功
+                if (response.data.code === 200) {
+                  // alert("登录成功");
+                  console.log(response.data.data);
+                  /*修改全局用户变量*/              
+                  store.commit("setRole", response.data.data.role);
+                  console.log(store.state);
+
+                } 
+                else {
+                  alert(response.data.msg);
+                }
+              });
 
               // window.localStorage.setItem("token",userId);
               router.push("../home");
