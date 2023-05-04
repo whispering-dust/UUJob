@@ -1,11 +1,14 @@
 <template>
-  <div id="app">
+  <div >
     <!-- 其他页 -->
     <myHeader v-if="$route.meta.keepAlive"></myHeader>
     <!-- 登录页 -->
-    <router-view ></router-view>
+    <div>
+      <router-view ></router-view>
+    </div>
+
    </div>
-   <footer class="pt-5 pb-3 footer  footer-dark bg-tertiary">
+   <footer class="pt-5 pb-3 footer  footer-dark bg-tertiary" style="flex: 0 0 auto;">
     <div class="text-center">
         &copy; 2023 求职交流平台. All rights reserved.
     </div>

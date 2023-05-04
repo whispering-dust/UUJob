@@ -1,14 +1,9 @@
 <template>
-  <!-- <div class="spotlight parallax bg-cover bg-size--cover no-repeat fixed" data-spotlight="fullscreen" style="background-image: url('../assets/images/backgrounds/img-3.jpg')" >
-    <span ">
-      
-    </span>
-  </div> -->
-  <div class="home">
+  <div class=" home">
     <div class="backmask">
-      <div class="container main">
+      <div class="container upmain  mb-5">
         <br>
-        <div class="container" style="height: 70px;width:70%">
+        <div class="container mt-5" style="height: 70px;width:70%">
 
           <!-- 搜索栏 -->
           <div class="card row" style="justify-content: center;height: 100%; background-color:#000000;">
@@ -23,18 +18,21 @@
           <span class="hot-item" style="font-size:larger"><strong>热门搜索:</strong></span>
           <span class="hot-item" style="background-color:lightgray;" v-for="item in hotList" :key="item">{{ item }}</span>
         </div>
-
-        <div class="row">   
-          <div class="col-md-8" >
-            <section class="container" >             
-              <RecruitArea></RecruitArea>
-            </section>
-            
+      </div>
+      <div class="bkmain bg-dark">
+        <div class="container main">
+          <div class="row">   
+            <div class="col-md-8" >
+              <section class="container" >             
+                <RecruitArea></RecruitArea>
+              </section>
+              
+            </div>
+            <div class="col-md-4">
+              <FunctionArea></FunctionArea>  
+            </div>
           </div>
-          <div class="col-md-4">
-            <FunctionArea></FunctionArea>  
-          </div>
-        </div>
+        </div>        
       </div>
     </div>
     
@@ -72,9 +70,14 @@ export default{
 </script>
 
 <style scoped>
-
+.bkmain{
+  margin: 0px;
+  width: 100%;
+  height: 100%;
+  min-height: 950px;
+  border-radius: 75px 75px 0px 0px;
+}
 .home{
-    background-color: rgb(200, 137, 137);
     width: 100%;
     height: 100%;
     min-height:1080px;

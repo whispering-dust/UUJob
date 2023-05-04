@@ -19,7 +19,7 @@
               <router-link to="/myspace/userAccount" class="text-white" ><el-menu-item index="1-1"> 账号信息</el-menu-item></router-link>
               <router-link to="/myspace/password" class="text-white" ><el-menu-item index="1-2">修改密码</el-menu-item></router-link>
            </el-sub-menu>
-            <router-link class="text-white" to="/myspace/profile" >
+            <router-link v-if="store.role === 0" class="text-white" to="/myspace/profile" >
               <el-menu-item index="2">
                 <el-icon><icon-menu /></el-icon>
                 我的简历
@@ -31,10 +31,16 @@
                 联系人
               </el-menu-item>
             </router-link>
-            <router-link class="text-white" to="/myspace/myPostedJobs" >
+            <router-link v-if="store.role === 0" class="text-white" to="/myspace/myPostedJobs" >
               <el-menu-item index="3">
                 <el-icon><Document /></el-icon>
                 我的投递
+              </el-menu-item>
+            </router-link>
+            <router-link v-else class="text-white" to="/myspace/jobManagement" >
+              <el-menu-item index="3">
+                <el-icon><Document /></el-icon>
+                招聘管理
               </el-menu-item>
             </router-link>
             <el-sub-menu index="4">
@@ -76,6 +82,9 @@ import {
   ChatLineRound,
   Star,
 } from '@element-plus/icons-vue'
+import { useStore } from 'vuex'
+
+const store = useStore().state
 
 const isCollapse = ref(true)
 

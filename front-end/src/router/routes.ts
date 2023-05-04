@@ -66,10 +66,15 @@ const routes = [
         meta: {keepAlive: true},
         component: () => import('@/view/Myspace.vue'),
         children:[
-        {
+          {
             path: '/myspace/myPostedJobs',
             name: 'MyPostedJobs',
             component: () => import('@//components/myspace/MyPostedJobs.vue')
+          },
+          {
+            path: '/myspace/jobManagement',
+            name: 'JobManagement',
+            component: () => import('@//components/myspace/JobManagement.vue')
           },
 
           {

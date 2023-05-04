@@ -98,6 +98,23 @@ export default {
                 }
               });
 
+              axios({
+                method: "get",
+                url: "http://localhost:9090/users/profiles",
+                params: {
+                    userId: userId
+                }
+
+              }).then(function (response) {
+                if (response.data.code === 200) {
+                  store.commit("setProfile", response.data.data.id);
+                }
+                else {
+                    alert(response.data.msg);
+
+                }
+              });
+
               // window.localStorage.setItem("token",userId);
               router.push("../home");
             } // 登录失败输出错误信息

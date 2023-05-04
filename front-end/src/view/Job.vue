@@ -31,7 +31,7 @@
 
           <div class="col-2">
             <div class="button-area">
-              <el-button color="#45454A" style=" color:aliceblue; border:0px;width:125px;"
+              <el-button v-if="store.state.profileId!=null" color="#45454A" style=" color:aliceblue; border:0px;width:125px;"
                 @click="this.$router.push('/job/' + this.jobId + '/apply')">
                 投递简历
                 <el-icon class="el-icon--right">
@@ -107,7 +107,7 @@
 
 
                 <div class="row text-area p-1">
-                  <el-table :data="jobList" style="width: 100%">
+                  <el-table :data="recommendJobList" style="width: 100%">
                     <el-table-column prop="jobName" label="岗位名称"></el-table-column>
                     <el-table-column prop="companyName" label="公司名称"></el-table-column>
                     <el-table-column prop="salary" label="薪资范围"></el-table-column>
@@ -142,6 +142,7 @@ import { useStore } from "vuex";
 
 export default {
   data() {
+    const store = useStore()
 
     const items = ref([
       { type: '', label: 'Tag 1' },
@@ -153,6 +154,8 @@ export default {
 
     return {
       jobId: useRoute().params.jobId,
+      publisherId: null,
+      store,
       items,
       jobText: "工作内容\n1、独立完成相关短视频的拍摄和后期剪辑工作；包含但不限于素材、视频剪辑、特效制作、添加片头、片尾和字幕等；2、理解项目需求，进行脚本的规划与制定；\n3、协调与沟通视频制作过程中的各个环节，完成制作全过程，保证成片质量；\n4、熟悉直播平台玩法和制作，对B站、小红书等视频平台的热点内容敏感，分析跑量视频特征，快速同款及精进；\n任职资格：\n1、大专以上学历，影视后期、广告编导、视觉设计相关专业毕业，一年以上相关经验；\n2、熟悉并热爱视频类广告创作，脑洞大，具有良好的审美和节奏感，有良好的内容热点嗅觉；\n3、熟练使用AE、PR、PS、edius等后期软件；\n4、熟练使用各种摄像和照片拍摄设备；\n5、乐观向上，有良好的职业素养，具有较强的团队协作精神、沟通能力和责任心。",
       companyObj: {
@@ -161,7 +164,7 @@ export default {
         address: '上海长宁区金虹桥商业广场金虹桥国际中心',
         homePageUrl: 'https://www.pinduoduo.com/'
       },
-      jobList: [
+      recommendJobList: [
         {
           jobName: 'jobName',
           companyName: 'companyName',
