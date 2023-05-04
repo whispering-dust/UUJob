@@ -52,10 +52,6 @@ public class JobController {
         //一旦对岗位信息进行修改就需要重新进行审核，所以状态为待审核
         job.setStatus(CensorStatusEnum.CENSOR_STATUS_SUBMIT.ordinal());
 
-        //由于岗位的公司信息不会变更，因此找到此前数据库中的公司信息插入即可
-        Job targetJob = jobService.getById(job.getId());
-        job.setCompanyName(targetJob.getCompanyName());
-
         jobService.updateById(job);
         return Result.success(job.getId());
     }
