@@ -21,7 +21,7 @@
 
         <div class="container hot-list">
           <span class="hot-item" style="font-size:larger"><strong>热门搜索:</strong></span>
-          <span class="hot-item" style="background-color:aliceblue;" v-for="item in hotList" :key="item">{{ item }}</span>
+          <span class="hot-item" style="background-color:lightgray;" v-for="item in hotList" :key="item">{{ item }}</span>
         </div>
 
         <div class="row">   

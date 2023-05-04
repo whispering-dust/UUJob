@@ -25,6 +25,7 @@ public class ProfileController {
             return Result.error(Constants.CODE_500, "档案不存在");
         }
         profileService.updateById(profile);
+        System.out.println(profile);
         return Result.success(profile.getId());
     }
 
