@@ -14,6 +14,7 @@ public class Message {
   private String content;
   private Integer status;
   private Timestamp createdAt;
+  private Integer conversationId;
 
 
   public Integer getId() {
@@ -67,6 +68,13 @@ public class Message {
 
   public void setCreatedAt(java.sql.Timestamp createdAt) {
     this.createdAt = createdAt;
+  }
+  public Integer getConversationId() {
+    return conversationId;
+  }
+
+  public void setConversationId(Integer conversationId) {
+    this.conversationId = conversationId;
   }
 
 }
