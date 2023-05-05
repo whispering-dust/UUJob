@@ -4,10 +4,9 @@ import com.github.jeffreyning.mybatisplus.conf.EnableMPP;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.RestController;
-
 @SpringBootApplication
-@RestController
 @EnableMPP
+@RestController
 public class UUJobApplication {
 
     public static void main(String[] args) {
