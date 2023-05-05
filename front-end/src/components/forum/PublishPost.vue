@@ -283,7 +283,7 @@ export default {
   overflow: auto; /* 当内容超出区域时，显示滚动条 */
   border: 0px;
 }
-.ProseMirror{
+.ProseMirror .ProseMirror-focused{
   outline: none !important;
   box-shadow: none !important;
   border: none !important;

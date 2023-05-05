@@ -41,7 +41,7 @@
                 <div class="post-area row">
                     <div class="post-list pt-1 col-8 pl-0">
                         <div v-for="post in posts" :key="post.id" class="post-item">
-                            <div class="card">
+                            <div class="card mb-2">
                                 <div class="card-header">
                                     <div class="row align-items-center">
                                         <div class="col-8">

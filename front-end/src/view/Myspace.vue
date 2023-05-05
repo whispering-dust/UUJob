@@ -26,7 +26,7 @@
               </el-menu-item>
             </router-link>
             <router-link class="text-white" to="/myspace/chatList" >
-              <el-menu-item index="3">
+              <el-menu-item index="6">
                 <el-icon><ChatLineRound /></el-icon>
                 联系人
               </el-menu-item>
@@ -109,7 +109,7 @@ const handleClose = (key: string, keyPath: string[]) => {
 
 .myspace{
   background-color: rgb(245, 245, 245);
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 </style>

@@ -5,7 +5,9 @@
           <span style="font-size: large;">功能面板</span>
         </div>
       </template>
-      <el-button color="black" @click="postJob"  plain>发布岗位</el-button>
+      <el-button color="black" @click="postJob" :icon="DocumentAdd" plain>
+        发布岗位
+      </el-button>
     </el-card>
 
     <el-dialog  top="0vh" v-model="dialogFormVisible" title="请填写表单信息" draggable lock-scroll=false>
@@ -20,6 +22,9 @@
 import {reactive, ref} from 'vue';
 import RecruitPost from "@/components/home/RecruitPost.vue";
 import{useStore} from 'vuex';
+import {
+  DocumentAdd
+} from '@element-plus/icons-vue'
 export default{
   components:{
     RecruitPost,
@@ -31,7 +36,7 @@ export default{
     return {
       dialogFormVisible,
       store,
-
+      DocumentAdd
     }
   },
   methods: {

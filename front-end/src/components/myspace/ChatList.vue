@@ -1,239 +1,173 @@
 <template>
-    <div class="chat" style=" width: 100%; height: 100%;">
-        <div class="row" style="width: 100%; height:100%;">
-            <div class="col-2 " style="height: 800px; background-color:#ced4da; padding: 0px; overflow-y:auto;">
+  <el-container style="height: 100%; width: 100%;">
+    <el-aside width="22%">
+      <div class="search-bar">
+        <el-input
+          v-model="input"
+          placeholder="搜索聊天"
+          @input="searchChats"
+          :prefix-icon="Search"
+        ></el-input>
+      </div>
+      <el-list class="chat-list">
+        <el-list-item
+          v-for="chat in filteredChats"
+          :key="chat.id"
+          @click="selectChat(chat.id)"
+        >
+          <el-card shadow="hover" class="mr-3 mt-1">
+            <el-container>
+              <el-aside style="padding: 0px; background-color: white" width="30%">
+                <div class="user-avatar">{{ chat.userName.slice(0, 1) }}</div>
+              </el-aside>
+              <el-main style="padding: 0px;">
+                <div class="chat-info">
+                  <div class="chat-header">
+                    <div style="overflow: hidden; height:20px;max-width:60px">
+                      {{ chat.userName }}
+                    </div>
+                    <div class="chat-date">
+                      {{ chat.date }}
+                    </div>
+                  </div>
+                  <div style="overflow: hidden; height:20px">{{ chat.lastMessage }}</div>
+                </div>
+              </el-main>
+            </el-container>
+          </el-card>
+        </el-list-item>
+      </el-list>
+    </el-aside>
 
-              <!-- 搜索栏 -->
-              <el-input round v-model="input" placeholder="Please input" clearable  style=" width:85%;margin:5px;">
-              </el-input>
-
-              <el-container>
-                <el-main>
-                  <el-list>
-                    <el-list-item v-for="chat in chats" :key="chat.id" class="chat-item">
-                      <div class="avatar-container">
-                        <img :src="chat.avatar" alt="avatar" class="avatar" />
-                      </div>
-                      <div class="info-container">
-                        <div class="username">{{ chat.username }}</div>
-                        <div class="last-message">{{ chat.lastMessage }}</div>
-                      </div>
-                      <div class="time-and-unread">
-                        <div class="time">{{ chat.time }}</div>
-                        <el-badge v-if="chat.unreadCount > 0" :value="chat.unreadCount" class="unread-badge" />
-                      </div>
-                    </el-list-item>
-                  </el-list>
-                </el-main>
-              </el-container>
-
-              <!-- <el-menu
-                active-text-color="#a3cef1"
-                background-color="#ced4da"
-                class="el-menu-vertical-demo"
-                text-color="#000"
-                style="width: 100%; border-right: 0px;"
-              >
-              <div v-for="userChat in userChatList" :key="userChat.id" style="">
-                <router-link class="text-white" :to="{ name: 'chatRoom', params: { userId : userChat.userId} }" >
-                    <el-menu-item :index="userChat.id" style="width:100%;padding:0%;height:auto" >
-                      <div class="chat-item">
-                        <el-row>
-                          <el-col :span="8">
-                            <el-image class="avatar" src="@/assets/images/head.png" fit="cover" :preview-src-list="[]"></el-image>
-                            
-                          </el-col>
-                          <el-col :span="16">
-                            <el-row style="display: flex;flex-direction:row">
-                              <div class="name">{{userChat.userName}}</div>
-                              <div class="time">下午  03:52</div>
-                            </el-row>
-                            <el-row>
-                              <div class="message">{{userChat.lastMessage}}</div>
-                            </el-row>
-                            
-                          
-                          </el-col>
-                    
-                        </el-row>
-                      </div>
-                      
-                      
-                    </el-menu-item>
-                  </router-link>       
-              </div>
-                    
-              </el-menu> -->
-            
-            </div>
-    
-            <div class="col-10">
-              <el-container>
-                <router-view ></router-view>
-              </el-container>
-            </div>
-          </div>
-    </div>
+    <!-- 聊天室 -->
+    <el-main>
+      <router-view ></router-view>
+    </el-main>
+  </el-container>
 </template>
 
-<script>
-import { watch, ref } from 'vue'
+<script >
+import { Search } from "@element-plus/icons-vue";
+import { reactive, toRefs, watch, ref, computed } from "vue";
 import axios from "axios";
+import { useRouter } from "vue-router";
 
-export default{  
-  data(){
-      return{
-        userChatList:[
-            {
-                id:1,
-                userId:'111',
-                userName:'张3',
-                lastMessage:'这是张三的最后一条消息',
-            },
-            {
-                id:2,
-                userId:'222',
-                userName:'张4',
-                lastMessage:'放学别走',
-            },
-            {
-                id:3,
-                userId:'333',
-                userName:'张5',
-                lastMessage:'吃我闪焰冲锋',
-            }, 
-        ],
-        input:'',
-        chats: [
+export default {
+  data() {
+    return {
+      router:useRouter(),
+      Search,
+      input: "",
+      userChatList: [
         {
           id: 1,
-          avatar: 'https://example.com/avatar1.jpg',
-          username: '张三',
-          lastMessage: '你好！',
-          time: '下午3:45',
-          unreadCount: 2,
+          userId: "111",
+          userName: "张张张张张张张张张张",
+          date: '2023-04-05',
+          lastMessage: "这是张三的最后一条消息",
         },
-        // 添加更多聊天数据
+        {
+          id: 2,
+          userId: "222",
+          userName: "张4",
+          date: '2023-02-05',
+          lastMessage: "放学别走",
+        },
+        {
+          id: 3,
+          userId: "333",
+          userName: "张5",
+          date: '2023-04-06',
+          lastMessage: "吃我闪焰冲锋",
+        },
       ],
-        
-      }
+      filteredChats: [],
+      selectedChat: {},
+    };
   },
   methods: {
-      async getUserChatList(){
+    async getUserChatList() {
+      try {
+        // Replace the URL with your API endpoint to fetch chats
+        const response = await axios.get("http://localhost:9090/chats", {
+          params: {
+            userId: this.userId,
+          },
+        });
 
+        if (response.data.code === 200) {
+          this.userChatList = response.data.data;
+          this.filteredChats = this.userChatList;
+        } else {
+          alert(response.data.msg);
+        }
+      } catch (error) {
+        console.error("Failed to fetch chat list:", error);
       }
+    },
+    selectChat(chatId) {
+      // alert(chatId)
+      this.selectedChat = this.userChatList.find((chat) => chat.id === chatId);
+      this.router.replace('')
+      this.router.replace("/myspace/chatList/chatRoom/"+chatId)
+    },
+    searchChats() {
+      if (this.input) {
+        this.filteredChats = this.userChatList.filter((chat) =>
+          chat.userName.toLowerCase().includes(this.input.toLowerCase())
+        );
+      } else {
+        this.filteredChats = this.userChatList;
+      }
+    },
   },
-}
-
+  mounted() {
+    this.filteredChats = this.userChatList;
+    //this.getUserChatList();
+  },
+};
 </script>
 
 <style scoped>
-.el-header {
-  line-height: 60px;
-  background-color: #409EFF;
-  color: #fff;
-  text-align: center;
-  font-size: 24px;
+.el-aside {
+  background-color: #f5f7fa;
 }
 
-.chat-item {
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  border-bottom: 1px solid #eee;
+.search-bar {
+  padding: 20px;
 }
 
-.avatar-container {
-  flex: 0 0 50px;
-  margin-right: 10px;
-}
-
-.avatar {
-  width: 100%;
-  height: auto;
+.chat-list {
+  height: calc(100% - 70px);
+  overflow-y: auto;
+  }
+  
+  .user-avatar {
+  background-color: #409eff;
   border-radius: 50%;
-}
-
-.info-container {
-  flex: 1;
-}
-
-.username {
-  font-size: 18px;
-  font-weight: bold;
-  color: #333;
-}
-
-.last-message {
-  font-size: 14px;
-  color: #999;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.time-and-unread {
-  flex: 0 0 100px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-
-.time {
-  font-size: 12px;
-  color: #999;
-}
-
-.unread-badge {
-  margin-top: 5px;
-}
-.chat-item {
-  display: flex;
-  align-items: center;
-}
-
-.avatar {
-  margin-top: 15px;
   width: 40px;
   height: 40px;
-  border-radius: 50%;
-}
-
-.unread-msg-number {
-  position: absolute;
-  top: -5px;
-  right: -5px;
-  background-color: #FF5722;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
   color: #fff;
-  font-size: 12px;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  text-align: center;
-  line-height: 16px;
-}
-
-.name {
-  font-size: 16px;
-  font-weight: bold;
-  color: #000;
-  height: 20%;
-  margin-bottom: 2px;
-}
-
-.message {
-  font-size: 14px;
-  color: #888888;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
-.time {
-  font-size: 13px;
-  color: #090909;
-  margin-bottom: 6px;
-}
-
-
-</style>
+  }
+  
+  .chat-info {
+  display: flex;
+  flex-direction: column;
+  }
+  
+  .el-list {
+  display: flex;
+  flex-direction: column;
+  }
+  .chat-header{
+    display: flex;
+    justify-content:space-between;
+  }
+  .chat-date{
+    color: #409eff;
+  }
+  </style>

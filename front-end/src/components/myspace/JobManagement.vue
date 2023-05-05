@@ -70,16 +70,25 @@
                                       :key="profile.profileId"
                                       @click="selectProfile(profile.profileId)"
                                     >
-                                      <el-card
-                                        shadow="hover"
-                                        class="mt-2 p-2"
-                                        :body-style="{ padding: '0px', height: '100%' }"
-                                      >
-                                        <div class="profile-info">
-                                          <div>{{ profile.name }}</div>
-                                          <div>{{ profile.reviewDate }}</div>
-                                        </div>
-                                      </el-card>
+                                    <el-card
+                                      shadow="hover"
+                                      class="mt-2 pt-2 pr-2 pl-2 pb-0"
+                                      :body-style="{ padding: '0px', height: '100%' }"
+                                    >
+                                      <div class="profile-info">
+                                          <el-container>
+                                              <el-aside class="mr-2" style="padding: 0px;background-color:white" width="30%">
+                                                <div class="company-logo">{{ profile.name.slice(0, 1) }}</div>          
+                                              </el-aside>
+                                              <el-main style="padding: 0px;">
+                                                <div class="job-info">
+                                                  <div>{{ profile.name }}</div>
+                                                  <p class="" style="color: rgb(46, 121, 242);">未审核</p>
+                                                </div>
+                                              </el-main>
+                                            </el-container> 
+                                      </div>
+                                    </el-card>
                                     </el-list-item>
                                   </el-list>
                             </el-tab-pane>
