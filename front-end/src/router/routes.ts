@@ -55,6 +55,12 @@ const routes = [
       component: () => import('@/view/Job.vue')
     },
     {
+      name: 'Post',
+      path: '/post/:postId',
+      meta: {keepAlive: true},
+      component: () => import('@/view/Post.vue')
+    },
+    {
       name: 'Apply',
       path: '/job/:jobId/apply',
       meta: {keepAlive: true},

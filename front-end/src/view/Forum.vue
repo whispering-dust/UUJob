@@ -61,7 +61,7 @@
                                 <div class="card-footer">
                                     <div class="row align-items-center">
                                         <div class="col-6">
-                                            <el-button type="primary" round style="width: 100px;background-color:black;">详情</el-button>
+                                            <el-button @click="enterPost(post.id)" type="primary" round style="width: 100px;background-color:black;">详情</el-button>
                                         </div>
                                         <div class="col-6 text-right">
                                             <ul class="list-inline mb-0">
@@ -197,6 +197,9 @@ export default {
 
 
 
+        },
+        enterPost(id){
+            this.$router.push('/post/'+id)
         },
     },
     mounted() {
