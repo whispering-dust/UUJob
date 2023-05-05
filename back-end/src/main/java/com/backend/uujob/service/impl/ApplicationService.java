@@ -4,15 +4,17 @@ package com.backend.uujob.service.impl;
 import com.backend.uujob.entity.Application;
 import com.backend.uujob.mapper.ApplicationMapper;
 import com.backend.uujob.service.IApplicationService;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.jeffreyning.mybatisplus.service.MppServiceImpl;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class ApplicationService extends ServiceImpl<ApplicationMapper, Application> implements IApplicationService {
+public class ApplicationService extends MppServiceImpl<ApplicationMapper, Application> implements IApplicationService {
     @Resource
     private ApplicationMapper applicationMapper;
 

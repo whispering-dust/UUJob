@@ -145,7 +145,7 @@ public class JobController {
         application.setStatus(ApplStatusEnum.APPL_STATUS_SUBMIT.ordinal());
         //获取当前时间作为申请提交时间
         application.setApplicationDate(new java.sql.Timestamp(System.currentTimeMillis()));
-        applicationService.updateById(application);
+        applicationService.updateByMultiId(application);
         return Result.success();
     }
 
