@@ -2,32 +2,23 @@
   <el-container style="height: 100%; width: 100%;">
     <el-aside width="22%">
       <div class="search-bar">
-        <el-input
-          v-model="input"
-          placeholder="搜索聊天"
-          @input="searchChats"
-          :prefix-icon="Search"
-        ></el-input>
+        <el-input v-model="input" placeholder="搜索聊天" @input="searchChats" :prefix-icon="Search"></el-input>
       </div>
       <el-list class="chat-list">
-        <el-list-item
-          v-for="chat in filteredChats"
-          :key="chat.id"
-          @click="selectChat(chat.id)"
-        >
+        <el-list-item v-for="chat in filteredChats" :key="chat.id" @click="selectChat(chat.id)">
           <el-card shadow="hover" class="mr-3 mt-1">
             <el-container>
               <el-aside style="padding: 0px; background-color: white" width="30%">
-                <div class="user-avatar">{{ chat.userName.slice(0, 1) }}</div>
+                <div class="user-avatar">{{ chat.receiverName.slice(0, 1) }}</div>
               </el-aside>
               <el-main style="padding: 0px;">
                 <div class="chat-info">
                   <div class="chat-header">
                     <div style="overflow: hidden; height:20px;max-width:60px">
-                      {{ chat.userName }}
+                      {{ chat.receiverName }}
                     </div>
                     <div class="chat-date">
-                      {{ chat.date }}
+                      {{ chat.lastMessageTime }}
                     </div>
                   </div>
                   <div style="overflow: hidden; height:20px">{{ chat.lastMessage }}</div>
@@ -41,7 +32,7 @@
 
     <!-- 聊天室 -->
     <el-main>
-      <router-view ></router-view>
+      <router-view></router-view>
     </el-main>
   </el-container>
 </template>
@@ -55,30 +46,36 @@ import { useRouter } from "vue-router";
 export default {
   data() {
     return {
-      router:useRouter(),
+      router: useRouter(),
       Search,
       input: "",
       userChatList: [
         {
           id: 1,
-          userId: "111",
-          userName: "张张张张张张张张张张",
-          date: '2023-04-05',
+          senderId: 1,
+          receiverId: "111",
+          receiverName: "张张张张张张张张张张",
+          lastMessageTime: '2023-04-05',
           lastMessage: "这是张三的最后一条消息",
+          isRead: false
         },
         {
           id: 2,
-          userId: "222",
-          userName: "张4",
-          date: '2023-02-05',
+          senderId: 1,
+          receiverId: "222",
+          receiverName: "张4",
+          lastMessageTime: '2023-02-05',
           lastMessage: "放学别走",
+          isRead: false
         },
         {
           id: 3,
-          userId: "333",
-          userName: "张5",
-          date: '2023-04-06',
+          senderId: 1,
+          receiverId: "333",
+          receiverName: "张5",
+          lastMessageTime: '2023-04-06',
           lastMessage: "吃我闪焰冲锋",
+          isRead: true
         },
       ],
       filteredChats: [],
@@ -89,12 +86,12 @@ export default {
     async getUserChatList() {
       try {
         // Replace the URL with your API endpoint to fetch chats
-        const response = await axios.get("http://localhost:9090/chats", {
+        const response = await axios.get("http://localhost:9090/conversations/basis", {
           params: {
             userId: this.userId,
           },
         });
-
+        console.log('接口返回', response.data.data)
         if (response.data.code === 200) {
           this.userChatList = response.data.data;
           this.filteredChats = this.userChatList;
@@ -109,7 +106,7 @@ export default {
       // alert(chatId)
       this.selectedChat = this.userChatList.find((chat) => chat.id === chatId);
       this.router.replace('')
-      this.router.replace("/myspace/chatList/chatRoom/"+chatId)
+      this.router.replace("/myspace/chatList/chatRoom/" + chatId)
     },
     searchChats() {
       if (this.input) {
@@ -123,7 +120,7 @@ export default {
   },
   mounted() {
     this.filteredChats = this.userChatList;
-    //this.getUserChatList();
+    this.getUserChatList();
   },
 };
 </script>
@@ -140,9 +137,9 @@ export default {
 .chat-list {
   height: calc(100% - 70px);
   overflow-y: auto;
-  }
-  
-  .user-avatar {
+}
+
+.user-avatar {
   background-color: #409eff;
   border-radius: 50%;
   width: 40px;
@@ -152,22 +149,24 @@ export default {
   align-items: center;
   font-size: 20px;
   color: #fff;
-  }
-  
-  .chat-info {
+}
+
+.chat-info {
   display: flex;
   flex-direction: column;
-  }
-  
-  .el-list {
+}
+
+.el-list {
   display: flex;
   flex-direction: column;
-  }
-  .chat-header{
-    display: flex;
-    justify-content:space-between;
-  }
-  .chat-date{
-    color: #409eff;
-  }
-  </style>
+}
+
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.chat-date {
+  color: #409eff;
+}
+</style>
