@@ -8,7 +8,8 @@
             <el-card class="box-card p-0 card">
               <div class="card-header p-0 mb-2" style="">
                 <span style="font-size: larger;"><strong>职位描述</strong></span>
-                <el-button style=" float: right;border: 0px;" @click="reportDialogTableVisible=!reportDialogTableVisible">
+                <el-button style=" float: right;border: 0px;"
+                  @click="reportDialogTableVisible = !reportDialogTableVisible">
                   举报<el-icon>
                     <WarnTriangleFilled />
                   </el-icon>
@@ -31,7 +32,8 @@
 
           <div class="col-2">
             <div class="button-area">
-              <el-button v-if="store.state.profileId!=null" color="#45454A" style=" color:aliceblue; border:0px;width:125px;"
+              <el-button v-if="store.state.profileId != null" color="#45454A"
+                style=" color:aliceblue; border:0px;width:125px;"
                 @click="this.$router.push('/job/' + this.jobId + '/apply')">
                 投递简历
                 <el-icon class="el-icon--right">
@@ -128,18 +130,11 @@
       </div>
     </div>
 
-    
-  <el-dialog v-model="reportDialogTableVisible" title="举报" width="600px">
-    <el-input
-      v-model="reportContent"
-      :rows="4"
-      type="textarea"
-      placeholder="Please input"
-      class="mb-3"
-      
-    />
-    <el-button @click="submitReport" type="primary">提交</el-button>
-  </el-dialog>
+
+    <el-dialog v-model="reportDialogTableVisible" title="举报" width="600px">
+      <el-input v-model="reportContent" :rows="4" type="textarea" placeholder="Please input" class="mb-3" />
+      <el-button @click="submitReport" type="primary">提交</el-button>
+    </el-dialog>
 
   </div>
 </template>
@@ -165,8 +160,8 @@ export default {
     ])
 
     return {
-      reportContent:"",
-      reportDialogTableVisible:false,
+      reportContent: "",
+      reportDialogTableVisible: false,
       jobId: useRoute().params.jobId,
       publisherId: null,
       store,
@@ -208,22 +203,23 @@ export default {
   },
 
   methods: {
-    async submitReport(){
+    async submitReport() {
       try {
         // Replace the URL with your API endpoint to fetch chats
         const response = await axios.post("http://localhost:9090/reports/jobs", {
-          content : this.reportContent,
-          reporterId : this.store.state.userId,
+          content: this.reportContent,
+          reporterId: this.store.state.userId,
           targetId: this.publisherId
         });
 
         if (response.data.code === 200) {
-            this.$message.success('举办成功')
-        }else {
-            alert(response.data.msg);
+          this.$message.success('举办成功');
+          this.reportDialogTableVisible = !this.reportDialogTableVisible;
+        } else {
+          alert(response.data.msg);
         }
       } catch (error) {
-          console.error("Failed to fetch chat list:", error);
+        console.error("Failed to fetch chat list:", error);
       }
     },
     redirectToNewPage() {
