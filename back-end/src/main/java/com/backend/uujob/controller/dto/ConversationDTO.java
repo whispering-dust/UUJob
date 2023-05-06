@@ -5,10 +5,8 @@ import lombok.Data;
 @Data
 public class ConversationDTO {
     private Integer id;
-    private Integer senderId;
-    private Integer receiverId;
-    private String senderName;
-    private String receiverName;
+    private Integer contactId;
+    private String contactName;
     private String lastMessage;
     private String lastMessageTime;
     private Integer isRead;
