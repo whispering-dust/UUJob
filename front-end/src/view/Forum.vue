@@ -42,26 +42,27 @@
                     <div class="post-list pt-1 col-8 pl-0">
                         <div v-for="post in posts" :key="post.id" class="post-item">
                             <el-card shadow="hover" class="card mb-2">
-                                <div class="card-header p-2" >
+                                <div class="card-header p-2">
                                     <div class="row align-items-center">
                                         <div class="col-8">
                                             <h4 class="heading h5 ml-2 mb-0 ">{{ post.title }}</h4>
                                         </div>
                                         <div class="col-4">
                                             <div class="card-icon-actions text-right">
-                                                <a  href="#" class="favorite" data-toggle="tooltip"
+                                                <a href="#" class="favorite" data-toggle="tooltip"
                                                     data-original-title="Save to favorites"><i class="fas fa-star"></i></a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <p class="card-text">{{ post.content }}</p>
+                                    <p class="card-text" v-html="this.formattedPostText(post.content)"></p>
                                 </div>
                                 <div class="card-footer">
                                     <div class="row align-items-center">
                                         <div class="col-6">
-                                            <el-button @click="enterPost(post.id)" color="black" round style="width: 100px;">详情</el-button>
+                                            <el-button @click="enterPost(post.id)" color="black" round
+                                                style="width: 100px;">详情</el-button>
                                         </div>
                                         <div class="col-6 text-right">
                                             <ul class="list-inline mb-0">
@@ -91,7 +92,7 @@
                                 <el-tooltip class="box-item" effect="dark" content="发布帖子" placement="top">
                                     <router-link to="/forum/publishPost">
                                         <el-button circle size="large">
-                                            <el-icon>                            
+                                            <el-icon>
                                                 <document />
                                             </el-icon>
                                         </el-button>
@@ -156,7 +157,9 @@ export default {
             ]
         }
     },
+    computed: {
 
+    },
     methods: {
         async getPosts() {
             let that = this;
@@ -198,8 +201,14 @@ export default {
 
 
         },
-        enterPost(id){
-            this.$router.push('/post/'+id)
+        formattedPostText(content) {
+            var text = content.replace(/\n/g, " ");
+            text = text.replace(/<[^>]*>/g, " ");//去除文字的<...></...>标签
+            text = text.slice(0, 50) + "...";
+            return text;
+        },
+        enterPost(id) {
+            this.$router.push('/post/' + id)
         },
     },
     mounted() {
@@ -228,7 +237,7 @@ export default {
     background-color: rgb(200, 137, 137);
     width: 100%;
     height: 100%;
-    
+
 }
 
 
