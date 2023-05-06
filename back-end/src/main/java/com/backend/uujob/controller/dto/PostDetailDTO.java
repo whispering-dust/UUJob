@@ -15,5 +15,6 @@ public class PostDetailDTO {
         private String content;
         private String date;
         private Integer type;
+        private Integer publisherId;
         private List<CommentVO> commentList;
 }
