@@ -4,13 +4,14 @@
     <div style="display:flex;align-items: center;">
         <el-avatar src="avatar.png" size="50"></el-avatar>
     <div class="user-info">
-        <div class="user-name mr-2">{{postUser.userName}}</div>
+        <div class="user-name mr-2 h6">{{postUser.userName}}</div>
         <div class="user-degree">{{postUser.education}}</div>
+        <el-tag class="ml-2" type="success">{{postTag}}</el-tag>
     </div>
     </div>
     <div class="post-time">发布时间：{{postTime}}</div>
     </div>
-    <div class="post-info">  
+    <div class="post-info container">  
         <div class="post-content">{{postContent}}</div>
     </div>
     <div class="post-actions">
@@ -23,11 +24,15 @@
 </template>
 
 <script>
+import { useStore } from "vuex";
+import { useRoute } from 'vue-router';
+import axios from "axios";
 export default {
     name: 'PostCard',
     data(){
 
         return {
+            postId: useRoute().params.postId,
             userLike: false,
             userCollected: false,
             postUser:{
@@ -36,12 +41,49 @@ export default {
             },
             postContent:'帖子内容',
             postTime:'2023-05-06',
+            postTag:'技术分享',
         }
     },
     methods: {
+        async getPostInfo(){
+            try {
+                // Replace the URL with your API endpoint to fetch chats
+                const response = await axios.get("http://localhost:9090/posts/detail", {
+                    params: {
+                        id: this.postId,
+                    },
+                });
+
+                if (response.data.code === 200) {
+                    this.postContent = response.data.data.content
+                    this.postTime = response.data.data.date
+
+                    switch (response.data.data.type) {
+                        case 1:
+                            this.postTag = '技术交流'
+                            break;
+                        case 2:
+                            this.postTag = '求职经验'
+                            break;
+                        case 3:
+                            this.postTag = '行业动态'
+                            break;
+                        default:
+                            this.postTag = '其他'
+                            break;
+                    }
+
+                }else {
+                    alert(response.data.msg);
+                }
+            } catch (error) {
+                console.error("Failed to fetch chat list:", error);
+            }
+        },
         
     },
     mounted(){
+        this.getPostInfo()
         
     }
 };
