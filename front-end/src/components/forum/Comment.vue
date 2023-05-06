@@ -33,10 +33,10 @@
         </div>
         <div class="response">
             <div class="response-button">
-                <el-button type="text" @click="isResponse.value=!isResponse.value">回复</el-button>
+                <el-button type="text" @click="isResponse.id=comment.id">回复</el-button>
             </div>
             <div class="response-area">
-                <el-input v-if="isResponse.value"
+                <el-input v-if="isResponse.id==comment.id"
                     class="mr-2"
                     type="textarea"
                     :rows="2"
@@ -44,7 +44,7 @@
                     placeholder="添加评论"
                     v-model="responseContent"
                 ></el-input>
-                <el-button @click="replyComment(comment)" v-if="isResponse.value">确认</el-button>
+                <el-button @click="replyComment(comment)" v-if="isResponse.id==comment.id">确认</el-button>
                 <div class="response-list" v-if="comment.responses">
                     <div
                     class="response-item"
@@ -79,7 +79,6 @@ export default {
     data() {
         return {
         isResponse: {
-            value:false,
             id:null
         },
         userId: useStore().state.userId,
