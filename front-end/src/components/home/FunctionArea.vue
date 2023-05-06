@@ -5,7 +5,7 @@
           <span style="font-size: large;">功能面板</span>
         </div>
       </template>
-      <el-button color="black" @click="postJob" :icon="DocumentAdd" plain>
+      <el-button v-if="store.state.role==1" color="black" @click="postJob" :icon="DocumentAdd" plain>
         发布岗位
       </el-button>
     </el-card>

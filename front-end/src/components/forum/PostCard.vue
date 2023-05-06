@@ -19,9 +19,21 @@
         <el-button link ><font-awesome-icon :icon="['fa', 'thumbs-up']" ></font-awesome-icon></el-button>
         <el-button link  @click="this.userCollected = !this.userCollected"><el-icon size="large" v-if="!userCollected"><Star /></el-icon> <el-icon size="large"  v-else><StarFilled /></el-icon></el-button>
         <el-button link ><el-icon size="large"><Share /></el-icon></el-button>
-        <el-button link  ><el-icon size="large"><WarnTriangleFilled /></el-icon></el-button>
+        <el-button link @click="reportDialogTableVisible=!reportDialogTableVisible"  ><el-icon size="large"><WarnTriangleFilled /></el-icon></el-button>
     </div>
 </el-card>
+
+<el-dialog v-model="reportDialogTableVisible" title="举报" width="600px">
+    <el-input
+      v-model="reportContent"
+      :rows="4"
+      type="textarea"
+      placeholder="Please input"
+      class="mb-3"
+    />
+    <el-button @click="submitReport" type="primary">提交</el-button>
+  </el-dialog>
+
 </template>
 
 <script>
@@ -33,7 +45,10 @@ export default {
     data(){
 
         return {
+            reportContent:"",
+            reportDialogTableVisible:false,
             postId: useRoute().params.postId,
+            store: useStore(),
             userLike: false,
             userCollected: false,
             postUser:{
@@ -48,6 +63,24 @@ export default {
         }
     },
     methods: {
+        async submitReport(){
+            try {
+                // Replace the URL with your API endpoint to fetch chats
+                const response = await axios.post("http://localhost:9090/reports/jobs", {
+                    content : this.reportContent,
+                    reporterId : this.store.state.userId,
+                    targetId: this.postUser.userId
+                });
+
+                if (response.data.code === 200) {
+                    this.$message.success('举办成功')
+                }else {
+                    alert(response.data.msg);
+                }
+            } catch (error) {
+                console.error("Failed to fetch chat list:", error);
+            }
+        },
         async getPostInfo(){
             try {
                 // Replace the URL with your API endpoint to fetch chats

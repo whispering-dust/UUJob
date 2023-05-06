@@ -8,7 +8,7 @@
             <el-card class="box-card p-0 card">
               <div class="card-header p-0 mb-2" style="">
                 <span style="font-size: larger;"><strong>职位描述</strong></span>
-                <el-button style=" float: right;border: 0px;">
+                <el-button style=" float: right;border: 0px;" @click="reportDialogTableVisible=!reportDialogTableVisible">
                   举报<el-icon>
                     <WarnTriangleFilled />
                   </el-icon>
@@ -128,6 +128,18 @@
       </div>
     </div>
 
+    
+  <el-dialog v-model="reportDialogTableVisible" title="举报" width="600px">
+    <el-input
+      v-model="reportContent"
+      :rows="4"
+      type="textarea"
+      placeholder="Please input"
+      class="mb-3"
+      
+    />
+    <el-button @click="submitReport" type="primary">提交</el-button>
+  </el-dialog>
 
   </div>
 </template>
@@ -153,6 +165,8 @@ export default {
     ])
 
     return {
+      reportContent:"",
+      reportDialogTableVisible:false,
       jobId: useRoute().params.jobId,
       publisherId: null,
       store,
@@ -194,6 +208,24 @@ export default {
   },
 
   methods: {
+    async submitReport(){
+      try {
+        // Replace the URL with your API endpoint to fetch chats
+        const response = await axios.post("http://localhost:9090/reports/jobs", {
+          content : this.reportContent,
+          reporterId : this.store.state.userId,
+          targetId: this.publisherId
+        });
+
+        if (response.data.code === 200) {
+            this.$message.success('举办成功')
+        }else {
+            alert(response.data.msg);
+        }
+      } catch (error) {
+          console.error("Failed to fetch chat list:", error);
+      }
+    },
     redirectToNewPage() {
       // window.location.replace(this.companyObj.homePageUrl);
       window.open(this.companyObj.homePageUrl, '_blank').location.replace(this.companyObj.homePageUrl);
@@ -210,6 +242,7 @@ export default {
         if (response.data.code == 200) {
           console.log(response.data.data);
           that.jobText = response.data.data.description
+          that.publisherId = response.data.data.publisherId
 
         } else {
           alert("error");
