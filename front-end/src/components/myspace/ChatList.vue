@@ -9,13 +9,13 @@
           <el-card shadow="hover" class="mr-3 mt-1">
             <el-container>
               <el-aside style="padding: 0px; background-color: white" width="30%">
-                <div class="user-avatar">{{ chat.receiverName.slice(0, 1) }}</div>
+                <div class="user-avatar">{{ chat.contactName.slice(0, 1) }}</div>
               </el-aside>
               <el-main style="padding: 0px;">
                 <div class="chat-info">
                   <div class="chat-header">
                     <div style="overflow: hidden; height:20px;max-width:60px">
-                      {{ chat.receiverName }}
+                      {{ chat.contactName }}
                     </div>
                     <div class="chat-date">
                       {{ chat.lastMessageTime }}
@@ -42,6 +42,7 @@ import { Search } from "@element-plus/icons-vue";
 import { reactive, toRefs, watch, ref, computed } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 
 export default {
   data() {
@@ -49,30 +50,28 @@ export default {
       router: useRouter(),
       Search,
       input: "",
+      userId: useStore().state.userId,
       userChatList: [
         {
           id: 1,
-          senderId: 1,
-          receiverId: "111",
-          receiverName: "张张张张张张张张张张",
+          contactId: "111",
+          contactName: "张张张张张张张张张张",
           lastMessageTime: '2023-04-05',
           lastMessage: "这是张三的最后一条消息",
           isRead: false
         },
         {
           id: 2,
-          senderId: 1,
-          receiverId: "222",
-          receiverName: "张4",
+          contactId: "222",
+          contactName: "张4",
           lastMessageTime: '2023-02-05',
           lastMessage: "放学别走",
           isRead: false
         },
         {
           id: 3,
-          senderId: 1,
-          receiverId: "333",
-          receiverName: "张5",
+          contactId: "333",
+          contactName: "张5",
           lastMessageTime: '2023-04-06',
           lastMessage: "吃我闪焰冲锋",
           isRead: true
@@ -91,9 +90,14 @@ export default {
             userId: this.userId,
           },
         });
-        console.log('接口返回', response.data.data)
         if (response.data.code === 200) {
           this.userChatList = response.data.data;
+          console.log('接口返回后的数据', this.userChatList)
+          for (let i in this.userChatList) {
+            var date = new Date(this.userChatList[i].lastMessageTime);
+            this.userChatList[i].lastMessageTime = date.getFullYear() + "-" + (date.getMonth() + 1).toString().padStart(2, '0') + "-" + date.getDate().toString().padStart(2, '0');
+          }
+
           this.filteredChats = this.userChatList;
         } else {
           alert(response.data.msg);
@@ -119,6 +123,7 @@ export default {
     },
   },
   mounted() {
+    //console.log("当前用户id是", this.userId);
     this.filteredChats = this.userChatList;
     this.getUserChatList();
   },
