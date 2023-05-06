@@ -40,7 +40,7 @@
 
 <script>
 import Profile from '@/components/myspace/Profile.vue';
-import {useRoute} from 'vue-router'
+import {useRoute,useRouter} from 'vue-router'
 import { useStore } from "vuex";
 import axios from "axios";
 
@@ -50,6 +50,7 @@ export default {
     },
     data() {
         return {
+            router:useRouter(),
             jobId: useRoute().params.jobId,
             profile: {
                 name: "张三",
@@ -99,8 +100,9 @@ export default {
             .then((response) => {
             if (response.data.code === 200) {
                 this.$message.success('简历投递成功！');
+                this.router.push("/home")
             } else {
-                this.$message.error('简历投递失败，请重试！');
+                this.$message.error('简历投递失败，改简历已投过！');
             }
             })
             .catch((error) => {

@@ -280,7 +280,7 @@ export default {
   margin: 0;
 }
 .my-editor {
-  max-height: 680px; /* 设置文本区域的最大高度 */
+  max-height: 570px; /* 设置文本区域的最大高度 */
   overflow: auto; /* 当内容超出区域时，显示滚动条 */
   border: 0px;
 }

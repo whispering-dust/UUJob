@@ -12,8 +12,10 @@
     <el-button type="primary" @click="submitComment">评论</el-button>
     </div>
     <el-card class="comment-list">
+    <h4>评论({{commentList.length}})</h4>
+    <div v-if="commentList.length == 0">快来写下你的第一条评论吧🤠</div>
     <div class="mb-2"
-        v-for="(comment, index) in comments"
+        v-for="(comment, index) in commentList"
         :key="index"
     >
         <div class="comment-item">
@@ -21,7 +23,7 @@
             <div class="comment-right">
                 <div style="display: flex; height:20px">
                     <p class="mr-2">{{ comment.userName }}</p>
-                    <p style="color: dodgerblue;">{{ comment.timestamp }}</p>               
+                    <p style="color: dodgerblue;">{{ comment.date }}</p>               
                 </div>
                 <div>
                     {{ comment.content }}
@@ -31,24 +33,35 @@
         </div>
         <div class="response">
             <div class="response-button">
-                <el-button type="text" @click="replyComment(index)">回复</el-button>
+                <el-button type="text" @click="isResponse.value=!isResponse.value">回复</el-button>
             </div>
-            <div class="response-list">
-                <div
-                  class="response-item"
-                  v-for="response in comment.responses"
-                  :key="response.responseId"
-                >
-                  <el-avatar class="mr-2" src="avatar.png" size="40"></el-avatar>
-                  <div class="response-right">
-                    <div style="display: flex; height: 20px">
-                      <p class="mr-2">{{ response.userName }}</p>
-                      <p style="color: dodgerblue;">{{ response.timestamp }}</p>
+            <div class="response-area">
+                <el-input v-if="isResponse.value"
+                    class="mr-2"
+                    type="textarea"
+                    :rows="2"
+                    style="width: 80%;"
+                    placeholder="添加评论"
+                    v-model="responseContent"
+                ></el-input>
+                <el-button @click="replyComment(comment)" v-if="isResponse.value">确认</el-button>
+                <div class="response-list" v-if="comment.responses">
+                    <div
+                    class="response-item"
+                    v-for="response in comment.responses"
+                    :key="response.responseId"
+                    >
+                    <el-avatar class="mr-2" src="avatar.png" size="40"></el-avatar>
+                    <div class="response-right">
+                        <div style="display: flex; height: 20px">
+                        <p class="mr-2">{{ response.publisherName }}</p>
+                        <p style="color: dodgerblue;">{{ response.date }}</p>
+                        </div>
+                        <div>
+                        {{ response.content }}
+                        </div>
                     </div>
-                    <div>
-                      {{ response.content }}
                     </div>
-                  </div>
                 </div>
             </div>
         </div>
@@ -58,48 +71,58 @@
 </template>
 
 <script>
+import { useStore } from "vuex";
+import { useRoute } from 'vue-router';
+import axios from "axios";
 export default {
     name: "CommentSection",
     data() {
         return {
+        isResponse: {
+            value:false,
+            id:null
+        },
+        userId: useStore().state.userId,
+        postId: useRoute().params.postId,
         commentContent: "",
-        comments: [
+        responseContent:"",
+        commentList: [
             {
-                commentId:1,
+                id:1,
                 userName: "用户1",
                 avatar: "avatar1.png",
-                timestamp: "2023-05-06 10:30",
+                date: "2023-05-06 10:30",
                 content: "评论内容1评论内容1评论内容1评论内容1评论内容1",
                 responses: [
                     {
                         responseId: 1,
-                        userName: "用户2",
+                        publisherName: "用户2",
                         avatar: "avatar2.png",
-                        timestamp: "2023-05-06 10:45",
+                        date: "2023-05-06 10:45",
                         content: "回复评论1"
                     },
                     {
                         responseId: 2,
-                        userName: "用户3",
+                        publisherName: "用户3",
                         avatar: "avatar3.png",
-                        timestamp: "2023-05-06 11:00",
+                        date: "2023-05-06 11:00",
                         content: "回复评论1-2"
                     }
 
                 ],
             },
             {
-                commentId:2,
+                id:2,
                 userName: "用户2",
                 avatar: "avatar2.png",
-                timestamp: "2023-05-06 10:45",
+                date: "2023-05-06 10:45",
                 content: "评论内容2",
                 responses: [
                     {
                         responseId: 1,
-                        userName: "用户1",
+                        publisherName: "用户1",
                         avatar: "avatar1.png",
-                        timestamp: "2023-05-06 10:50",
+                        date: "2023-05-06 10:50",
                         content: "回复评论2"
                     }
                 ]
@@ -109,13 +132,93 @@ export default {
         };
     },
     methods: {
-        submitComment() {
+        async submitComment() {
         // 添加评论逻辑
+            try {
+                // Replace the URL with your API endpoint to fetch chats
+                const response = await axios.post("http://localhost:9090/posts/comments", {
+                    publisherId: this.userId,
+                    content: this.commentContent,
+                    postId: this.postId
+                });
+
+                if (response.data.code === 200) {
+                    this.$message.success('发布成功')
+                    this.commentContent=''
+                    this.getCommentList()
+                }else {
+                    alert(response.data.msg);
+                }
+            } catch (error) {
+                console.error("Failed to fetch comment list:", error);
+            }
         },
-        replyComment(index) {
+        async replyComment(comment) {
         // 回复评论逻辑
-        }
-    }
+            try {
+                // Replace the URL with your API endpoint to fetch chats
+                const response = await axios.post("http://localhost:9090/comments/responses", {
+                    publisherId: this.userId,
+                    content: this.responseContent,
+                    commentId: comment.id
+                });
+
+                if (response.data.code === 200) {
+                    this.$message.success('发布成功')
+                    this.commentContent=''
+                    this.getResponsList(comment.id)
+                }else {
+                    alert(response.data.msg);
+                }
+            } catch (error) {
+                console.error("Failed to fetch comment list:", error);
+            }
+        },
+        async getCommentList(){
+            try {
+                // Replace the URL with your API endpoint to fetch chats
+                const response = await axios.get("http://localhost:9090/posts/detail", {
+                    params: {
+                        id: this.postId,
+                    },
+                });
+
+                if (response.data.code === 200) {
+                    this.commentList = response.data.data.commentList
+                    this.commentList.forEach(comment => {
+                        this.getResponsList(comment.id)
+                    });
+                }else {
+                    alert(response.data.msg);
+                }
+            } catch (error) {
+                console.error("Failed to fetch comment list:", error);
+            }
+        },
+        async getResponsList(commentId){
+            try {
+                const response = await axios.get("http://localhost:9090/comments/responses", {
+                    params: {
+                        id: commentId,
+                    },
+                });
+
+                if (response.data.code === 200) {
+                    this.commentList.forEach(comment => {
+                        if(comment.id == commentId){
+                            comment.responses = response.data.data
+                        }
+                    });
+                    
+                }
+            } catch (error) {
+                console.error("Failed to fetch responcse list:", error);
+            }
+        },
+    },
+    mounted() {
+        this.getCommentList()
+    },
 };
 </script>
 
@@ -165,5 +268,8 @@ margin-top: 24px;
   .response-right {
     display: flex;
     flex-direction: column;
+  }
+  .response-area{
+    width: 100%;
   }
 </style>
