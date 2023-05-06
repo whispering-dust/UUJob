@@ -43,10 +43,14 @@ public class ConversationController {
             List<Message> m = messageService.getListByConversationId(c.getId());  //获取该聊天室内的最新消息
 
             conversationDTO.setId(c.getId());
-            conversationDTO.setSenderId(c.getSenderId());
-            conversationDTO.setReceiverId(c.getReceiverId());
-            conversationDTO.setSenderName(userService.getNameById(c.getSenderId()));
-            conversationDTO.setReceiverName(userService.getNameById(c.getReceiverId()));
+            if(userId == c.getSenderId()){  //判断哪个id是聊天对象的id
+                conversationDTO.setContactId(c.getReceiverId());
+                conversationDTO.setContactName(userService.getNameById(c.getReceiverId()));
+            }
+            else{
+                conversationDTO.setContactId(c.getSenderId());
+                conversationDTO.setContactName(userService.getNameById(c.getSenderId()));
+            }
             if(!m.isEmpty()){ //如果最新消息存在，则进行赋值
                 conversationDTO.setLastMessage(m.get(0).getContent());
                 conversationDTO.setLastMessageTime(timeTransfer(m.get(0).getCreatedAt()));
