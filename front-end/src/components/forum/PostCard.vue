@@ -30,6 +30,18 @@
                 </el-icon></el-button>
         </div>
     </el-card>
+
+<el-dialog v-model="reportDialogTableVisible" title="举报" width="600px">
+    <el-input
+      v-model="reportContent"
+      :rows="4"
+      type="textarea"
+      placeholder="Please input"
+      class="mb-3"
+    />
+    <el-button @click="submitReport" type="primary">提交</el-button>
+  </el-dialog>
+
 </template>
 
 <script>
@@ -41,7 +53,10 @@ export default {
     data() {
 
         return {
+            reportContent:"",
+            reportDialogTableVisible:false,
             postId: useRoute().params.postId,
+            store: useStore(),
             userLike: false,
             userCollected: false,
             postUser: {
@@ -61,7 +76,26 @@ export default {
         },
     },
     methods: {
-        async getPostInfo() {
+
+        async submitReport(){
+            try {
+                // Replace the URL with your API endpoint to fetch chats
+                const response = await axios.post("http://localhost:9090/reports/jobs", {
+                    content : this.reportContent,
+                    reporterId : this.store.state.userId,
+                    targetId: this.postUser.userId
+                });
+
+                if (response.data.code === 200) {
+                    this.$message.success('举办成功')
+                }else {
+                    alert(response.data.msg);
+                }
+            } catch (error) {
+                console.error("Failed to fetch chat list:", error);
+            }
+        },
+        async getPostInfo(){
             try {
                 // Replace the URL with your API endpoint to fetch chats
                 const response = await axios.get("http://localhost:9090/posts/detail", {

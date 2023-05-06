@@ -6,6 +6,7 @@
                 <div> <Comment></Comment></div>
            </div>
         <!-- </div> -->
+        
     </div>
 
 </template>
@@ -17,6 +18,9 @@ export default{
     components:{
         PostCard,
         Comment,
+    },
+    data(){
+        
     }
 }
 
