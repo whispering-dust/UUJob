@@ -52,6 +52,7 @@ public class PostService extends ServiceImpl<PostMapper,Post> implements IPostSe
         //处理常规信息
         obj.setTitle(getOne(postWrapper).getTitle());
         obj.setContent(getOne(postWrapper).getContent());
+        obj.setPublisherId(getOne(postWrapper).getPublisherId());
 
         //处理时间
         Timestamp originalTime=getOne(postWrapper).getDate();
