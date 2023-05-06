@@ -14,7 +14,7 @@
         <template #header>
           <div class="card-header">
             <span style="font-size:larger">{{ recruitObj.title }}</span>
-            <el-button class="button" style="background-color: black;" type="success" @click="enterJob(recruitObj.id)"> 详情</el-button>
+            <el-button class="button" color="black"  @click="enterJob(recruitObj.id)"> 详情</el-button>
           </div>
         </template>
         <div class="row">

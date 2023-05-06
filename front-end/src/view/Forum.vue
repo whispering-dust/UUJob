@@ -41,15 +41,15 @@
                 <div class="post-area row">
                     <div class="post-list pt-1 col-8 pl-0">
                         <div v-for="post in posts" :key="post.id" class="post-item">
-                            <div class="card mb-2">
-                                <div class="card-header">
+                            <el-card shadow="hover" class="card mb-2">
+                                <div class="card-header p-2" >
                                     <div class="row align-items-center">
                                         <div class="col-8">
-                                            <h4 class="heading h5 mb-0">{{ post.title }}</h4>
+                                            <h4 class="heading h5 ml-2 mb-0 ">{{ post.title }}</h4>
                                         </div>
                                         <div class="col-4">
                                             <div class="card-icon-actions text-right">
-                                                <a href="#" class="favorite" data-toggle="tooltip"
+                                                <a  href="#" class="favorite" data-toggle="tooltip"
                                                     data-original-title="Save to favorites"><i class="fas fa-star"></i></a>
                                             </div>
                                         </div>
@@ -61,7 +61,7 @@
                                 <div class="card-footer">
                                     <div class="row align-items-center">
                                         <div class="col-6">
-                                            <el-button @click="enterPost(post.id)" type="primary" round style="width: 100px;background-color:black;">详情</el-button>
+                                            <el-button @click="enterPost(post.id)" color="black" round style="width: 100px;">详情</el-button>
                                         </div>
                                         <div class="col-6 text-right">
                                             <ul class="list-inline mb-0">
@@ -78,7 +78,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </el-card>
                         </div>
                     </div>
 
@@ -228,13 +228,9 @@ export default {
     background-color: rgb(200, 137, 137);
     width: 100%;
     height: 100%;
-    background-image: url('../../public/assets/images/backgrounds/img-2.jpg');
+    
 }
 
-.box {
-    background-color: rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(20px);
-}
 
 .nav-pills .nav-link.active,
 .nav-pills .show>.nav-link {

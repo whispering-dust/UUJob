@@ -237,12 +237,13 @@ export default {
 <style scoped>
 .create-post {
   max-width: 800px;
-  min-height: 1080px;
+  min-height: 1000px;
   margin: 0 auto;
   padding: 20px;
   background-color: #ffffff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 6px;
+  overflow: auto;
 }
 
 .el-form-item {
@@ -294,7 +295,7 @@ export default {
     border: 1px solid #dcdfe6;
     border-radius: 4px;
     padding: 10px;
-    height: 700px;
+    height: 600px;
     width: 100%;
   }
   .editor-wrapper:focus-within {
