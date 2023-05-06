@@ -1,25 +1,26 @@
 import store from '@/store';
 import {createRouter, createWebHistory} from 'vue-router'
 import routes from './routes'
+import storage from "../utils/storage"
  
 const router = createRouter({
     history: createWebHistory(), 
     routes
 })
 
-// router.beforeEach((to, from, next) => {
-//     if (to.path === '/login') {
-//       next();
-//     } else {
-//       let token = localStorage.getItem("token");
+router.beforeEach((to, from, next) => {
+    if (to.path === '/login' || to.path === '/') {
+      next();
+    } else {
+      let token = storage.get("userId");
    
-//       if (token === 'null' || token === '' || token!= store.state.userId) {
-//         next('/login');
-//       } else {
-//         next();
-//       }
-//     }
-//   });
+      if (token === null || token === '') {
+        next('/login');
+      } else {
+        next();
+      }
+    }
+  });
 router.afterEach((to,from,next) => {
     window.scrollTo(0,0);
     // chrome

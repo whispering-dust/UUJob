@@ -17,10 +17,11 @@
                 </el-form-item>
             </el-col>
 
-            <el-col style="width:500px">
+            <el-col style="width:500px;display:flex;align-content:center">
                 <el-form-item label="招聘工资">
-                    <el-input v-model="form.salary" />
+                    <el-input-number v-model="form.salary" :min="0" :max="1000000" />
                 </el-form-item>
+                <p class="ml-4 mt-2">元/每月</p>
             </el-col>
             <el-col style="width:300px">
                 <el-form-item label="位置/城市">
@@ -86,6 +87,11 @@ export default {
                 { value: 'shanghai', label: '上海' },
                 { value: 'guangzhou', label: '广州' },
                 { value: 'shenzhen', label: '深圳' },
+                { value: 'shenzhen', label: '杭州' },
+                { value: 'shenzhen', label: '武汉' },
+                { value: 'shenzhen', label: '天津' },
+                { value: 'shenzhen', label: '苏州' },
+                { value: 'shenzhen', label: '南京' },
                 // 其他城市
             ],
             userId: useStore().state.userId,

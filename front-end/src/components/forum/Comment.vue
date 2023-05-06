@@ -165,6 +165,7 @@ export default {
                 if (response.data.code === 200) {
                     this.$message.success('发布成功')
                     this.commentContent=''
+                    this.isResponse.id = null
                     this.getResponsList(comment.id)
                 }else {
                     alert(response.data.msg);
