@@ -15,7 +15,7 @@ public class ConversationService extends ServiceImpl<ConversationMapper, Convers
     @Resource
     private ConversationMapper conversationMapper;
     @Override
-    public List<Conversation> getByUserId(int userId){
+    public List<Conversation> getByOneUserId(int userId){
         QueryWrapper<Conversation> wrapper = new QueryWrapper<>();
         wrapper
                 .eq("sender_id", userId)
@@ -24,5 +24,17 @@ public class ConversationService extends ServiceImpl<ConversationMapper, Convers
                 .orderByDesc("last_message_time");
 
         return list(wrapper);
+    }
+    @Override
+    public Conversation getByTwoUserId(int senderId, int receiverId){
+        QueryWrapper<Conversation> wrapper = new QueryWrapper<>();
+        wrapper
+                .eq("sender_id", senderId)
+                .eq("receiver_id", receiverId)
+                .or()
+                .eq("sender_id", receiverId)
+                .eq("receiver_id", senderId);
+
+        return getOne(wrapper);
     }
 }

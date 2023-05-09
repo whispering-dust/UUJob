@@ -1,6 +1,7 @@
 package com.backend.uujob.controller;
 
 import com.backend.uujob.entity.Report;
+import com.backend.uujob.enums.CensorStatusEnum;
 import com.backend.uujob.enums.ReportStatusEnum;
 import com.backend.uujob.enums.ReportTypeEnum;
 import com.backend.uujob.result.Result;
@@ -36,5 +37,10 @@ public class ReportController {
         report.setStatus(ReportStatusEnum.REPORT_STATUS_PENDING.ordinal());
         reportService.save(report);
         return Result.success(report.getId());
+    }
+
+    @GetMapping("/unaudited")
+    public Result getReportUnaudited(){
+        return Result.success(reportService.getListByStatus(ReportStatusEnum.REPORT_STATUS_PENDING));
     }
 }

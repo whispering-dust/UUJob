@@ -1,11 +1,11 @@
 <template>
   <el-container style="height: 100%; width: 100%;">
     <el-aside width="22%">
-      <div class="search-bar">
-        <el-input v-model="input" placeholder="搜索聊天" @input="searchChats" :prefix-icon="Search"></el-input>
-      </div>
-      <el-list class="chat-list">
-        <el-list-item v-for="chat in filteredChats" :key="chat.id" @click="selectChat(chat.id)">
+      <el-scrollbar>
+        <div class="search-bar">
+          <el-input v-model="input" placeholder="搜索聊天" @input="searchChats" :prefix-icon="Search"></el-input>
+        </div>
+        <div class="chat-list" v-for="chat in filteredChats" :key="chat.id" @click="selectChat(chat.id)">
           <el-card shadow="hover" class="mr-3 mt-1">
             <el-container>
               <el-aside style="padding: 0px; background-color: white" width="30%">
@@ -26,8 +26,8 @@
               </el-main>
             </el-container>
           </el-card>
-        </el-list-item>
-      </el-list>
+        </div>
+      </el-scrollbar>
     </el-aside>
 
     <!-- 聊天室 -->
@@ -110,7 +110,7 @@ export default {
       // alert(chatId)
       this.selectedChat = this.userChatList.find((chat) => chat.id === chatId);
       this.router.replace('')
-      this.router.replace("/myspace/chatList/chatRoom/" + chatId+"/"+this.selectedChat.contactId)
+      this.router.replace("/myspace/chatList/chatRoom/" + chatId + "/" + this.selectedChat.contactId)
     },
     searchChats() {
       if (this.input) {
