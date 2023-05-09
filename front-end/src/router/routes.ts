@@ -12,6 +12,12 @@ const routes = [
         component: () => import('@/view/LoginRegister.vue')
     },
     {
+      name: 'Management',
+      path: '/management',
+      meta: {keepAlive: false},
+      component: () => import('@/view/Management.vue')
+    },
+    {
       name: 'Demo',
       path: '/demo',
       meta: {keepAlive: true},

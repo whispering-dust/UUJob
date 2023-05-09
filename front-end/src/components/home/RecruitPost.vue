@@ -142,7 +142,7 @@ export default {
 
     },
     mounted() {
-        alert(this.userId)
+        //alert(this.userId)
     },
 }
 

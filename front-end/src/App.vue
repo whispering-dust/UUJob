@@ -4,7 +4,7 @@
     <!-- 其他页 -->
     <myHeader v-if="$route.meta.keepAlive"></myHeader>
     <!-- 登录页 -->
-    <div >
+    <div style=" min-height:800px">
       <router-view ></router-view>
     </div>
 

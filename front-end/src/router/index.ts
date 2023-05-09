@@ -8,19 +8,20 @@ const router = createRouter({
     routes
 })
 
-// router.beforeEach((to, from, next) => {
-//     if (to.path === '/login' || to.path === '/') {
-//       next();
-//     } else {
-//       let token = storage.get("userId");
+router.beforeEach((to, from, next) => {
+    if (to.path === '/login' || to.path === '/') {
+      next();
+    } else {
+      let token = storage.get("userId");
    
-//       if (token === null || token === '') {
-//         next('/login');
-//       } else {
-//         next();
-//       }
-//     }
-//   });
+      if (token === null || token === '') {
+        next('/login');
+      } else {
+        next();
+      }
+  
+    }
+  });
 router.afterEach((to,from,next) => {
     window.scrollTo(0,0);
     // chrome

@@ -56,7 +56,7 @@ export default {
     const handleLogin = (formName: string) => {
       ctx.$refs[formName].validate((valid: boolean) => {
         if (valid) {
-          alert("submit!");
+          //alert("submit!");
           axios({
             method: "post",
             url: "http://localhost:9090/users/login",
@@ -116,7 +116,11 @@ export default {
               });
 
               // window.localStorage.setItem("token",userId);
-              router.push("../home");
+              if(store.state.role == 2){
+                router.push("../management");
+              }else{
+                router.push("../home");
+              }
             } // 登录失败输出错误信息
             else {
               alert(response.data.msg);
