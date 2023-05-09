@@ -28,13 +28,17 @@ public class ConversationController {
 
     @PostMapping("")
     public Result addConversation(@RequestBody Conversation conversation){
+        Conversation c = conversationService.getByTwoUserId(conversation.getSenderId(), conversation.getReceiverId());  //先判断由此两人创建的对话是否存在
+        if(c != null){  //若存在则直接返回其id，否则将其添加至数据库中
+            return Result.success(c.getId());
+        }
         conversationService.save(conversation);
         return Result.success(conversation.getId());
     }
 
     @GetMapping("/basis")
     public Result getConversationBasisList(@RequestParam int userId){
-        List<Conversation> conversationList = conversationService.getByUserId(userId); //获取所有符合条件的聊天室
+        List<Conversation> conversationList = conversationService.getByOneUserId(userId); //获取所有符合条件的聊天室
 
         List<ConversationDTO> resList = new ArrayList<>();
 
