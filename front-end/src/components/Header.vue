@@ -65,35 +65,39 @@
                                 </div>
                             </a>
                         </div>
-                    <div class="py-3 text-center">
-                        <a href="#" class="link link-sm link--style-3">View all notifications</a>
+                        <div class="py-3 text-center">
+                            <a href="#" class="link link-sm link--style-3">View all notifications</a>
+                        </div>
                     </div>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link nav-link-icon" href="#" id="navbar_1_dropdown_3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><div class="block">
-                    <el-avatar :size="25" :src="circleUrl" />
-                </div></a>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <h6 class="dropdown-header">用户：{{userName}}</h6>
-                    <a class="dropdown-item" href="/login">
-                        <i class="fas fa-sign-out-alt text-primary"></i>注销
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link nav-link-icon" href="#" id="navbar_1_dropdown_3" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <div class="block">
+                            <el-avatar :size="25" />
+                        </div>
+
                     </a>
-                </div>
-            </li>
-        </ul>
-    </div>
-</nav>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <h6 class="dropdown-header">用户：{{ store.state.userName }}</h6>
+                        <a class="dropdown-item" href="/login">
+                            <i class="fas fa-sign-out-alt text-primary"></i>注销
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
 </template>
 <script>
-import {useStore} from 'vuex'
-import { Search,Bell,Setting } from '@element-plus/icons-vue'
+import { useStore } from 'vuex'
+import { Search, Bell, Setting } from '@element-plus/icons-vue'
 export default {
     data() {
-      return {
-        userName: useStore().state.userName
-        
-      }
+        return {
+            store: useStore(),
+            userName: useStore().state.userName
+        }
     },
   }
 </script>
