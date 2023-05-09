@@ -53,7 +53,7 @@
             </div>
 
             <div class="button-area">
-              <el-button color="#45454A" style=" color:aliceblue; border:0px;width:125px;">
+              <el-button @click="newChat" color="#45454A" style=" color:aliceblue; border:0px;width:125px;">
                 立即沟通<el-icon class="el-icon--right">
                   <ChatDotRound />
                 </el-icon>
@@ -142,7 +142,7 @@
 </template>
 
 <script>
-import { useRoute } from 'vue-router'
+import { useRoute,useRouter } from 'vue-router'
 import { reactive, toRefs, watch, ref } from 'vue'
 import { Share, ChatDotRound, Star, Upload, WarnTriangleFilled } from "@element-plus/icons-vue"
 import { Tag } from 'element-plus'
@@ -162,6 +162,7 @@ export default {
     ])
 
     return {
+      router: useRouter(),
       reportContent: "",
       reportDialogTableVisible: false,
       jobId: useRoute().params.jobId,
@@ -205,6 +206,24 @@ export default {
   },
 
   methods: {
+    async newChat(){
+      try {
+        // Replace the URL with your API endpoint to fetch chats
+        const response = await axios.post("http://localhost:9090/conversations", {
+          senderId: this.store.state.userId,
+          receiverId: this.publisherId
+        });
+
+        if (response.data.code === 200) {
+          this.router.replace('')
+          this.router.replace("/myspace/chatList/chatRoom/" + response.data.data.id+"/"+this.publisherId)
+        } else {
+          alert(response.data.msg);
+        }
+      } catch (error) {
+        console.error("Failed to fetch chat list:", error);
+      }
+    },
     async submitReport() {
       try {
         // Replace the URL with your API endpoint to fetch chats

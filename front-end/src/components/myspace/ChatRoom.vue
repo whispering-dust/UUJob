@@ -1,6 +1,6 @@
 <template>
   <div class="chatroom">
-    <div class="messages">
+    <div ref="messages" class="messages">
       <el-list>
         <el-list-item class="mb-2" v-for="message in messages" :key="message.id" :class="{'my-message': message.isMine, 'their-message': !message.isMine}">
           <img class="avatar" :src="message.avatar" alt="user" />
@@ -30,7 +30,7 @@
         </div>
         <el-button style="width: 100px;" color="#009080" @click="sendMessage"><el-icon><Position /></el-icon>发送</el-button>
       </div>
-      <textarea style="overflow-y: auto;" v-model="newMessage" placeholder="输入消息..." @keydown.enter="sendMessage"></textarea>
+      <textarea style="overflow-y: auto;font-size:larger" v-model="newMessage" placeholder="输入消息..." @keydown.enter="sendMessage"></textarea>
     </div>
   </div>
 </template>
@@ -108,6 +108,7 @@ export default {
           
 
           this.messages = messageList;
+          //this.$refs.messages.scrollTo(0, this.$refs.messages.scrollHeight)
           
         } else {
           alert(response.data.msg);
@@ -128,6 +129,7 @@ export default {
         if (response.data.code === 200) {
           this.$message.success('发送成功')
           this.newMessage=''
+          this.getHistoryMessages();
         } else {
           alert(response.data.msg);
         }
@@ -189,6 +191,11 @@ export default {
     // 在组件销毁时停止轮询
     this.stopPolling();
   },
+  updated() {
+    this.$nextTick(() => {
+      this.$refs.messages.scrollTo(0, this.$refs.messages.scrollHeight);
+    });
+  },
 };
 </script>
 
@@ -196,7 +203,7 @@ export default {
 .chatroom {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 800px;
 }
 
 .messages {
