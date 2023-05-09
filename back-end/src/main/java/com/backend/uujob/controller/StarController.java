@@ -27,7 +27,7 @@ public class StarController {
         return Result.success(star.getId());
     }
 
-    @GetMapping("")
+    @PostMapping("")
     public Result getStar(@RequestBody Star star){
         Star s = starService.getByAll(star);
         if(s == null){
