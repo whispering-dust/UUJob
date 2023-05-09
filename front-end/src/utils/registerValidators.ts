@@ -6,7 +6,7 @@ interface RegisterUser {
   phone: string;
   password: string;
   password2: string;
-  role: number;
+  role: any;
 }
 
 export const registerUser = ref<RegisterUser>({
@@ -14,7 +14,7 @@ export const registerUser = ref<RegisterUser>({
   phone: "",
   password: "",
   password2: "",
-  role: 0,
+  role: null,
 });
 
 //注册规则接口

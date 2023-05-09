@@ -1,8 +1,10 @@
 <template>
   <div class="bk">
 
-    <div class="card-bk bg-tertiary text-white px-4 px-lg-5 py-5 rounded-0 border-0 mb-0">
-      <div class="container">
+    <div class="card-bk bg-tertiary text-white px-4 px-lg-5 py-5 rounded-0 border-0 mb-0">    
+    </div>
+    <div class="main-area container">
+      <div class="container job">
         <div class="row">
           <div class="col-10">
             <el-card class="box-card p-0 card">
@@ -315,5 +317,15 @@ export default {
 .box-card {
   width: 100%;
   margin-bottom: 10px;
+}
+
+.main-area{
+  position: relative;
+}
+
+.job{
+  position: absolute;
+  z-index: 1;
+  top: -200px;;
 }
 </style>
