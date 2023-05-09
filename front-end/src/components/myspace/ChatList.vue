@@ -14,7 +14,7 @@
               <el-main style="padding: 0px;">
                 <div class="chat-info">
                   <div class="chat-header">
-                    <div style="overflow: hidden; height:20px;max-width:60px">
+                    <div style="overflow: hidden; height:20px;width:80px">
                       {{ chat.contactName }}
                     </div>
                     <div class="chat-date">
