@@ -1,7 +1,7 @@
 <template>
   <div class="box-card-up">
     <h4 class="heading h3 text-white pt-3">求职招聘栏</h4>
-    <el-menu :default-active="activeIndex" class="el-menu rounded" mode="horizontal" style="margin-bottom: 10px;"
+    <el-menu :default-active="'0'" class="el-menu rounded" mode="horizontal" style="margin-bottom: 10px;"
       @select="handleSelect">
       <el-menu-item index="0">全部</el-menu-item>
       <el-menu-item index="1">岗位</el-menu-item>
@@ -14,7 +14,7 @@
         <template #header>
           <div class="card-header">
             <span style="font-size:larger">{{ recruitObj.title }}</span>
-            <el-button class="button" color="black"  @click="enterJob(recruitObj.id)"> 详情</el-button>
+            <el-button class="button" color="black" @click="enterJob(recruitObj.id)"> 详情</el-button>
           </div>
         </template>
         <div class="row">
@@ -35,13 +35,8 @@
 
       </el-card>
     </div>
-    <el-pagination
-      @current-change="handlePageChange"
-      :current-page="currentPage"
-      :page-size="pageSize"
-      :total="totalRecruitObjs"
-      layout="prev, pager, next"
-      background>
+    <el-pagination @current-change="handlePageChange" :current-page="currentPage" :page-size="pageSize"
+      :total="totalRecruitObjs" layout="prev, pager, next" background>
     </el-pagination>
 
   </div>
@@ -62,7 +57,7 @@ export default {
   components: {
     Apply,
   },
-  setup(){
+  setup() {
     const router = useRouter();
 
     return {
@@ -73,7 +68,7 @@ export default {
   data() {
 
     return {
-      router:useRouter(),
+      router: useRouter(),
       select_id: "",
       dialogApplyVisible: false,
       pagedRecruitObjs: [], // 当前页展示的求职帖子的数组
@@ -139,8 +134,8 @@ export default {
       return this.recruitObjs.slice(startIndex, endIndex);
     },
 
-    enterJob(id){
-      this.router.push("../job/"+id)
+    enterJob(id) {
+      this.router.push("../job/" + id)
 
     },
 
@@ -183,6 +178,9 @@ export default {
       const endIndex = startIndex + this.pageSize;
       return this.recruitObjs.slice(startIndex, endIndex);
     },
+    handleSelect(key, keyPath) {
+      console.log(key, keyPath);
+    }
   },
   mounted() {
     this.getRecruitList();
