@@ -210,6 +210,9 @@ export default {
         enterPost(id) {
             this.$router.push('/post/' + id)
         },
+        handleSelect(key, keyPath) {
+            console.log(key, keyPath);
+        }
     },
     mounted() {
         this.getPosts();
