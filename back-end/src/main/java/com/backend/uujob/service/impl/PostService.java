@@ -64,4 +64,12 @@ public class PostService extends ServiceImpl<PostMapper,Post> implements IPostSe
         //注意：此处还未添加评论
         return obj;
     }
+    @Override
+    public List<Post> getListByStatus(CensorStatusEnum censorStatusEnum){
+        QueryWrapper<Post> queryWrapper = new QueryWrapper<>();
+        queryWrapper
+                .eq("status", censorStatusEnum.ordinal())  //满足状态的帖子才能显示
+                .orderByDesc("date");  //按照帖子创建时间进行降序排序后返回，方便前端显示
+        return list(queryWrapper);
+    }
 }

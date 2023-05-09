@@ -3,6 +3,7 @@ package com.backend.uujob.service;
 import com.backend.uujob.controller.dto.PostDTO;
 import com.backend.uujob.controller.dto.PostDetailDTO;
 import com.backend.uujob.entity.Post;
+import com.backend.uujob.enums.CensorStatusEnum;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -15,4 +16,6 @@ public interface IPostService extends IService<Post> {
     List<PostDTO> getPostList();
 
     PostDetailDTO getPostDetailById(int id);
+
+    List<Post> getListByStatus(CensorStatusEnum censorStatusEnum);
 }

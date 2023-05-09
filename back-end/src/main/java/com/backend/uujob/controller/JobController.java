@@ -64,7 +64,7 @@ public class JobController {
 
     @GetMapping("/basis")
     public Result getJobBasisList(){
-        return Result.success(jobService.getPublishedList());
+        return Result.success(jobService.getListByStatus(CensorStatusEnum.CENSOR_STATUS_PASS));
     }
 
     @PostMapping("/applications")
@@ -147,6 +147,11 @@ public class JobController {
         application.setApplicationDate(new java.sql.Timestamp(System.currentTimeMillis()));
         applicationService.updateByMultiId(application);
         return Result.success();
+    }
+
+    @GetMapping("/unaudited")
+    public Result getJobUnaudited(){
+        return Result.success(jobService.getListByStatus(CensorStatusEnum.CENSOR_STATUS_SUBMIT));
     }
 
 }
