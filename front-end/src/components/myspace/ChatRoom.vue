@@ -1,8 +1,8 @@
 <template>
   <div class="chatroom">
 
-     <div ref="messages" class="messages">
-      <el-scrollbar>
+     <div class="messages">
+      <el-scrollbar ref="messagesScroll" >
         <div class="mb-2" v-for="message in messages" :key="message.id"
           :class="{ 'my-message': message.isMine, 'their-message': !message.isMine }">
           <img class="avatar" :src="message.avatar" alt="user" />
@@ -32,6 +32,14 @@
             </el-icon></el-button>
           <el-button size="large" @click="openFilePicker" circle><el-icon size="large">
               <Picture />
+            </el-icon></el-button>
+
+            <el-button size="large" @click="scrollToBottom" circle><el-icon size="large">
+              <ArrowDown />
+            </el-icon></el-button>
+
+            <el-button size="large" @click="scrollToTop" circle><el-icon size="large">
+              <ArrowUp />
             </el-icon></el-button>
         </div>
         <el-button style="width: 100px;" color="#009080" @click="sendMessage"><el-icon>
@@ -117,9 +125,7 @@ export default {
 
 
           this.messages = messageList;
-
-          //this.$refs.messages.scrollTo(0, this.$refs.messages.scrollHeight)
-          
+          //this.scrollToBottom()
         } else {
           alert(response.data.msg);
         }
@@ -140,7 +146,8 @@ export default {
           this.$message.success('发送成功')
 
           this.newMessage=''
-          this.getHistoryMessages();
+          await this.getHistoryMessages();
+          this.scrollToBottom()
         } else {
           alert(response.data.msg);
         }
@@ -176,6 +183,20 @@ export default {
     stopPolling() {
       clearInterval(this.pollingIntervalId);
     },
+    scrollToBottom() {
+      this.$nextTick(() => {
+        const scrollContainer = this.$refs.messagesScroll;
+        const innerContentHeight = scrollContainer.$el.querySelector(".el-scrollbar__wrap").scrollHeight;
+        scrollContainer.scrollTo({ top: innerContentHeight });
+      });
+    },
+    scrollToTop() {
+      this.$nextTick(() => {
+        const scrollContainer = this.$refs.messagesScroll;
+        scrollContainer.scrollTo({ top: 0 });
+      });
+    },
+
   },
   watch: {
     '$route.params.conversationId': {
@@ -201,11 +222,6 @@ export default {
   unmounted() {
     // 在组件销毁时停止轮询
     this.stopPolling();
-  },
-  updated() {
-    this.$nextTick(() => {
-      this.$refs.messages.scrollTo(0, this.$refs.messages.scrollHeight);
-    });
   },
 };
 </script>

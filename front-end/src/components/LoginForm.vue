@@ -107,7 +107,7 @@ export default {
 
               }).then(function (response) {
                 if (response.data.code === 200) {
-                  store.commit("setProfile", response.data.data.id);
+                  store.commit("setProfileId", response.data.data.id);
                 }
                 else {
                     alert(response.data.msg);

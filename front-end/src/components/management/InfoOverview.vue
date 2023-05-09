@@ -9,24 +9,128 @@
                     <div class="content">
                         {{ userName }}
                     </div>
+
                 </div>
             </el-header>
-            <el-main>Main</el-main>
+            <el-main>
+                <el-row>
+                    <el-col :span="12">
+                        <el-card class="box-card mr-2" style="height: 600px;">
+                            <template #header>
+                                <div>
+                                  <span class="h4">待处理举报数({{ pendingReportsNum }})</span>
+                                </div>
+                              </template>
+
+                              <el-table :data="pendingReportsData" height="500" style="width: 100%">
+                                <el-table-column prop="id" label="举报记录id"/>
+                                <el-table-column prop="targetId" label="被举报人id"/>
+                                <el-table-column prop="reporterId" label="举报人id" />
+                                <el-table-column prop="content" label="举报内容" width="200"/>
+                                <el-table-column prop="type" label="类型" >
+                                    <template #default="scope">
+                                        <div style="display: flex; align-items: center">
+                                          <el-tag>{{scope.row.type}}</el-tag>
+                                        </div>
+                                      </template>
+                                </el-table-column>
+                              </el-table>
+                        </el-card>
+                    </el-col>
+
+                    <el-col :span="12">
+                        <el-card class="box-card ml-2" style="height: 600px;">
+                            <template #header>
+                                <div>
+                                  <span class="h4">待审核的岗位({{ pendingJobsNum }})</span>
+                                </div>
+                              </template>
+                            <el-table :data="pendingJobsData" height="500" style="width: 100%">
+                                <el-table-column prop="id" label="岗位ID" />
+                                <el-table-column prop="title" label="岗位标题" />
+                                <el-table-column prop="companyName" label="公司" />
+                                <el-table-column prop="location" label="地点" />
+                                <el-table-column prop="salary" label="薪资" />
+                            </el-table>
+                        </el-card>
+                    </el-col>
+                </el-row>
+            </el-main>
           </el-container>
     </div>
   </template>
   
   <script>
+  import axios from "axios";
   import { useStore } from "vuex";
   export default {
     data() {
       return {
         userName: useStore().state.userName, 
-        pendingReports: 5, 
-        processedReports: 10, 
-        pendingAudits: 7, 
-        processedAudits: 15,
+        pendingReportsNum: 5, 
+        pendingReportsData: null,
+        //processedReports: 10, 
+        pendingJobsNum: 7, 
+        pendingJobsData: null,
+        //processedJobs: 15,
       };
+    },
+    methods: {
+        async getPendingReports(){
+            try {
+                // Replace the URL with your API endpoint to fetch chats
+                const response = await axios.get("http://localhost:9090/reports/unaudited", {
+
+                });
+                if (response.data.code === 200) {
+                    console.log(response.data.data);
+                    this.pendingReportsData = response.data.data
+                    this.pendingReportsData.forEach(element => {
+                        switch (element.type) {
+                            case 0:
+                                element.type='岗位'
+                                break;
+
+                            case 1:
+                                element.type='帖子'
+                                break;
+
+                            case 2:
+                                element.type='评论'
+                                break;
+                    
+                            default:
+                                break;
+                        }
+                    });
+                    this.pendingReportsNum = this.pendingReportsData.length
+                } else {
+                    alert(response.data.msg);
+                }
+            } catch (error) {
+                console.error("Failed to fetch chat list:", error);
+            }
+        },
+        async getPendingJobs() {
+            try {
+                // 替换为你的API端点以获取待审核岗位
+                const response = await axios.get("http://localhost:9090/jobs/unaudited");
+                if (response.data.code === 200) {
+                console.log(response.data.data);
+                this.pendingJobsData = response.data.data;
+                this.pendingJobsNum = this.pendingJobsData.length;
+                } else {
+                alert(response.data.msg);
+                }
+            } catch (error) {
+                console.error("Failed to fetch pending jobs:", error);
+            }
+        },
+
+    },
+    mounted() {
+        this.getPendingReports()
+        this.getPendingJobs();
     },
   };
   </script>

@@ -35,9 +35,13 @@
 
       </el-card>
     </div>
-    <el-pagination @current-change="handlePageChange" :current-page="currentPage" :page-size="pageSize"
-      :total="totalRecruitObjs" layout="prev, pager, next" background>
-    </el-pagination>
+
+    <div >
+      <el-pagination  @current-change="handlePageChange" :current-page="currentPage" :page-size="pageSize"
+        :total="totalRecruitObjs" layout="prev, pager, next" background>
+      </el-pagination>
+    </div>
+    
 
   </div>
 
@@ -223,6 +227,7 @@ export default {
   width: 100%;
   height: 100%;
   overflow: hidden;
+  min-height: 800px;
 }
 
 .position {

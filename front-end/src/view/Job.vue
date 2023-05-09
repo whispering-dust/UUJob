@@ -384,7 +384,7 @@ export default {
 .job {
   position: absolute;
   z-index: 1;
-  top: -200px;
+  top: -250px;
   ;
 }
 </style>
