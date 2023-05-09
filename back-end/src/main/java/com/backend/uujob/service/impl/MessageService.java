@@ -19,7 +19,7 @@ public class MessageService extends ServiceImpl<MessageMapper, Message> implemen
         QueryWrapper<Message> wrapper = new QueryWrapper<>();
         wrapper
                 .eq("conversation_id",conversationId)
-                .orderByDesc("created_at");
+                .orderByAsc("created_at");
         return list(wrapper);
     }
 }

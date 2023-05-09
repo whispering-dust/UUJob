@@ -9,5 +9,4 @@ public class ConversationDTO {
     private String contactName;
     private String lastMessage;
     private String lastMessageTime;
-    private Integer isRead;
 }
