@@ -1,7 +1,6 @@
 package com.backend.uujob.service;
 
 import com.backend.uujob.entity.Application;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.jeffreyning.mybatisplus.service.IMppService;
 
 import java.util.List;

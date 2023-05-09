@@ -5,7 +5,7 @@ export default createStore({
   state: {
     userId: storage.get('userId'),
     userAvatar:'',
-    userName:"",
+    userName: storage.get('userName'),
     profileId: storage.get('profileId'),
     role: storage.get('role'),//0 是求职者，1 是招聘者
     pass:0,
@@ -27,6 +27,7 @@ export default createStore({
   mutations: {
     setUserName(state,value){
       state.userName = value;
+      storage.set('userName',value);
     },
     setUserId(state, value) {
       state.userId = value;

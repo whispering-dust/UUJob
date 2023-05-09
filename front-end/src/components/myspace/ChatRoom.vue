@@ -1,6 +1,7 @@
 <template>
   <div class="chatroom">
-    <div class="messages">
+
+     <div ref="messages" class="messages">
       <el-scrollbar>
         <div class="mb-2" v-for="message in messages" :key="message.id"
           :class="{ 'my-message': message.isMine, 'their-message': !message.isMine }">
@@ -117,6 +118,8 @@ export default {
 
           this.messages = messageList;
 
+          //this.$refs.messages.scrollTo(0, this.$refs.messages.scrollHeight)
+          
         } else {
           alert(response.data.msg);
         }
@@ -135,7 +138,9 @@ export default {
         });
         if (response.data.code === 200) {
           this.$message.success('发送成功')
-          this.newMessage = ''
+
+          this.newMessage=''
+          this.getHistoryMessages();
         } else {
           alert(response.data.msg);
         }
@@ -197,6 +202,11 @@ export default {
     // 在组件销毁时停止轮询
     this.stopPolling();
   },
+  updated() {
+    this.$nextTick(() => {
+      this.$refs.messages.scrollTo(0, this.$refs.messages.scrollHeight);
+    });
+  },
 };
 </script>
 
@@ -204,7 +214,7 @@ export default {
 .chatroom {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 800px;
 }
 
 .messages {

@@ -17,10 +17,10 @@ public class JobService extends ServiceImpl<JobMapper, Job> implements IJobServi
     @Resource
     private JobMapper jobMapper;
     @Override
-    public List<Job> getPublishedList(){
+    public List<Job> getListByStatus(CensorStatusEnum censorStatusEnum){
         QueryWrapper<Job> jobQueryWrapper = new QueryWrapper<>();
         jobQueryWrapper
-                .eq("status", CensorStatusEnum.CENSOR_STATUS_PASS.ordinal())  //通过审核的岗位才予以显示
+                .eq("status", censorStatusEnum.ordinal())  //满足状态的岗位才予以显示
                 .orderByDesc("date");  //根据日期降序排列方便查找
 
         return list(jobQueryWrapper);

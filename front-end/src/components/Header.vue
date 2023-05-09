@@ -76,6 +76,7 @@
                         <div class="block">
                             <el-avatar :size="25" />
                         </div>
+
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
                         <h6 class="dropdown-header">用户：{{ store.state.userName }}</h6>
@@ -94,13 +95,11 @@ import { Search, Bell, Setting } from '@element-plus/icons-vue'
 export default {
     data() {
         return {
-            store: useStore()
+            store: useStore(),
+            userName: useStore().state.userName
         }
     },
-    methods: {
-
-    },
-}
+  }
 </script>
 
 <style></style>
