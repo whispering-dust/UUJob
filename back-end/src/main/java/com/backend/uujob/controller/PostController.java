@@ -5,6 +5,7 @@ import com.backend.uujob.entity.Comment;
 import com.backend.uujob.entity.Post;
 import com.backend.uujob.entity.VO.CommentVO;
 import com.backend.uujob.enums.CensorStatusEnum;
+import com.backend.uujob.enums.ReportStatusEnum;
 import com.backend.uujob.result.Constants;
 import com.backend.uujob.result.Result;
 import com.backend.uujob.service.ICommentService;
@@ -79,5 +80,10 @@ public class PostController {
         else{
             return Result.error();
         }
+    }
+
+    @GetMapping("/unaudited")
+    public Result getPostUnaudited() {
+        return Result.success(postService.getListByStatus(CensorStatusEnum.CENSOR_STATUS_SUBMIT));
     }
 }

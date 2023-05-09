@@ -6,5 +6,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import java.util.List;
 
 public interface IConversationService extends IService<Conversation> {
-    List<Conversation> getByUserId(int userId);
+    List<Conversation> getByOneUserId(int userId);
+
+    Conversation getByTwoUserId(int senderId, int receiverId);
 }
