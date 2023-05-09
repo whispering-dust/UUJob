@@ -34,7 +34,7 @@
 
           <div class="col-2">
             <div class="button-area">
-              <el-button v-if="store.state.profileId != null" color="#45454A"
+              <el-button v-if="store.state.profileId != null" color="#45454A" :key="1"
                 style=" color:aliceblue; border:0px;width:125px;"
                 @click="this.$router.push('/job/' + this.jobId + '/apply')">
                 投递简历
@@ -44,16 +44,16 @@
               </el-button>
             </div>
 
-            <div class="button-area" v-if="starId == -1">
-              <el-button color="#45454A" style=" color:aliceblue; border:0px;width:125px;" @click="addStar">
+            <div class="button-area" :key="2">
+              <el-button color="#45454A" style=" color:aliceblue; border:0px;width:125px;" @click="addStar"
+                v-if="starId === -1">
                 加入收藏
                 <el-icon class="el-icon--right">
                   <Star />
                 </el-icon>
               </el-button>
-            </div>
-            <div class="button-area" v-if="starId != -1">
-              <el-button color="#45454A" style=" color:aliceblue; border:0px;width:125px;" @click="deleteStar">
+              <el-button color="#45454A" style=" color:aliceblue; border:0px;width:125px;" @click="deleteStar"
+                v-if="starId != -1">
                 取消收藏<el-icon class="el-icon--right">
                   <Star />
                 </el-icon>
@@ -156,7 +156,7 @@ import { Share, ChatDotRound, Star, Upload, WarnTriangleFilled } from "@element-
 import { Tag } from 'element-plus'
 import axios from "axios";
 import { useStore } from "vuex";
-
+import { ElMessage } from 'element-plus'
 export default {
   data() {
     const store = useStore()
@@ -339,6 +339,7 @@ export default {
           alert("error");
           that.failStar();
         }
+        window.location.reload();
       })
     },
     getStarStatus() {
@@ -357,11 +358,12 @@ export default {
       }).then(function (response) {
         if (response.data.code == 200) {
           var data = response.data.data
-          that.starId = data.id;
-
+          that.starId = data;
+          console.log('收藏Id', that.starId)
         } else {
           alert("error");
         }
+
       })
     },
     deleteStar() {
@@ -381,6 +383,7 @@ export default {
           alert("error");
           that.failDeleteStar();
         }
+        window.location.reload();
       })
     }
 

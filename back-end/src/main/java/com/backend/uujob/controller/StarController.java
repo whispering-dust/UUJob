@@ -35,4 +35,10 @@ public class StarController {
         }
         return Result.success(s.getId());
     }
+
+    @DeleteMapping("")
+    public Result deleteStar(@RequestParam Integer id){
+        starService.removeById(id);
+        return Result.success();
+    }
 }
