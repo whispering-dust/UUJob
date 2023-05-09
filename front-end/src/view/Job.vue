@@ -1,7 +1,7 @@
 <template>
   <div class="bk">
 
-    <div class="card-bk bg-tertiary text-white px-4 px-lg-5 py-5 rounded-0 border-0 mb-0">    
+    <div class="card-bk bg-tertiary text-white px-4 px-lg-5 py-5 rounded-0 border-0 mb-0">
     </div>
     <div class="main-area container">
       <div class="container job">
@@ -45,8 +45,16 @@
             </div>
 
             <div class="button-area">
-              <el-button color="#45454A" style=" color:aliceblue; border:0px;width:125px;">
-                加入收藏<el-icon class="el-icon--right">
+              <el-button color="#45454A" style=" color:aliceblue; border:0px;width:125px;" @click="addStar">
+                加入收藏
+                <el-icon class="el-icon--right">
+                  <Star />
+                </el-icon>
+              </el-button>
+            </div>
+            <div class="button-area">
+              <el-button color="#45454A" style=" color:aliceblue; border:0px;width:125px;" @click="deleteStar">
+                取消收藏<el-icon class="el-icon--right">
                   <Star />
                 </el-icon>
               </el-button>
@@ -160,7 +168,16 @@ export default {
       { type: 'danger', label: 'Tag 4' },
       { type: 'warning', label: 'Tag 5' },
     ])
+    const successStar = () => {
+      ElMessage({
+        message: '收藏成功！',
+        type: 'success',
+      })
+    }
 
+    const failStar = () => {
+      ElMessage.error('收藏失败')
+    }
     return {
       reportContent: "",
       reportDialogTableVisible: false,
@@ -200,7 +217,9 @@ export default {
           salary: 'salary',
           tags: ['tag1', 'tag2'],
         },
-      ]
+      ],
+      successStar,
+      failStar
     }
   },
 
@@ -266,6 +285,26 @@ export default {
           alert("error");
         }
       })
+    },
+    addStar() {
+      let that = this;
+      console.log("改变收藏状态！", that.jobId, 'user:', that.store.state.userId)
+      axios({
+        method: "post",
+        url: "http://localhost:9090/stars/jobs",
+        data: {
+          targetId: that.jobId,
+          userId: that.store.state.userId
+        }
+      }).then(function (response) {
+        if (response.data.code == 200) {
+          console.log(response.data.data);
+          successStar();
+        } else {
+          alert("error");
+          failStar();
+        }
+      })
     }
 
   },
@@ -319,13 +358,14 @@ export default {
   margin-bottom: 10px;
 }
 
-.main-area{
+.main-area {
   position: relative;
 }
 
-.job{
+.job {
   position: absolute;
   z-index: 1;
-  top: -200px;;
+  top: -200px;
+  ;
 }
 </style>

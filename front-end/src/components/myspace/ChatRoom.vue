@@ -1,10 +1,11 @@
 <template>
   <div class="chatroom">
     <div class="messages">
-      <el-list>
-        <el-list-item class="mb-2" v-for="message in messages" :key="message.id" :class="{'my-message': message.isMine, 'their-message': !message.isMine}">
+      <el-scrollbar>
+        <div class="mb-2" v-for="message in messages" :key="message.id"
+          :class="{ 'my-message': message.isMine, 'their-message': !message.isMine }">
           <img class="avatar" :src="message.avatar" alt="user" />
-          <div class="message-content" :class="{'my-bubble': message.isMine, 'their-bubble': !message.isMine}">
+          <div class="message-content" :class="{ 'my-bubble': message.isMine, 'their-bubble': !message.isMine }">
             <div v-if="message.type === 'text'">
               {{ message.content }}
             </div>
@@ -17,20 +18,27 @@
               </a>
             </div>
           </div>
-        </el-list-item>
-      </el-list>
+        </div>
+      </el-scrollbar>
     </div>
 
     <div class="input-area">
       <div class="button-area mb-1">
         <div>
           <input type="file" ref="fileInput" class="file-input" @change="uploadFile" />
-          <el-button size="large" @click="openFilePicker" circle><el-icon size="large"><DocumentAdd /></el-icon></el-button>   
-          <el-button size="large" @click="openFilePicker" circle><el-icon size="large"><Picture /></el-icon></el-button>
+          <el-button size="large" @click="openFilePicker" circle><el-icon size="large">
+              <DocumentAdd />
+            </el-icon></el-button>
+          <el-button size="large" @click="openFilePicker" circle><el-icon size="large">
+              <Picture />
+            </el-icon></el-button>
         </div>
-        <el-button style="width: 100px;" color="#009080" @click="sendMessage"><el-icon><Position /></el-icon>发送</el-button>
+        <el-button style="width: 100px;" color="#009080" @click="sendMessage"><el-icon>
+            <Position />
+          </el-icon>发送</el-button>
       </div>
-      <textarea style="overflow-y: auto;" v-model="newMessage" placeholder="输入消息..." @keydown.enter="sendMessage"></textarea>
+      <textarea style="overflow-y: auto;" v-model="newMessage" placeholder="输入消息..."
+        @keydown.enter="sendMessage"></textarea>
     </div>
   </div>
 </template>
@@ -82,7 +90,7 @@ export default {
     };
   },
   methods: {
-    async getHistoryMessages(){
+    async getHistoryMessages() {
       try {
         // Replace the URL with your API endpoint to fetch chats
         const response = await axios.get("http://localhost:9090/conversations/messages", {
@@ -95,20 +103,20 @@ export default {
           console.log(response.data.data);
           const messageList = response.data.data;
           messageList.forEach(message => {
-            if(message.senderId == this.userId){
+            if (message.senderId == this.userId) {
               this.contactId = message.receiverId
-              message.isMine = true              
-            }else{
+              message.isMine = true
+            } else {
               message.isMine = false
             }
             message.type = 'text';
             //头像有待处理
             message.avatar = 'https://via.placeholder.com/40'
           });
-          
+
 
           this.messages = messageList;
-          
+
         } else {
           alert(response.data.msg);
         }
@@ -127,7 +135,7 @@ export default {
         });
         if (response.data.code === 200) {
           this.$message.success('发送成功')
-          this.newMessage=''
+          this.newMessage = ''
         } else {
           alert(response.data.msg);
         }
@@ -180,12 +188,12 @@ export default {
       },
     },
   },
-  mounted(){
+  mounted() {
     // 在组件加载时开始轮询
     this.startPolling();
     //this.getHistoryMessages()
   },
-  beforeDestroy() {
+  unmounted() {
     // 在组件销毁时停止轮询
     this.stopPolling();
   },
@@ -219,20 +227,23 @@ export default {
   margin-bottom: 1rem;
 }
 
-.my-message .avatar{
+.my-message .avatar {
   float: right;
   margin-left: 20px;
 }
+
 .my-message {
   width: 100%;
   float: left;
 }
-.their-message{
+
+.their-message {
   width: 100%;
   display: flex;
   justify-content: flex-start;
 }
-.their-message .avatar{
+
+.their-message .avatar {
   margin-right: 20px;
 }
 

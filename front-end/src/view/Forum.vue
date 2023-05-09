@@ -131,7 +131,7 @@ import axios from "axios";
 export default {
     data() {
 
-        const activeIndex = ref(0);
+        const activeIndex = ref("0");
         return {
             activeIndex,
             posts: [
