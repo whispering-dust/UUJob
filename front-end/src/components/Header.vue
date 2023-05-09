@@ -99,7 +99,7 @@ export default {
             userName: useStore().state.userName
         }
     },
-  }
+}
 </script>
 
 <style></style>
