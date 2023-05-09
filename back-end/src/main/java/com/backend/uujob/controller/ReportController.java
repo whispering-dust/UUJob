@@ -19,7 +19,7 @@ public class ReportController {
         report.setType(ReportTypeEnum.REPORT_TYPE_JOB.ordinal());
         report.setStatus(ReportStatusEnum.REPORT_STATUS_PENDING.ordinal());
         reportService.save(report);
-        return Result.success(report);
+        return Result.success(report.getId());
     }
 
     @PostMapping("/posts")
@@ -27,7 +27,7 @@ public class ReportController {
         report.setType(ReportTypeEnum.REPORT_TYPE_POST.ordinal());
         report.setStatus(ReportStatusEnum.REPORT_STATUS_PENDING.ordinal());
         reportService.save(report);
-        return Result.success(report);
+        return Result.success(report.getId());
     }
 
     @PostMapping("/comments")
@@ -35,6 +35,6 @@ public class ReportController {
         report.setType(ReportTypeEnum.REPORT_TYPE_COMMENT.ordinal());
         report.setStatus(ReportStatusEnum.REPORT_STATUS_PENDING.ordinal());
         reportService.save(report);
-        return Result.success(report);
+        return Result.success(report.getId());
     }
 }

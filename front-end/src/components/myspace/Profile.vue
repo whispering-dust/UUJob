@@ -215,7 +215,7 @@ export default {
                     that.Profile.graduationDate = response.data.data.graduationDate
 
                     that.store.commit("setProfile", response.data.data.id);
-                    alert('profileId:  ' + that.store.state.profileId)
+                    //alert('profileId:  ' + that.store.state.profileId)
 
                     //alert(that.Profile);
                 }
@@ -232,7 +232,7 @@ export default {
     },
     mounted() {
         this.userAvator = useStore().state.userAvator
-        alert(useStore().state.userId);
+        //alert(useStore().state.userId);
         this.getProfile();
     },
     watch: {

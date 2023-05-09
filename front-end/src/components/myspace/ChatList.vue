@@ -110,7 +110,7 @@ export default {
       // alert(chatId)
       this.selectedChat = this.userChatList.find((chat) => chat.id === chatId);
       this.router.replace('')
-      this.router.replace("/myspace/chatList/chatRoom/" + chatId)
+      this.router.replace("/myspace/chatList/chatRoom/" + chatId+"/"+this.selectedChat.contactId)
     },
     searchChats() {
       if (this.input) {
