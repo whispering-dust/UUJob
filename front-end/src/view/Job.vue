@@ -34,7 +34,7 @@
 
           <div class="col-2">
             <div class="button-area">
-              <el-button v-if="store.state.profileId != null" color="#45454A"
+              <el-button v-if="store.state.profileId != null" color="#45454A" :key="1"
                 style=" color:aliceblue; border:0px;width:125px;"
                 @click="this.$router.push('/job/' + this.jobId + '/apply')">
                 投递简历
@@ -44,16 +44,16 @@
               </el-button>
             </div>
 
-            <div class="button-area">
-              <el-button color="#45454A" style=" color:aliceblue; border:0px;width:125px;" @click="addStar">
+            <div class="button-area" :key="2">
+              <el-button color="#45454A" style=" color:aliceblue; border:0px;width:125px;" @click="addStar"
+                v-if="starId === -1">
                 加入收藏
                 <el-icon class="el-icon--right">
                   <Star />
                 </el-icon>
               </el-button>
-            </div>
-            <div class="button-area">
-              <el-button color="#45454A" style=" color:aliceblue; border:0px;width:125px;" @click="deleteStar">
+              <el-button color="#45454A" style=" color:aliceblue; border:0px;width:125px;" @click="deleteStar"
+                v-if="starId != -1">
                 取消收藏<el-icon class="el-icon--right">
                   <Star />
                 </el-icon>
@@ -150,13 +150,13 @@
 </template>
 
 <script>
-import { useRoute,useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { reactive, toRefs, watch, ref } from 'vue'
 import { Share, ChatDotRound, Star, Upload, WarnTriangleFilled } from "@element-plus/icons-vue"
 import { Tag } from 'element-plus'
 import axios from "axios";
 import { useStore } from "vuex";
-
+import { ElMessage } from 'element-plus'
 export default {
   data() {
     const store = useStore()
@@ -178,7 +178,20 @@ export default {
     const failStar = () => {
       ElMessage.error('收藏失败')
     }
+
+    const successDeleteStar = () => {
+      ElMessage({
+        message: '取消收藏成功！',
+        type: 'success',
+      })
+    }
+
+    const failDeleteStar = () => {
+      ElMessage.error('取消收藏失败')
+    }
+    let starId = ref(-1)
     return {
+      starId,
       router: useRouter(),
       reportContent: "",
       reportDialogTableVisible: false,
@@ -189,7 +202,7 @@ export default {
       jobText: "工作内容\n1、独立完成相关短视频的拍摄和后期剪辑工作；包含但不限于素材、视频剪辑、特效制作、添加片头、片尾和字幕等；2、理解项目需求，进行脚本的规划与制定；\n3、协调与沟通视频制作过程中的各个环节，完成制作全过程，保证成片质量；\n4、熟悉直播平台玩法和制作，对B站、小红书等视频平台的热点内容敏感，分析跑量视频特征，快速同款及精进；\n任职资格：\n1、大专以上学历，影视后期、广告编导、视觉设计相关专业毕业，一年以上相关经验；\n2、熟悉并热爱视频类广告创作，脑洞大，具有良好的审美和节奏感，有良好的内容热点嗅觉；\n3、熟练使用AE、PR、PS、edius等后期软件；\n4、熟练使用各种摄像和照片拍摄设备；\n5、乐观向上，有良好的职业素养，具有较强的团队协作精神、沟通能力和责任心。",
       companyObj: {
         name: '平多多',
-        description: '拼多多于2018年7月26日正式登陆纳斯达克全球精选板块，股票代码：PDD拼多多是中国新电商模式的开创者，目前拥有超过3.44亿的活跃买家和超过170万活跃商家。\n在以人为先的理念下，拼多多融合物质消费与精神消费，用户可以通过拼单，与好友分享买到便宜好货的快乐.',
+        description: '信息缺失',
         address: '上海长宁区金虹桥商业广场金虹桥国际中心',
         homePageUrl: 'https://www.pinduoduo.com/'
       },
@@ -220,12 +233,14 @@ export default {
         },
       ],
       successStar,
-      failStar
+      failStar,
+      successDeleteStar,
+      failDeleteStar
     }
   },
 
   methods: {
-    async newChat(){
+    async newChat() {
       try {
         // Replace the URL with your API endpoint to fetch chats
         const response = await axios.post("http://localhost:9090/conversations", {
@@ -235,7 +250,7 @@ export default {
 
         if (response.data.code === 200) {
           this.router.replace('')
-          this.router.replace("/myspace/chatList/chatRoom/" + response.data.data.id+"/"+this.publisherId)
+          this.router.replace("/myspace/chatList/chatRoom/" + response.data.data.id + "/" + this.publisherId)
         } else {
           alert(response.data.msg);
         }
@@ -276,7 +291,7 @@ export default {
         }
       }).then(function (response) {
         if (response.data.code == 200) {
-          console.log(response.data.data);
+          console.log('获取工作信息', response.data.data);
           that.jobText = response.data.data.description
           that.publisherId = response.data.data.publisherId
 
@@ -296,10 +311,10 @@ export default {
         }
       }).then(function (response) {
         if (response.data.code == 200) {
-          console.log(response.data.data);
+
           that.companyObj.name = response.data.data.companyName;
           that.companyObj.address = response.data.data.location;
-
+          console.log('获取公司信息', that.companyObj);
         } else {
           alert("error");
         }
@@ -307,7 +322,7 @@ export default {
     },
     addStar() {
       let that = this;
-      console.log("改变收藏状态！", that.jobId, 'user:', that.store.state.userId)
+      console.log("添加收藏！", 'job:', that.jobId, 'user:', that.store.state.userId)
       axios({
         method: "post",
         url: "http://localhost:9090/stars/jobs",
@@ -318,11 +333,57 @@ export default {
       }).then(function (response) {
         if (response.data.code == 200) {
           console.log(response.data.data);
-          successStar();
+          that.successStar();
+          that.isStar = true;
         } else {
           alert("error");
-          failStar();
+          that.failStar();
         }
+        window.location.reload();
+      })
+    },
+    getStarStatus() {
+      let that = this;
+      axios({
+        method: "post",
+        url: "http://localhost:9090/stars",
+        data: {
+          userId: that.store.state.userId,
+          targetId: that.jobId,
+          starType: 0
+        },
+        // headers: {
+        //   "Content-Type": "application/json"
+        // },
+      }).then(function (response) {
+        if (response.data.code == 200) {
+          var data = response.data.data
+          that.starId = data;
+          console.log('收藏Id', that.starId)
+        } else {
+          alert("error");
+        }
+
+      })
+    },
+    deleteStar() {
+      let that = this;
+      axios({
+        method: "delete",
+        url: "http://localhost:9090/stars",
+        params: {
+          id: that.starId,
+        }
+      }).then(function (response) {
+        if (response.data.code == 200) {
+
+          that.successDeleteStar();
+          that.isStar = false;
+        } else {
+          alert("error");
+          that.failDeleteStar();
+        }
+        window.location.reload();
       })
     }
 
@@ -331,6 +392,7 @@ export default {
   mounted() {
     this.getJob()
     this.getCompany()
+    this.getStarStatus()
   },
 
   computed: {

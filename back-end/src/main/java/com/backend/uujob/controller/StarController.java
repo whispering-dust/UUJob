@@ -27,12 +27,18 @@ public class StarController {
         return Result.success(star.getId());
     }
 
-    @GetMapping("")
+    @PostMapping("")
     public Result getStar(@RequestBody Star star){
         Star s = starService.getByAll(star);
         if(s == null){
             return Result.success(-1);
         }
         return Result.success(s.getId());
+    }
+
+    @DeleteMapping("")
+    public Result deleteStar(@RequestParam Integer id){
+        starService.removeById(id);
+        return Result.success();
     }
 }
