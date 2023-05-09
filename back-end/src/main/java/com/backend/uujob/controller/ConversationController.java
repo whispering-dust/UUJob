@@ -40,21 +40,20 @@ public class ConversationController {
 
         for(Conversation c : conversationList){
             ConversationDTO conversationDTO = new ConversationDTO();
-            List<Message> m = messageService.getListByConversationId(c.getId());  //获取该聊天室内的最新消息
 
+            //添加基本信息
             conversationDTO.setId(c.getId());
+            if(c.getLastMessage() != null){  //仅当最新信息不为null，才进行处理
+                conversationDTO.setLastMessage(c.getLastMessage());
+                conversationDTO.setLastMessageTime(timeTransfer(c.getLastMessageTime()));
+            }
             if(userId == c.getSenderId()){  //判断哪个id是聊天对象的id
                 conversationDTO.setContactId(c.getReceiverId());
                 conversationDTO.setContactName(userService.getNameById(c.getReceiverId()));
             }
-            else{
+            else {
                 conversationDTO.setContactId(c.getSenderId());
                 conversationDTO.setContactName(userService.getNameById(c.getSenderId()));
-            }
-            if(!m.isEmpty()){ //如果最新消息存在，则进行赋值
-                conversationDTO.setLastMessage(m.get(0).getContent());
-                conversationDTO.setLastMessageTime(timeTransfer(m.get(0).getCreatedAt()));
-                conversationDTO.setIsRead(m.get(0).getStatus());
             }
 
             resList.add(conversationDTO);
@@ -74,7 +73,11 @@ public class ConversationController {
         message.setStatus(MessageStautsEnum.MESSAGE_STAUTS_UNREAD.ordinal());
         message.setCreatedAt(new java.sql.Timestamp(System.currentTimeMillis()));
 
-        //将所属聊天室的最新
+        //将所属聊天室的最新消息设置为当前消息
+        Conversation conversation = conversationService.getById(message.getConversationId());
+        conversation.setLastMessage(message.getContent());
+        conversation.setLastMessageTime(message.getCreatedAt());
+        conversationService.updateById(conversation);
 
         messageService.save(message);
         return Result.success(message.getId());
