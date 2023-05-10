@@ -32,7 +32,7 @@
 
     <!-- 聊天室 -->
     <el-main>
-      <router-view></router-view>
+      <router-view @message-sent="updateChatList"></router-view>
     </el-main>
   </el-container>
 </template>
@@ -111,6 +111,7 @@ export default {
       this.selectedChat = this.userChatList.find((chat) => chat.id === chatId);
       this.router.replace('')
       this.router.replace("/myspace/chatList/chatRoom/" + chatId + "/" + this.selectedChat.contactId)
+
     },
     searchChats() {
       if (this.input) {
@@ -120,6 +121,9 @@ export default {
       } else {
         this.filteredChats = this.userChatList;
       }
+    },
+    updateChatList({ chatId, lastMessage, lastMessageTime }) {
+     
     },
   },
   mounted() {

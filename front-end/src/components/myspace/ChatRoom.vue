@@ -148,6 +148,13 @@ export default {
           this.newMessage=''
           await this.getHistoryMessages();
           this.scrollToBottom()
+
+          
+          this.$emit("message-sent", {
+            chatId: this.conversationId,
+            lastMessage: this.newMessage,
+            lastMessageTime: new Date().toISOString(),
+          });
         } else {
           alert(response.data.msg);
         }
@@ -215,8 +222,9 @@ export default {
     },
   },
   mounted() {
-    // 在组件加载时开始轮询
+    // 在组件加载时开始轮询   
     this.startPolling();
+    // this.scrollToBottom();
     //this.getHistoryMessages()
   },
   unmounted() {
