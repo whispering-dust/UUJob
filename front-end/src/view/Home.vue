@@ -7,7 +7,7 @@
 
           <!-- 搜索栏 -->
           <div class="card row" style="justify-content: center;height: 80%; background-color:#000000;">
-            <el-input round v-model="input" placeholder="Please input" clearable
+            <el-input round v-model="input" placeholder="Please input" clearable @keydown.enter="searchSubmit"
               style="height:100% ;  width:85%;margin:2px;">
             </el-input>
             <el-link @click="searchSubmit" :underline="false" style="height: 100%;margin-right:20px;">
@@ -18,8 +18,8 @@
         </div>
 
         <div class="container hot-list">
-          <span class="hot-item" style="font-size:larger"><strong>热门搜索:</strong></span>
-          <span class="hot-item" style="background-color:lightgray;" v-for="item in hotList" :key="item">{{ item }}</span>
+          <span class="hot-item text-white" style="font-size:24px "><strong>热门搜索:</strong></span>
+          <span class="hot-item" style="background-color:lightgray;" v-for="item in hotList" :key="item" @click="searchHotKeyword(item)">{{ item }}</span>
         </div>
       </div>
       <div class="bkmain bg-dark">
@@ -27,7 +27,7 @@
           <div class="row">
             <div class="col-md-8">
               <section class="container">
-                <RecruitArea></RecruitArea>
+                <RecruitArea ref="recruitArea"></RecruitArea>
               </section>
 
             </div>
@@ -64,7 +64,12 @@ export default {
   },
   methods: {
     searchSubmit() {
-      alert('Search')
+      //alert('Search')
+      this.$refs.recruitArea.searchJobs(this.input);
+    },
+    searchHotKeyword(keyword) {
+      this.input = keyword;
+      this.searchSubmit();
     }
   },
 };
@@ -135,11 +140,13 @@ export default {
 }
 
 .hot-item {
-  display: inline-block;
+  display: flex;
+  align-items: center;
   margin-right: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   padding: 6px;
   padding-bottom: 0px;
+  padding-top: 0px;
   border: 0px;
   border-radius: 4px;
   cursor: pointer;

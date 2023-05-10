@@ -9,7 +9,7 @@
       <el-menu-item index="3">喜好</el-menu-item>
     </el-menu>
 
-    <div v-for="recruitObj in paginatedRecruits()">
+    <div v-for="recruitObj in paginatedRecruits">
       <el-card class="box-card" shadow="hover">
         <template #header>
           <div class="card-header">
@@ -37,7 +37,7 @@
     </div>
 
     <div >
-      <el-pagination  @current-change="handlePageChange" :current-page="currentPage" :page-size="pageSize"
+      <el-pagination  :hide-on-single-page="totalRecruitObjs<=4?true:false"  @current-change="handlePageChange" :current-page="currentPage" :page-size="pageSize"
         :total="totalRecruitObjs" layout="prev, pager, next" background>
       </el-pagination>
     </div>
@@ -51,7 +51,7 @@
 </template>
   
 <script>
-import { ref } from 'vue';
+import { ref,watch  } from 'vue';
 import axios from "axios";
 import Apply from "@/components/home/Apply.vue";
 import { useStore } from "vuex";
@@ -79,6 +79,7 @@ export default {
       currentPage: 1, // 当前页码
       pageSize: 4, // 每页显示的数量
       totalRecruitObjs: 0, // 总的求职帖子数量
+      filteredRecruits: [],
 
       recruitObjs: [
         {
@@ -132,12 +133,6 @@ export default {
       this.currentPage = currentPage;
     },
 
-    paginatedRecruits() {
-      const startIndex = (this.currentPage - 1) * this.pageSize;
-      const endIndex = startIndex + this.pageSize;
-      return this.recruitObjs.slice(startIndex, endIndex);
-    },
-
     enterJob(id) {
       this.router.push("../job/" + id)
 
@@ -166,6 +161,8 @@ export default {
               }
             )
           });
+
+          that.filteredRecruits = that.recruitObjs;
         } else {
           alert("error");
         }
@@ -176,24 +173,47 @@ export default {
     handlePageChange(currentPage) {
       this.currentPage = currentPage;
     },
+    handleSelect(key, keyPath) {
+      console.log(key, keyPath);
+    },
 
+    async searchJobs(searchKeyword) {
+      if (!searchKeyword) {
+        this.filteredRecruits = this.recruitObjs;
+        return;
+      }
+      this.filteredRecruits = this.recruitObjs.filter(
+        (recruit) =>
+          recruit.title.toLowerCase().includes(searchKeyword.toLowerCase()) ||
+          recruit.position.toLowerCase().includes(searchKeyword.toLowerCase()) ||
+          recruit.description.toLowerCase().includes(searchKeyword.toLowerCase())
+      );
+    },
+  },
+  computed: {
     paginatedRecruits() {
       const startIndex = (this.currentPage - 1) * this.pageSize;
       const endIndex = startIndex + this.pageSize;
-      return this.recruitObjs.slice(startIndex, endIndex);
+      return this.filteredRecruits.slice(startIndex, endIndex);
     },
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath);
-    }
   },
   mounted() {
     this.getRecruitList();
-
-    this.paginatedRecruits();
-
-    this.totalRecruitObjs = this.recruitObjs.length;
-
-
+  },
+  watch: {
+    // searchKeyword: {
+    //   immediate: true,
+    //   handler() {
+    //     this.searchJobs();
+    //   },
+    // },
+    filteredRecruits: {
+      immediate: true,
+      handler() {
+        //this.filteredRecruits = this.recruitObjs;
+        this.totalRecruitObjs = this.filteredRecruits.length;
+      },
+    },
   },
 }
 
