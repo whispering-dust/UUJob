@@ -33,9 +33,9 @@ export default createStore({
       state.userId = value;
       storage.set('userId',value);
     },
-    setProfile(state, value) {
+    setProfileId(state, value) {
       state.profileId = value;
-      storage.set('profile',value);
+      storage.set('profileId',value);
     },
     setPass(state, value) {
       state.pass = value;

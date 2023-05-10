@@ -92,6 +92,12 @@ export default {
                   store.commit("setRole", response.data.data.role);
                   console.log(store.state);
 
+                  // window.localStorage.setItem("token",userId);
+                  if(store.state.role == 2){
+                    router.push("../management");
+                  }else{
+                    router.push("../home");
+                  }
                 } 
                 else {
                   alert(response.data.msg);
@@ -107,20 +113,13 @@ export default {
 
               }).then(function (response) {
                 if (response.data.code === 200) {
-                  store.commit("setProfile", response.data.data.id);
+                  store.commit("setProfileId", response.data.data.id);
                 }
                 else {
-                    alert(response.data.msg);
-
+                  //alert(response.data.msg);
                 }
               });
 
-              // window.localStorage.setItem("token",userId);
-              if(store.state.role == 2){
-                router.push("../management");
-              }else{
-                router.push("../home");
-              }
             } // 登录失败输出错误信息
             else {
               alert(response.data.msg);
