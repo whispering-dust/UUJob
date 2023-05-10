@@ -6,6 +6,73 @@
     <div class="main-area container">
       <div class="container job">
         <div class="row">
+          <div class="job-banner col-8">
+            <div class="job-status">
+              <span>招聘中</span>
+            </div>
+            <div class="name">
+              <h1>{{ jobInfo.title }}</h1>
+              <span class="salary">{{ jobInfo.salary }}</span>
+            </div>
+            <p>
+              <span>
+                <el-icon style="margin-top: 2px;">
+                  <Location />
+                </el-icon>
+                {{ jobInfo.location }}
+              </span>
+              <span><el-icon>
+                  <Calendar />
+                </el-icon> 发布于{{ jobInfo.date }} </span>
+            </p>
+            <div class="job-position">{{ jobInfo.position }}</div>
+          </div>
+          <div class="col-2">
+            <div class="button-area">
+              <el-button v-if="store.state.profileId != null" color="#45454A" :key="1"
+                style=" color:aliceblue; border:0px;width:125px;"
+                @click="this.$router.push('/job/' + this.jobId + '/apply')">
+                投递简历
+                <el-icon class="el-icon--right">
+                  <Upload />
+                </el-icon>
+              </el-button>
+            </div>
+
+            <div class="button-area">
+              <el-button color="#45454A" style=" color:aliceblue; border:0px;width:125px;" @click="addStar"
+                v-if="starId === -1" :key="2">
+                加入收藏
+                <el-icon class="el-icon--right">
+                  <Star />
+                </el-icon>
+              </el-button>
+              <el-button color="#45454A" style=" color:aliceblue; border:0px;width:125px;" @click="deleteStar"
+                v-if="starId != -1" :key="3">
+                取消收藏<el-icon class="el-icon--right">
+                  <Star />
+                </el-icon>
+              </el-button>
+            </div>
+
+            <div class="button-area">
+              <el-button @click="newChat" color="#45454A" style=" color:aliceblue; border:0px;width:125px;">
+                立即沟通<el-icon class="el-icon--right">
+                  <ChatDotRound />
+                </el-icon>
+              </el-button>
+            </div>
+
+            <div class="button-area">
+              <el-button color="#45454A" style="color:aliceblue; border:0px;width:125px;">
+                分享<el-icon class="el-icon--right">
+                  <Share />
+                </el-icon>
+              </el-button>
+            </div>
+          </div>
+        </div>
+        <div class="row">
           <div class="col-10">
             <el-card class="box-card p-0 card">
               <div class="card-header p-0 mb-2" style="">
@@ -32,50 +99,7 @@
 
           </div>
 
-          <div class="col-2">
-            <div class="button-area">
-              <el-button v-if="store.state.profileId != null" color="#45454A" :key="1"
-                style=" color:aliceblue; border:0px;width:125px;"
-                @click="this.$router.push('/job/' + this.jobId + '/apply')">
-                投递简历
-                <el-icon class="el-icon--right">
-                  <Upload />
-                </el-icon>
-              </el-button>
-            </div>
 
-            <div class="button-area" :key="2">
-              <el-button color="#45454A" style=" color:aliceblue; border:0px;width:125px;" @click="addStar"
-                v-if="starId === -1">
-                加入收藏
-                <el-icon class="el-icon--right">
-                  <Star />
-                </el-icon>
-              </el-button>
-              <el-button color="#45454A" style=" color:aliceblue; border:0px;width:125px;" @click="deleteStar"
-                v-if="starId != -1">
-                取消收藏<el-icon class="el-icon--right">
-                  <Star />
-                </el-icon>
-              </el-button>
-            </div>
-
-            <div class="button-area">
-              <el-button @click="newChat" color="#45454A" style=" color:aliceblue; border:0px;width:125px;">
-                立即沟通<el-icon class="el-icon--right">
-                  <ChatDotRound />
-                </el-icon>
-              </el-button>
-            </div>
-
-            <div class="button-area">
-              <el-button color="#45454A" style="color:aliceblue; border:0px;width:125px;">
-                分享<el-icon class="el-icon--right">
-                  <Share />
-                </el-icon>
-              </el-button>
-            </div>
-          </div>
 
         </div>
 
@@ -199,7 +223,15 @@ export default {
       publisherId: null,
       store,
       items,
-      jobText: "工作内容\n1、独立完成相关短视频的拍摄和后期剪辑工作；包含但不限于素材、视频剪辑、特效制作、添加片头、片尾和字幕等；2、理解项目需求，进行脚本的规划与制定；\n3、协调与沟通视频制作过程中的各个环节，完成制作全过程，保证成片质量；\n4、熟悉直播平台玩法和制作，对B站、小红书等视频平台的热点内容敏感，分析跑量视频特征，快速同款及精进；\n任职资格：\n1、大专以上学历，影视后期、广告编导、视觉设计相关专业毕业，一年以上相关经验；\n2、熟悉并热爱视频类广告创作，脑洞大，具有良好的审美和节奏感，有良好的内容热点嗅觉；\n3、熟练使用AE、PR、PS、edius等后期软件；\n4、熟练使用各种摄像和照片拍摄设备；\n5、乐观向上，有良好的职业素养，具有较强的团队协作精神、沟通能力和责任心。",
+      jobInfo: {
+        title: '',
+        position: '',
+        location: '',
+        salary: '',
+        companyName: '',
+        date: '',
+        description: '工作内容\n1、独立完成相关短视频的拍摄和后期剪辑工作'
+      },
       companyObj: {
         name: '平多多',
         description: '信息缺失',
@@ -250,7 +282,7 @@ export default {
 
         if (response.data.code === 200) {
           this.router.replace('')
-          this.router.replace("/myspace/chatList/chatRoom/" + response.data.data.id + "/" + this.publisherId)
+          this.router.replace("/myspace/chatList/chatRoom/" + response.data.data + "/" + this.publisherId)
         } else {
           alert(response.data.msg);
         }
@@ -291,8 +323,15 @@ export default {
         }
       }).then(function (response) {
         if (response.data.code == 200) {
+          var data = response.data.data;
           console.log('获取工作信息', response.data.data);
-          that.jobText = response.data.data.description
+          that.jobInfo.description = data.description;
+          that.jobInfo.title = data.title;
+          that.jobInfo.salary = data.salary;
+          that.jobInfo.position = data.position;
+          that.jobInfo.location = data.location;
+          var date = new Date(data.date);
+          that.jobInfo.date = date.getFullYear() + "-" + (date.getMonth() + 1).toString().padStart(2, '0') + "-" + date.getDate().toString().padStart(2, '0');
           that.publisherId = response.data.data.publisherId
 
         } else {
@@ -398,7 +437,7 @@ export default {
   computed: {
     formattedText() {
       // 将换行符替换为 <br> 标签
-      return this.jobText.replace(/\n/g, "<br>");
+      return this.jobInfo.description.replace(/\n/g, "<br>");
     },
 
     formattedCompanyText() {
@@ -446,7 +485,77 @@ export default {
 .job {
   position: absolute;
   z-index: 1;
-  top: -200px;
+  top: -250px;
   ;
+}
+
+.job-banner {
+  margin-left: 20px;
+}
+
+.job-status {
+  color: rgba(255, 255, 255, .7);
+  font-size: 14px;
+  line-height: 20px;
+  height: 20px;
+}
+
+.job-banner .name {
+  font-size: 32px;
+  line-height: 45px;
+  color: #fff;
+  font-weight: 400;
+  padding: 8px 0;
+}
+
+.job-banner .name h1 {
+  font-size: 36px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 40px;
+  margin-right: 30px;
+  margin-top: 1px;
+  max-width: 360px;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.job-banner .salary {
+  font-size: 32px;
+  font-family: kanzhun-Regular, kanzhun;
+  color: #f26d49;
+  line-height: 41px;
+  height: auto;
+  font-weight: 400;
+  position: relative;
+  top: -2px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.job-banner p {
+  margin-top: 2px;
+  color: #fff;
+  line-height: 20px;
+  display: block;
+  font-size: 18px;
+  color: #fff;
+  height: 20px;
+  margin-right: 20px;
+}
+
+.job-banner span {
+  font-size: 16px;
+  color: #fff;
+  line-height: 20px;
+  height: 20px;
+  margin-right: 20px;
+  padding: 0px 0 0px;
+}
+
+.job-position {
+  color: #fff;
+  font-size: 16px;
 }
 </style>

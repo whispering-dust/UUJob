@@ -1,7 +1,7 @@
 <template>
   <div class="chatroom">
 
-     <div ref="messages" class="messages">
+    <div ref="messages" class="messages">
       <el-scrollbar>
         <div class="mb-2" v-for="message in messages" :key="message.id"
           :class="{ 'my-message': message.isMine, 'their-message': !message.isMine }">
@@ -119,7 +119,7 @@ export default {
           this.messages = messageList;
 
           //this.$refs.messages.scrollTo(0, this.$refs.messages.scrollHeight)
-          
+
         } else {
           alert(response.data.msg);
         }
@@ -139,7 +139,7 @@ export default {
         if (response.data.code === 200) {
           this.$message.success('发送成功')
 
-          this.newMessage=''
+          this.newMessage = ''
           this.getHistoryMessages();
         } else {
           alert(response.data.msg);
