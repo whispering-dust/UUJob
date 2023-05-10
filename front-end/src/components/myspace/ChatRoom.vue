@@ -1,6 +1,7 @@
 <template>
   <div class="chatroom">
 
+
      <div class="messages">
       <el-scrollbar ref="messagesScroll" >
         <div class="mb-2" v-for="message in messages" :key="message.id"
@@ -125,6 +126,7 @@ export default {
 
 
           this.messages = messageList;
+
           //this.scrollToBottom()
         } else {
           alert(response.data.msg);
@@ -144,6 +146,7 @@ export default {
         });
         if (response.data.code === 200) {
           this.$message.success('发送成功')
+
 
           this.newMessage=''
           await this.getHistoryMessages();
