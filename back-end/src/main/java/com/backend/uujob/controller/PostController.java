@@ -86,4 +86,13 @@ public class PostController {
     public Result getPostUnaudited() {
         return Result.success(postService.getListByStatus(CensorStatusEnum.CENSOR_STATUS_SUBMIT));
     }
+
+    @PutMapping("/examinations")
+    public Result examinePost(@RequestBody Post post){
+        post.setDate(new java.sql.Timestamp(System.currentTimeMillis()));  //获取当前时间作为帖子的发布时间
+        if(postService.updateById(post)){
+            return Result.success();
+        }
+        return Result.error();
+    }
 }

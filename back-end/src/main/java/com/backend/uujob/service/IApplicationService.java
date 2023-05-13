@@ -1,11 +1,11 @@
 package com.backend.uujob.service;
 
 import com.backend.uujob.entity.Application;
-import com.github.jeffreyning.mybatisplus.service.IMppService;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
 
-public interface IApplicationService extends IMppService<Application> {
+public interface IApplicationService extends IService<Application> {
     List<Application> getByJobIdAndStatus(int jobId, int status);
 
     List<Application> getByProfileId(int profileId);

@@ -73,7 +73,7 @@ public class JobController {
         application.setStatus(ApplStatusEnum.APPL_STATUS_SUBMIT.ordinal());
         //获取当前时间作为申请提交时间
         application.setApplicationDate(new java.sql.Timestamp(System.currentTimeMillis()));
-        applicationService.saveOrUpdateByMultiId(application);
+        applicationService.save(application);
         return Result.success();
     }
 
@@ -141,17 +141,25 @@ public class JobController {
 
     @PutMapping("/applications")
     public Result processApplication(@RequestBody Application application){
-        //申请提交时默认状态为待审核
-        application.setStatus(ApplStatusEnum.APPL_STATUS_SUBMIT.ordinal());
-        //获取当前时间作为申请提交时间
-        application.setApplicationDate(new java.sql.Timestamp(System.currentTimeMillis()));
-        applicationService.updateByMultiId(application);
-        return Result.success();
+        application.setReviewDate(new java.sql.Timestamp(System.currentTimeMillis())); //设置当前时间为审查时间
+        if(applicationService.updateById(application)){
+            return Result.success();
+        }
+        return Result.error();
     }
 
     @GetMapping("/unaudited")
     public Result getJobUnaudited(){
         return Result.success(jobService.getListByStatus(CensorStatusEnum.CENSOR_STATUS_SUBMIT));
+    }
+
+    @PutMapping("/examinations")
+    public Result examineJob(@RequestBody Job job){
+        job.setDate(new java.sql.Timestamp(System.currentTimeMillis()));  //获取当前时间作为工作的发布时间
+        if(jobService.updateById(job)){
+            return Result.success();
+        }
+        return Result.error();
     }
 
 }

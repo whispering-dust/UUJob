@@ -43,4 +43,9 @@ public class ReportController {
     public Result getReportUnaudited(){
         return Result.success(reportService.getListByStatus(ReportStatusEnum.REPORT_STATUS_PENDING));
     }
+
+    @PutMapping("/examinations")
+    public Result handleReport(@RequestBody Report report){
+        return Result.success(reportService.updateById(report));
+    }
 }
