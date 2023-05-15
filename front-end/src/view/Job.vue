@@ -12,7 +12,7 @@
             </div>
             <div class="name">
               <h1>{{ jobInfo.title }}</h1>
-              <span class="salary">{{ jobInfo.salary }}</span>
+              <span class="salary">{{ jobInfo.salary }}/每月</span>
             </div>
             <p>
               <span>
@@ -147,11 +147,7 @@
                     <el-table-column prop="jobName" label="岗位名称"></el-table-column>
                     <el-table-column prop="companyName" label="公司名称"></el-table-column>
                     <el-table-column prop="salary" label="薪资范围"></el-table-column>
-                    <el-table-column prop="tags" label="标签">
-                      <template v-slot="{ row }">
-                        <el-tag v-for="tag in row.tags" :key="tag">{{ tag }}</el-tag>
-                      </template>
-                    </el-table-column>
+                    
                   </el-table>
                 </div>
 
@@ -243,25 +239,21 @@ export default {
           jobName: 'jobName',
           companyName: 'companyName',
           salary: 'salary',
-          tags: ['tag1', 'tag2'],
         },
         {
           jobName: 'jobName',
           companyName: 'companyName',
           salary: 'salary',
-          tags: ['tag1', 'tag2'],
         },
         {
           jobName: 'jobName',
           companyName: 'companyName',
           salary: 'salary',
-          tags: ['tag1', 'tag2'],
         },
         {
           jobName: 'jobName',
           companyName: 'companyName',
           salary: 'salary',
-          tags: ['tag1', 'tag2'],
         },
       ],
       successStar,
@@ -378,7 +370,7 @@ export default {
           alert("error");
           that.failStar();
         }
-        window.location.reload();
+        //window.location.reload();
       })
     },
     getStarStatus() {
@@ -422,7 +414,7 @@ export default {
           alert("error");
           that.failDeleteStar();
         }
-        window.location.reload();
+        //window.location.reload();
       })
     }
 

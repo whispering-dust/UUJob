@@ -4,23 +4,27 @@
 
      <div class="messages">
       <el-scrollbar ref="messagesScroll" >
-        <div class="mb-2" v-for="message in messages" :key="message.id"
+          <div class="mb-5" v-for="message in messages" :key="message.id"
           :class="{ 'my-message': message.isMine, 'their-message': !message.isMine }">
-          <img class="avatar" :src="message.avatar" alt="user" />
-          <div class="message-content" :class="{ 'my-bubble': message.isMine, 'their-bubble': !message.isMine }">
-            <div v-if="message.type === 'text'">
-              {{ message.content }}
+            <img class="avatar" :src="message.avatar" alt="user" />
+            <div class="message-content" :class="{ 'my-bubble': message.isMine, 'their-bubble': !message.isMine }">
+              <div v-if="message.type === 'text'">
+                {{ message.content }}
+              </div>
+              <div v-if="message.type === 'image'">
+                <img :src="message.content" class="uploaded-image" @click="downloadFile(message.content)" />
+              </div>
+              <div v-if="message.type === 'file'">
+                <a :href="message.content" download @click="downloadFile(message.content)">
+                  {{ message.fileName }}
+                </a>
+              </div>
             </div>
-            <div v-if="message.type === 'image'">
-              <img :src="message.content" class="uploaded-image" @click="downloadFile(message.content)" />
-            </div>
-            <div v-if="message.type === 'file'">
-              <a :href="message.content" download @click="downloadFile(message.content)">
-                {{ message.fileName }}
-              </a>
+            <div class="message-time">
+              {{message.createdAt}}
             </div>
           </div>
-        </div>
+       
       </el-scrollbar>
     </div>
 
@@ -270,14 +274,15 @@ export default {
 }
 
 .my-message {
-  width: 100%;
-  float: left;
+  width: 90%;
+  float: right;
 }
 
 .their-message {
   width: 100%;
   display: flex;
   justify-content: flex-start;
+  position: relative;
 }
 
 .their-message .avatar {
@@ -299,6 +304,14 @@ export default {
   float: right;
 }
 
+.my-message .message-time{
+  float: right;
+}
+.their-message .message-time{
+  position: absolute;
+  bottom: -25px;
+  margin-left: 50px;
+}
 .my-bubble {
   background-color: teal;
   color: #fff;

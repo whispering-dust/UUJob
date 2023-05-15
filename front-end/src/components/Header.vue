@@ -1,6 +1,6 @@
 <template>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-2">
-        <img src="assets/images/logo.png" style="height: 60px;" class="img-fluid animated" data-animation-in="jackInTheBox"
+        <img src="https://pic2.imgdb.cn/item/645b2b550d2dde5777379fbd.png" style="height: 60px;" class="img-fluid animated" data-animation-in="jackInTheBox"
             data-animation-delay="1000" alt="UUjob">
         <a class="navbar-brand" href="#">UUJOB</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar_example_1"
