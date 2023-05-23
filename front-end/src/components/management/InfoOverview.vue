@@ -24,9 +24,6 @@
 
                               <el-table :data="pendingReportsData" height="500" style="width: 100%">
                                 <el-table-column prop="id" label="举报记录id"/>
-                                <el-table-column prop="targetId" label="被举报人id"/>
-                                <el-table-column prop="reporterId" label="举报人id" />
-                                <el-table-column prop="content" label="举报内容" width="200"/>
                                 <el-table-column prop="type" label="类型" >
                                     <template #default="scope">
                                         <div style="display: flex; align-items: center">
@@ -34,6 +31,9 @@
                                         </div>
                                       </template>
                                 </el-table-column>
+                                <el-table-column prop="targetId" label="被举报人id"/>
+                                <el-table-column prop="reporterId" label="举报人id" />
+                                <el-table-column prop="content" label="举报内容" width="200"/>                               
                               </el-table>
                         </el-card>
                     </el-col>
@@ -86,6 +86,8 @@
                     console.log(response.data.data);
                     this.pendingReportsData = response.data.data
                     this.pendingReportsData.forEach(element => {
+                        //限制内容字数
+                        element.content=element.content.substring(0, 10)
                         switch (element.type) {
                             case 0:
                                 element.type='岗位'

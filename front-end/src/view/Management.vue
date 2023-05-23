@@ -8,21 +8,19 @@
                 background-color="#343a40"
                 class="el-menu-vertical-demo"
                 text-color="#fff"
-                style="width: 100%; border-right: 0px;"
-                @open="handleOpen"
-                @close="handleClose"
+                style="width: 100%; border-right: 0px;"                
             >
-                <el-menu-item index="1">
+                <el-menu-item index="1" @click="handleSelect(1)">
                     <el-icon><View /></el-icon>
                     <span>信息概览</span>
                 </el-menu-item>
 
-                <el-menu-item index="2">
+                <el-menu-item index="2" @click="handleSelect(2)">
                     <el-icon><Crop /></el-icon>
                     <span>处理举报</span>
                 </el-menu-item>
 
-                <el-menu-item index="3">
+                <el-menu-item index="3" @click="handleSelect(3)">
                     <el-icon><setting /></el-icon>
                     <span>审核</span>
                     </el-menu-item>
@@ -30,9 +28,9 @@
         </el-aside>
 
         <el-main>
-            <InfoOverview v-if="selectedComponent === 'InfoOverview'" />
-            <HandleReport v-if="selectedComponent === 'HandleReport'" />
-            <Audit v-if="selectedComponent === 'Audit'" />
+            <InfoOverview v-if="selectedComponent == 'InfoOverview'" />
+            <HandleReport v-if="selectedComponent == 'HandleReport'" />
+            <Audit v-if="selectedComponent == 'Audit'" />
         </el-main>
     </el-container>
 
@@ -59,13 +57,13 @@ export default{
     methods: {
         handleSelect(index) {
             switch (index) {
-                case '1':
+                case 1:
                     this.selectedComponent = 'InfoOverview';
                     break;
-                case '2':
+                case 2:
                     this.selectedComponent = 'HandleReport';
                     break;
-                case '3':
+                case 3:
                     this.selectedComponent = 'Audit';
                     break;
             }

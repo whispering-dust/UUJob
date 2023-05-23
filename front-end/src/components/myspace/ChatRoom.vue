@@ -1,28 +1,29 @@
 <template>
   <div class="chatroom">
-
-
      <div class="messages">
-      <el-scrollbar ref="messagesScroll" >
+      <el-scrollbar ref="messagesScroll" style="width: 100%;">
           <div class="mb-5" v-for="message in messages" :key="message.id"
           :class="{ 'my-message': message.isMine, 'their-message': !message.isMine }">
-            <img class="avatar" :src="message.avatar" alt="user" />
-            <div class="message-content" :class="{ 'my-bubble': message.isMine, 'their-bubble': !message.isMine }">
-              <div v-if="message.type === 'text'">
-                {{ message.content }}
+            <img class="avatar" v-if="!message.isMine" :src="message.avatar" alt="user" />
+            <div class="message-main">
+              <div class="message-content" :class="{ 'my-bubble': message.isMine, 'their-bubble': !message.isMine }">
+                <div v-if="message.type === 'text'">
+                  {{ message.content }}
+                </div>
+                <div v-if="message.type === 'image'">
+                  <img :src="message.content" class="uploaded-image" @click="downloadFile(message.content)" />
+                </div>
+                <div v-if="message.type === 'file'">
+                  <a :href="message.content" download @click="downloadFile(message.content)">
+                    {{ message.fileName }}
+                  </a>
+                </div>
               </div>
-              <div v-if="message.type === 'image'">
-                <img :src="message.content" class="uploaded-image" @click="downloadFile(message.content)" />
-              </div>
-              <div v-if="message.type === 'file'">
-                <a :href="message.content" download @click="downloadFile(message.content)">
-                  {{ message.fileName }}
-                </a>
+              <div class="message-time">
+                {{message.createdAt}}
               </div>
             </div>
-            <div class="message-time">
-              {{message.createdAt}}
-            </div>
+            <img class="avatar" v-if="message.isMine" :src="message.avatar" alt="user" />
           </div>
        
       </el-scrollbar>
@@ -124,6 +125,9 @@ export default {
               message.isMine = false
             }
             message.type = 'text';
+            var date = new Date(message.createdAt);
+            message.createdAt=(date.getMonth() + 1).toString().padStart(2, '0') + "-" + date.getDate().toString().padStart(2, '0')
+              + " " +date.getHours().toString()+":"+date.getMinutes().toString().padStart(2, '0');
             //头像有待处理
             message.avatar = 'https://via.placeholder.com/40'
           });
@@ -252,6 +256,10 @@ export default {
   overflow: auto;
   height: 50%;
   padding: 1rem;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  position: relative;
 }
 
 .avatar {
@@ -269,13 +277,14 @@ export default {
 }
 
 .my-message .avatar {
-  float: right;
   margin-left: 20px;
 }
 
 .my-message {
-  width: 90%;
-  float: right;
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  padding-right: 40px;
 }
 
 .their-message {
@@ -290,28 +299,26 @@ export default {
 }
 
 .their-message .message-content {
-  max-width: 40%;
   border-radius: 5px;
   padding: 0.5rem;
   position: relative;
+  max-width: 500px;
 }
 
 .my-message .message-content {
-  max-width: 40%;
   border-radius: 5px;
   padding: 0.5rem;
   position: relative;
-  float: right;
+  max-width: 500px;
 }
 
 .my-message .message-time{
   float: right;
 }
 .their-message .message-time{
-  position: absolute;
-  bottom: -25px;
-  margin-left: 50px;
+  float: left;
 }
+
 .my-bubble {
   background-color: teal;
   color: #fff;

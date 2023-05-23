@@ -277,7 +277,7 @@ export default {
       if (this.selectedJob.status == 0) {
         return "未审核"
       }else if(this.selectedJob.status == 1){
-        return "审核已通过"
+        return "已通过"
       }
       
     }
