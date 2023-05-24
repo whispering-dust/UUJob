@@ -118,7 +118,7 @@ const routes = [
             ]
           },
           {
-            path: '/myspace/myPost',
+            path: '/myspace/myPosts',
             name: 'myPost',
             component: () => import('@/components/myspace/MyPost.vue')
           },

@@ -163,7 +163,7 @@ export default {
     },
     mounted() {
         this.getPostInfo()
-
+        //alert('postCard'+this.targetPostId)
 
     }
 };

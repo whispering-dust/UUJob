@@ -10,7 +10,7 @@
                       </template>
 
                       <el-table :data="pendingReportsData" height="700" style="width: 100%" @row-click="handleRowClick">
-                        <el-table-column prop="id" label="举报记录id" width="100"/>
+                        <el-table-column prop="id" label="岗位/帖子id" width="100"/>
                         <el-table-column prop="type" label="类型" >
                             <template #default="scope">
                                 <div style="display: flex; align-items: center">
@@ -30,7 +30,10 @@
                     <template #header>
                         <div style="display: flex; justify-content:space-between">
                           <span class="h4">举报内容详情</span>
-                          <el-button type="primary" round @click="handleReport">处理举报</el-button>
+                          <div>
+                            <el-button type="primary" round @click="handleReport">处理举报</el-button>
+                            <el-button type="info" round @click="handleReportNeglect">忽略</el-button>
+                          </div>
                         </div>
                       </template>
                       <div v-if="selectedPendingReportsData.type == '帖子'">
@@ -182,6 +185,25 @@
           this.getJob()
         }
       },
+      async handleReportNeglect(){
+        try {
+          const response = await axios.put("http://localhost:9090/reports/examinations", {
+            id: this.selectedPendingReportsData.id,
+            status: 2,
+            feekback:'已忽略该举报'
+          });
+
+          if (response.data.code === 200) {
+            this.$message.success('已忽略该举报')
+          } else {
+            alert(response.data.msg);
+          }
+        } catch (error) {
+          console.error("Failed to fetch job:", error);
+        }
+        // 当举报处理完后，刷新举报列表
+        await this.getPendingReports();
+      },
       async handleReport() {
         console.log(this.selectedPendingReportsData.id);
         // 这里添加处理举报的代码，
@@ -193,7 +215,7 @@
           });
 
           if (response.data.code === 200) {
-            this.$message.success('已处理改举报')
+            this.$message.success('已处理该举报')
           } else {
             alert(response.data.msg);
           }

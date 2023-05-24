@@ -28,12 +28,31 @@
           <template #header>
             <div style="display: flex; justify-content:space-between">
               <span class="h4">审核内容详情</span>
-              <el-button type="primary" round @click="handleAudit">处理审核</el-button>
+              <el-button type="primary" round @click="handleAudit">审核通过</el-button>
             </div>
           </template>
+
+          <!-- 帖子 -->
           <div v-if="selectedPendingAuditsData.type == '帖子'">
-            <PostCard :targetPostId="selectedPendingAuditsData.targetId" :flag="false"></PostCard>
+            <div class="post-header">
+              <div style="display:flex;align-items: center;">
+                  <el-avatar src="avatar.png" size="50"></el-avatar>
+                  <div class="user-info">
+                      <div class="user-name mr-2 h5">{{ postUser.userName }}</div>
+                      <div class="user-degree">{{ postUser.role }}</div>
+                      <el-tag class="ml-2" type="success">{{ seletcedPost.postType }}</el-tag>
+                  </div>
+              </div>
+              <!-- <div class="post-time">发布时间：{{ seletcedPost.date }}</div> -->
           </div>
+          <div class="post-info container">
+              <div class="h4">{{ seletcedPost.title }}</div>
+              <el-divider />
+              <div class="post-content" v-html="formattedPostText"></div>
+          </div>
+          </div>
+
+          <!-- 岗位 -->
           <div v-if="selectedPendingAuditsData.type == '岗位'">
             <div class="card-header p-0 mb-3" style="">
               <span style="font-size: larger;"><strong>{{ selectedJob.title }}</strong></span>
@@ -101,12 +120,8 @@
   <script>
   import axios from "axios";
   import { useStore } from "vuex";
-  import PostCard from "@/components/forum/PostCard.vue";
   
   export default {
-    components: {
-      PostCard,
-    },
     data() {
       return {
         userName: useStore().state.userName,
@@ -114,8 +129,14 @@
         pendingAuditsData: null,
         selectedPendingAuditsData: {},
         selectedJob: {},
+        seletcedPost:{},
         owner: {},
         comment: {},
+        postUser: {
+          userId: null,
+          userName: '用户1',
+          role: '招聘者',
+        },
       };
     },
     methods: {
@@ -142,7 +163,21 @@
           if (response.data.code === 200) {
             response.data.data.forEach((element) => {
                 element.targetId=element.id;
-                element.type ='帖子';
+                switch (element.type) {
+                        case 1:
+                        element.postType = '技术交流'
+                            break;
+                        case 2:
+                        element.postType = '求职经验'
+                            break;
+                        case 3:
+                        element.postType = '行业动态'
+                            break;
+                        default:
+                        element.postType = '其他'
+                            break;
+                    }
+                element.type ='帖子';  
                 this.pendingAuditsData.push(element);            
             });
             this.pendingAuditsNum = this.pendingAuditsData.length;
@@ -159,20 +194,59 @@
           this.getJob();
         }
         if (this.selectedPendingAuditsData.type == "帖子") {
-          alert(this.selectedPendingAuditsData.targetId)
+          this.getPost();
+          console.log(this.seletcedPost);
         }
       },
+      getPost(){
+        this.seletcedPost = this.selectedPendingAuditsData;
+        this.postUser.userId = this.seletcedPost.publisherId;
+        this.getPostUser();
+      },
+      async getPostUser() {
+          try {
+              const response = await axios.get("http://localhost:9090/users", {
+                  params: {
+                      id: this.postUser.userId,
+                  },
+              });
+
+              if (response.data.code === 200) {
+                  console.log(response.data.data);
+                  this.postUser.userName = response.data.data.userName
+                  if (response.data.data.role == '1') {
+                      this.postUser.role = '招聘者'
+                  } else {
+                      this.postUser.role = '求职者'
+                  }
+
+              } else {
+                  alert(response.data.msg);
+              }
+          } catch (error) {
+              console.error("Failed to fetch user:", error);
+          }
+        },
       async handleAudit() {
-        console.log(this.selectedPendingAuditsData.id);
+        
         try {
-          const response = await axios.put("http://localhost:9090/reports/examinations", {
-            id: this.selectedPendingAuditsData.id,
-            status: 1,
-            feekback: "已处理审核",
-          });
-  
+          const response = null;
+          if(this.selectedPendingAuditsData.type == '帖子'){
+            response = await axios.put("http://localhost:9090/posts/examinations", {
+              id: this.selectedPendingAuditsData.id,
+              status: 1,
+            });
+          }
+
+          if(this.selectedPendingAuditsData.type == '岗位'){
+            response = await axios.put("http://localhost:9090/jobs/examinations", {
+              id: this.selectedPendingAuditsData.id,
+              status: 1,
+            });
+          }
+
           if (response.data.code === 200) {
-            this.$message.success("已处理该审核");
+            this.$message.success("已审核");
           } else {
             alert(response.data.msg);
           }
@@ -232,6 +306,9 @@
       formattedText() {
         return this.selectedJob.selectedJobText.replace(/\n/g, "<br>");
       },
+      formattedPostText() {
+          return this.seletcedPost.content.replace(/\n/g, "<br>");
+      },
     },
   };
   </script>
@@ -266,5 +343,35 @@
     justify-content: space-between;
     align-items: center;
   }
+
+  .postcard {
+    margin-bottom: 16px;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.user-info {
+    display: flex;
+    margin-left: 12px;
+}
+
+.post-info {
+    margin-bottom: 12px;
+}
+
+.post-actions {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.post-content {
+    min-height: 100px;
+}
   </style>
   
