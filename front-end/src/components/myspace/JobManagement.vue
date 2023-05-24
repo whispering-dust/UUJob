@@ -68,7 +68,7 @@
                             <el-main style="padding: 0px;">
                               <div class="job-info">
                                 <div>{{ profile.name }}</div>
-                                <p class="" style="color: rgb(46, 121, 242);">未审核</p>
+                                <p class="" style="color: rgb(46, 121, 242);">已通过</p>
                               </div>
                             </el-main>
                           </el-container>

@@ -72,17 +72,21 @@
 
 <script>
 import { useStore } from "vuex";
-import { useRoute } from 'vue-router';
 import axios from "axios";
 export default {
     name: "CommentSection",
+    props:{
+      postId: {
+            type: String,
+            default: 'null'
+      },
+    },
     data() {
         return {
         isResponse: {
             id:null
         },
         userId: useStore().state.userId,
-        postId: useRoute().params.postId,
         commentContent: "",
         responseContent:"",
         commentList: [

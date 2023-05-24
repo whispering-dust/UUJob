@@ -3,8 +3,11 @@
         <!-- <div class="card-bk bg-tertiary text-white px-4 px-lg-5 py-5 rounded-0 border-0 mb-0"></div> -->
         <div class="main-area container">
             <div class="container post-area pt-5">
-                <PostCard></PostCard>
-                <div> <Comment></Comment></div>
+                <el-card class="postcard mb-5">
+                    <PostCard :targetPostId="postId"></PostCard>
+                </el-card>
+                
+                <div> <Comment :postId="postId"></Comment></div>
             </div>
         </div>
         
@@ -16,13 +19,16 @@
 <script>
 import PostCard from '@/components/forum/PostCard.vue'
 import Comment from '@/components/forum/Comment.vue'
+import { useRoute } from 'vue-router';
 export default{
     components:{
         PostCard,
         Comment,
     },
     data(){
-        
+        return{
+            postId: useRoute().params.postId,
+        }
     }
 }
 

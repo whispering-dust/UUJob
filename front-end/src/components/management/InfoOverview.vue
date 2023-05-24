@@ -23,7 +23,7 @@
                               </template>
 
                               <el-table :data="pendingReportsData" height="500" style="width: 100%">
-                                <el-table-column prop="id" label="举报记录id"/>
+                                <el-table-column prop="id" label="举报记录id" width="100"/>
                                 <el-table-column prop="type" label="类型" >
                                     <template #default="scope">
                                         <div style="display: flex; align-items: center">
@@ -31,9 +31,10 @@
                                         </div>
                                       </template>
                                 </el-table-column>
-                                <el-table-column prop="targetId" label="被举报人id"/>
-                                <el-table-column prop="reporterId" label="举报人id" />
-                                <el-table-column prop="content" label="举报内容" width="200"/>                               
+                                <el-table-column prop="reporterName" label="举报人"/>
+                                <el-table-column prop="targetContent" label="举报理由" />
+                                <el-table-column prop="content" label="举报内容" width="200"/>
+                                                             
                               </el-table>
                         </el-card>
                     </el-col>
@@ -106,6 +107,7 @@
                         }
                     });
                     this.pendingReportsNum = this.pendingReportsData.length
+                    console.log(response.data.data);
                 } else {
                     alert(response.data.msg);
                 }

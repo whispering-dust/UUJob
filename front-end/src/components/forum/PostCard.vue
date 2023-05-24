@@ -1,35 +1,34 @@
 <template>
-    <el-card class="postcard">
-        <div class="post-header">
-            <div style="display:flex;align-items: center;">
-                <el-avatar src="avatar.png" size="50"></el-avatar>
-                <div class="user-info">
-                    <div class="user-name mr-2 h5">{{ postUser.userName }}</div>
-                    <div class="user-degree">{{ postUser.role }}</div>
-                    <el-tag class="ml-2" type="success">{{ postTag }}</el-tag>
-                </div>
+
+    <div class="post-header">
+        <div style="display:flex;align-items: center;">
+            <el-avatar src="avatar.png" size="50"></el-avatar>
+            <div class="user-info">
+                <div class="user-name mr-2 h5">{{ postUser.userName }}</div>
+                <div class="user-degree">{{ postUser.role }}</div>
+                <el-tag class="ml-2" type="success">{{ postTag }}</el-tag>
             </div>
-            <div class="post-time">发布时间：{{ postTime }}</div>
         </div>
-        <div class="post-info container">
-            <div class="h4">{{ postTitle }}</div>
-            <div class="post-content" v-html="formattedPostText"></div>
-        </div>
-        <div class="post-actions">
-            <el-button link><font-awesome-icon :icon="['fa', 'thumbs-up']"></font-awesome-icon></el-button>
-            <el-button link @click="this.userCollected = !this.userCollected"><el-icon size="large" v-if="!userCollected">
-                    <Star />
-                </el-icon> <el-icon size="large" v-else>
-                    <StarFilled />
-                </el-icon></el-button>
-            <el-button link><el-icon size="large">
-                    <Share />
-                </el-icon></el-button>
-            <el-button link @click="reportDialogTableVisible = !reportDialogTableVisible"><el-icon size="large">
-                    <WarnTriangleFilled />
-                </el-icon></el-button>
-        </div>
-    </el-card>
+        <div class="post-time">发布时间：{{ postTime }}</div>
+    </div>
+    <div class="post-info container">
+        <div class="h4">{{ postTitle }}</div>
+        <div class="post-content" v-html="formattedPostText"></div>
+    </div>
+    <div class="post-actions" v-if="flag == true">
+        <el-button link><font-awesome-icon :icon="['fa', 'thumbs-up']"></font-awesome-icon></el-button>
+        <el-button link @click="this.userCollected = !this.userCollected"><el-icon size="large" v-if="!userCollected">
+                <Star />
+            </el-icon> <el-icon size="large" v-else>
+                <StarFilled />
+            </el-icon></el-button>
+        <el-button link><el-icon size="large">
+                <Share />
+            </el-icon></el-button>
+        <el-button link @click="reportDialogTableVisible = !reportDialogTableVisible"><el-icon size="large">
+                <WarnTriangleFilled />
+            </el-icon></el-button>
+    </div>
 
     <el-dialog v-model="reportDialogTableVisible" title="举报" width="600px">
         <el-input v-model="reportContent" :rows="4" type="textarea" placeholder="Please input" class="mb-3" />
@@ -39,16 +38,25 @@
 
 <script>
 import { useStore } from "vuex";
-import { useRoute } from 'vue-router';
+
 import axios from "axios";
 export default {
     name: 'PostCard',
+    props:{
+      targetPostId: {
+            type: Number,
+            default: 'null'
+      },
+      flag: {
+            type: Boolean,
+            default: true
+      }
+    },
     data() {
 
         return {
             reportContent: "",
-            reportDialogTableVisible: false,
-            postId: useRoute().params.postId,
+            reportDialogTableVisible: false,            
             store: useStore(),
             userLike: false,
             userCollected: false,
@@ -94,7 +102,7 @@ export default {
                 // Replace the URL with your API endpoint to fetch chats
                 const response = await axios.get("http://localhost:9090/posts/detail", {
                     params: {
-                        id: this.postId,
+                        id: this.targetPostId,
                     },
                 });
 
