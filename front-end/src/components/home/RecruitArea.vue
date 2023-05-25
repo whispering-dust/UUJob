@@ -30,7 +30,7 @@
           </div>
         </div>
         <div class="description">
-          {{ recruitObj.description }}
+          {{ recruitObj.description.slice(0,50) }}
         </div>
 
       </el-card>

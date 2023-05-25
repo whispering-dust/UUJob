@@ -177,5 +177,6 @@ export default {
 
 .chat-date {
   color: #409eff;
+  font-size: small;
 }
 </style>

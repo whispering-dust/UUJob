@@ -115,8 +115,8 @@
       </el-main>
       <el-aside width="10%">
         <div class="action-buttons">
-          <el-button class="ml-2 mt-2" style="width: 75%;" type="danger" @click="revokeApplication">撤销投递</el-button>
-          <el-button class="ml-2 mt-2" style="width: 75%;" type="primary" @click="$router.push('/chat')">联系</el-button>
+          <el-button class="ml-2 mt-2" style="width: 75%;" type="danger" @click="revokeApplication"><el-icon class="mr-1"><WarnTriangleFilled /></el-icon>撤销投递</el-button>
+          <el-button class="ml-2 mt-2" style="width: 75%;" type="primary" @click="$router.push('/myspace/chatList')"><el-icon class="mr-1"><ChatDotRound /></el-icon>联系</el-button>
         </div>
       </el-aside>
   </el-container>

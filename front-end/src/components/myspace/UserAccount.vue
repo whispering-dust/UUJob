@@ -75,6 +75,7 @@
   .account-card {
     width: 700px;
     margin: 100px auto;
+    height: 600px;
   }
   
   .avatar-container {

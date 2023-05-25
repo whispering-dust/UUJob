@@ -95,6 +95,16 @@ const routes = [
             component: () => import('@/components/myspace/Profile.vue')
           },
           {
+            path: '/myspace/starPosts',
+            name: 'starPosts',
+            component: () => import('@/components/myspace/StarPosts.vue')
+          },
+          {
+            path: '/myspace/starJobs',
+            name: 'starJobs',
+            component: () => import('@/components/myspace/StarJobs.vue')
+          },
+          {
             path: '/myspace/password',
             name: 'password',
             component: () => import('@/components/myspace/Password.vue')

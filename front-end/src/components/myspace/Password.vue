@@ -80,6 +80,7 @@
     width: 600px;
     margin: 0 auto;
     margin-top: 100px;
+    height: 300px;
   }
   </style>
   

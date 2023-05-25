@@ -165,7 +165,15 @@ export default {
         this.getPostInfo()
         //alert('postCard'+this.targetPostId)
 
-    }
+    },
+    watch: {
+        targetPostId(newPostId, oldPostId) {
+            // Only fetch new post if the ID actually changes
+            if (newPostId !== oldPostId) {
+                this.getPostInfo();
+            }
+        },
+    },
 };
 </script>
 
