@@ -8,6 +8,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class StarService extends ServiceImpl<StarMapper, Star> implements IStarService {
     @Resource
@@ -21,5 +23,13 @@ public class StarService extends ServiceImpl<StarMapper, Star> implements IStarS
                 .eq("star_type" , star.getStarType());
 
         return getOne(wrapper);
+    }
+    @Override
+    public List<Star> getByUserId(int userId){
+        QueryWrapper<Star> wrapper = new QueryWrapper<>();
+        wrapper
+                .eq("user_id" , userId);
+
+        return list(wrapper);
     }
 }

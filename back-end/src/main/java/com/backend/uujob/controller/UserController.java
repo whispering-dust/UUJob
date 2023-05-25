@@ -1,17 +1,13 @@
 package com.backend.uujob.controller;
 
-import com.backend.uujob.entity.Application;
-import com.backend.uujob.entity.Job;
-import com.backend.uujob.entity.Profile;
-import com.backend.uujob.entity.User;
+import com.backend.uujob.entity.*;
 import com.backend.uujob.entity.VO.JobVO;
+import com.backend.uujob.entity.VO.StarVO;
 import com.backend.uujob.enums.ApplStatusEnum;
+import com.backend.uujob.enums.StarTypeEnum;
 import com.backend.uujob.result.Constants;
 import com.backend.uujob.result.Result;
-import com.backend.uujob.service.IApplicationService;
-import com.backend.uujob.service.IJobService;
-import com.backend.uujob.service.IProfileService;
-import com.backend.uujob.service.IUserService;
+import com.backend.uujob.service.*;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +31,10 @@ public class UserController {
     private IApplicationService applicationService;
     @Resource
     private IJobService jobService;
+    @Resource
+    private IStarService starService;
+    @Resource
+    private IPostService postService;
 
     /**
      * @description 通过id查找一个用户
@@ -44,6 +44,14 @@ public class UserController {
     @GetMapping("")
     public Result getUserById(@RequestParam int id) {
             return Result.success(userService.getById(id));
+    }
+
+    @PutMapping("")
+    public Result updateUserInfo(@RequestBody User user) {
+        if(userService.updateById(user)){
+            return Result.success(userService.getById(user.getId()));
+        }
+        return Result.error();
     }
 
     @PostMapping("/registration")
@@ -120,6 +128,29 @@ public class UserController {
             return Result.error(Constants.CODE_500,"该用户尚未发布岗位");
         }
         return Result.success(jobList);
+    }
+
+    @GetMapping("/stars")
+    public Result getStarByUserId(@RequestParam int userId){
+        List<Star> starList = starService.getByUserId(userId);  //获取用户的所有收藏信息
+        List<StarVO> res = new ArrayList<>();
+        for(Star s : starList){  //根据收藏信息收集完整的显示信息
+            StarVO starVO = new StarVO();
+            starVO.setId(s.getId());
+            starVO.setTargetId(s.getTargetId());
+            starVO.setStarType(s.getStarType());
+            if(starVO.getStarType() == StarTypeEnum.STAR_TYPE_POST.ordinal()){  //根据收藏的类别选择对应的标题
+                Post post = postService.getById(starVO.getTargetId());
+                starVO.setTitle(post.getTitle());
+            }
+            if(starVO.getStarType() == StarTypeEnum.STAR_TYPE_JOB.ordinal()){
+                Job job = jobService.getById(starVO.getTargetId());
+                starVO.setTitle(job.getTitle());
+            }
+            res.add(starVO);
+        }
+
+        return Result.success(res);
     }
 
 }
