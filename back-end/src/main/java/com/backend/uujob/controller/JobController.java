@@ -1,5 +1,6 @@
 package com.backend.uujob.controller;
 
+import com.backend.uujob.controller.dto.JobExamineDTO;
 import com.backend.uujob.controller.dto.ProfileCensorDTO;
 import com.backend.uujob.entity.*;
 import com.backend.uujob.entity.VO.ProfileVO;
@@ -150,7 +151,24 @@ public class JobController {
 
     @GetMapping("/unaudited")
     public Result getJobUnaudited(){
-        return Result.success(jobService.getListByStatus(CensorStatusEnum.CENSOR_STATUS_SUBMIT));
+        List<Job> jobList = jobService.getListByStatus(CensorStatusEnum.CENSOR_STATUS_SUBMIT);
+        List<JobExamineDTO> jobExamineDTOList = new ArrayList<>();
+        for(Job j : jobList){
+            JobExamineDTO jobExamineDTO = new JobExamineDTO();
+            jobExamineDTO.setId(j.getId());
+            jobExamineDTO.setTitle(j.getTitle());
+            jobExamineDTO.setDescription(j.getDescription());
+            jobExamineDTO.setPosition(j.getPosition());
+            jobExamineDTO.setLocation(j.getLocation());
+            jobExamineDTO.setSalary(j.getSalary());
+            jobExamineDTO.setCompanyName(j.getCompanyName());
+            jobExamineDTO.setPublisherId(j.getPublisherId());
+            jobExamineDTO.setUserName(userService.getNameById(j.getPublisherId()));
+
+            jobExamineDTOList.add(jobExamineDTO);
+        }
+
+        return Result.success(jobExamineDTOList);
     }
 
     @PutMapping("/examinations")
