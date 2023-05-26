@@ -14,6 +14,7 @@ public class Post {
   private Integer publisherId;
   private Timestamp date;
   private Integer status;
+  private Integer type;
   public void setType(Integer type) {
     this.type = type;
   }
@@ -22,7 +23,6 @@ public class Post {
     return type;
   }
 
-  private Integer type;
   public Integer getId() {
     return id;
   }
