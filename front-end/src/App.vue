@@ -1,19 +1,22 @@
 <template>
-  <div class="main">
-    <!-- :style="GetWindowHeight" -->
-    <!-- 其他页 -->
-    <myHeader v-if="$route.meta.keepAlive"></myHeader>
-    <!-- 登录页 -->
-    <div style=" min-height:800px">
-      <router-view ></router-view>
-    </div>
-
-   </div>
-   <footer class="pt-5 pb-3 footer  footer-dark bg-tertiary" >
-    <div class="text-center">
-        &copy; 2023 求职交流平台. All rights reserved.
-    </div>
-  </footer>
+  <el-scrollbar>
+    <div class="main">
+      <!-- :style="GetWindowHeight" -->
+      <!-- 其他页 -->
+      <myHeader v-if="$route.meta.keepAlive"></myHeader>
+      <!-- 登录页 -->
+      <div class="router-view" style=" height: 90%">
+        <router-view ></router-view>
+      </div>
+     
+  
+     </div>
+     <footer class="pt-5 pb-3 footer  footer-dark bg-tertiary" >
+      <div class="text-center">
+          &copy; 2023 求职交流平台. All rights reserved.
+      </div>
+    </footer>
+  </el-scrollbar>
 </template>
 
 <script>

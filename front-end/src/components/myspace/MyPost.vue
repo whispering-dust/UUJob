@@ -5,35 +5,38 @@
         <div class="search-bar">
           <el-input v-model="input" placeholder="搜索帖子" @input="searchPosts" :prefix-icon="Search"></el-input>
         </div>
-        <div class="post-list" v-for="post in filteredPosts" :key="post.id" @click="selectPost(post.id)">
-          <el-card shadow="hover" class="mr-3 mt-1">
-            <el-container>
-              <el-aside style="padding: 0px; background-color: white" width="30%">
-                <div class="user-avatar">{{ post.title.slice(0, 1) }}</div>
-              </el-aside>
-              <el-main style="padding: 0px;">
-                <div class="post-info">
-                  <div class="post-header">
-                    <div style="overflow: hidden; height:20px;width:80px">
-                      {{ post.title }}
+        <el-scrollbar height="700px">
+          <div class="post-list" v-for="post in filteredPosts" :key="post.id" @click="selectPost(post.id)">
+            <el-card shadow="hover" class="mr-3 mt-1">
+              <el-container>
+                <el-aside style="padding: 0px; background-color: white" width="30%">
+                  <div class="user-avatar">{{ post.title.slice(0, 1) }}</div>
+                </el-aside>
+                <el-main style="padding: 0px;">
+                  <div class="post-info">
+                    <div class="post-header">
+                      <div style="overflow: hidden; height:20px;width:80px">
+                        {{ post.title }}
+                      </div>
+                      <div class="post-date">
+                        {{ post.date }}
+                      </div>
                     </div>
-                    <div class="post-date">
-                      {{ post.date }}
-                    </div>
+                    <div style="overflow: hidden; height:20px">{{ post.content.slice(0, 10)}}</div>
                   </div>
-                  <div style="overflow: hidden; height:20px">{{ post.content.slice(0, 10)}}</div>
-                </div>
-              </el-main>
-            </el-container>
-          </el-card>
-        </div>
+                </el-main>
+              </el-container>
+            </el-card>
+          </div>
+        </el-scrollbar>
+        
       </el-scrollbar>
     </el-aside>
 
     <!-- 帖子详情 -->
     <el-main>
       <!-- 需要自行添加帖子详情的内容 -->
-      <el-card class="postcard mb-5" v-if="selectedPost && selectedPost.postId">
+      <el-card class="postcard mb-5" style="min-height: 500px;" v-if="selectedPost && selectedPost.postId">
         <PostCard :targetPostId="selectedPost.postId" :flag="false"></PostCard>
     </el-card>
     </el-main>
@@ -130,13 +133,23 @@ export default {
         });
 
         if (response.data.code === 200) {
+          this.userPosts=[];
           console.log(response.data.data);
-          this.userPosts = response.data.data.PostList;
+          const posts=response.data.data;
+          for (let i in posts) {
+            if(posts[i].status == 1){
+              this.userPosts.push(posts[i])
+            }
+          }
           for (let i in this.userPosts) {
             var date = new Date(this.userPosts[i].date);
             this.userPosts[i].date = date.getFullYear() + "-" + (date.getMonth() + 1).toString().padStart(2, '0') + "-" + date.getDate().toString().padStart(2, '0');
           }
-
+          for (let i in this.userPosts) {
+            // 使用正则表达式去除HTML标签
+            this.userPosts[i].content = this.userPosts[i].content.replace(/<[^>]+>/g, '');
+          }
+          
           this.filteredPosts = this.userPosts;
         } else {
           alert(response.data.msg);

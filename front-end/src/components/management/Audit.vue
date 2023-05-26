@@ -9,7 +9,7 @@
           </template>
   
           <el-table :data="pendingAuditsData" height="700" style="width: 100%" @row-click="handleRowClick">
-            <el-table-column prop="targetId" label="审核id" width="100" />
+            <el-table-column prop="targetId" label="ID" width="100" />
             <el-table-column prop="type" label="类型">
               <template #default="scope">
                 <div style="display: flex; align-items: center">

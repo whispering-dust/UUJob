@@ -84,7 +84,7 @@
           </el-aside>
           <!-- 简历 -->
           <el-main>
-            <div class="container" v-if="selectedProfile.profileId">
+            <div class="container" v-if="selectedProfile && selectedProfile.profileId">
               <div class="row container">
                 <h4>用户简历</h4>
               </div>
@@ -254,48 +254,8 @@ export default {
       items,
       Search,
       search: "",
-      JobList: [
-        {
-          jobId: 1,
-          title: "软件工程师",
-          position: "前端",
-          location: "上海",
-          salary: "15K-25K",
-          date: "2023-04-01",
-        },
-        {
-          jobId: 2,
-          title: "UI设计师",
-          position: "设计",
-          location: "北京",
-          salary: "12K-20K",
-          date: "2023-04-10",
-        },
-      ],
-      ProfileList: [
-        {
-          profileId: 1,
-          name: "张三",
-          sex: '男',
-          date: "2023-04-20",
-          jobId: 1,
-          status: 0,
-        },
-        {
-          profileId: 2,
-          name: "李四",
-          date: "2023-04-25",
-          jobId: 1,
-          status: 1,
-        },
-        {
-          profileId: 3,
-          name: "王五",
-          date: "2023-04-28",
-          jobId: 2,
-          status: 2,
-        },
-      ],
+      JobList: [ ],
+      ProfileList: [],
       unreviewedProfile: [],
       reviewedProfile: [],
       selectedProfile: {},
@@ -375,6 +335,7 @@ export default {
       this.reviewedProfile = this.ProfileList.filter((profile) => profile.status !== 0);;
       this.unreviewedProfile = this.ProfileList.filter((profile) => profile.status === 0);;
 
+      this.selectedProfile = {};
     },
     searchJobs() {
       if (this.search) {

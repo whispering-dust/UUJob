@@ -61,7 +61,7 @@
                                 <div class="card-footer">
                                     <div class="row align-items-center">
                                         <div class="col-6">
-                                            <el-button @click="enterPost(post.id)" color="black" round
+                                            <el-button @click="enterPost(post.id)" color="black" 
                                                 style="width: 100px;">详情</el-button>
                                         </div>
                                         <div class="col-6 text-right">

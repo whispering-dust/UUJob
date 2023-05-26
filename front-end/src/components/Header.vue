@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-2">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-2" style="height: 10%">
         <img src="https://pic2.imgdb.cn/item/645b2b550d2dde5777379fbd.png" style="height: 60px;" class="img-fluid animated" data-animation-in="jackInTheBox"
             data-animation-delay="1000" alt="UUjob">
         <a class="navbar-brand" href="#">UUJOB</a>

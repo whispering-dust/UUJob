@@ -19,7 +19,7 @@
 
         <div class="container hot-list">
           <span class="hot-item text-white" style="font-size:24px "><strong>热门搜索:</strong></span>
-          <span class="hot-item" style="background-color:lightgray;" v-for="item in hotList" :key="item" @click="searchHotKeyword(item)">{{ item }}</span>
+          <span class="hot-item" style="background-color:lightgray;font-size:small;" v-for="item in hotList" :key="item" @click="searchHotKeyword(item)">{{ item }}</span>
         </div>
       </div>
       <div class="bkmain bg-dark">

@@ -5,9 +5,12 @@
         <span style="font-size: large;">功能面板</span>
       </div>
     </template>
-    <el-button v-if="store.state.role == 1" color="black" @click="postJob" :icon="DocumentAdd" plain>
-      发布岗位
-    </el-button>
+
+    <el-tooltip class="box-item" effect="dark" content="发布岗位" placement="top">
+          <el-button  v-if="store.state.role == 1"  @click="postJob" :icon="DocumentAdd" circle size="large">            
+          </el-button>
+    </el-tooltip>
+    
   </el-card>
 
   <el-dialog top="0vh" v-model="dialogFormVisible" title="请填写表单信息" draggable :lock-scroll=false>

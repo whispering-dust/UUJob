@@ -1,30 +1,33 @@
 <template>
   <el-container style="height:100% width:100%">
       <el-aside width="20%">
-        <div class="search-bar">
-          <el-input v-model="search" placeholder="搜索职位" @input="searchJobs" :prefix-icon="Search"/>
-        </div>
-        <el-list class="job-list">
-          <el-list-item
-            v-for="job in filteredJobs"
-            :key="job.jobId"
-            @click="selectJob(job.jobId)"
-          >
-          <el-card shadow="hover" class="mr-3 mt-1">
-            <el-container>
-              <el-aside style="padding: 0px;background-color:white" width="30%">
-                <div class="company-logo">{{ job.title.slice(0, 1) }}</div>          
-              </el-aside>
-              <el-main style="padding: 0px;">
-                <div class="job-info">
-                  <div>{{ job.title }}</div>
-                  <div>{{ job.applicationDate }}</div>
-                </div>
-              </el-main>
-            </el-container>
-          </el-card>
-          </el-list-item>
-        </el-list>
+        <el-scrollbar>
+          <div class="search-bar">
+            <el-input v-model="search" placeholder="搜索职位" @input="searchJobs" :prefix-icon="Search"/>
+          </div>
+          <div class="job-list">
+            <div 
+              v-for="job in filteredJobs"
+              :key="job.jobId"
+              @click="selectJob(job.jobId)"
+            >
+            <el-card shadow="hover" class="mr-3 mt-1">
+              <el-container>
+                <el-aside style="padding: 0px;background-color:white" width="30%">
+                  <div class="company-logo">{{ job.title.slice(0, 1) }}</div>          
+                </el-aside>
+                <el-main style="padding: 0px;">
+                  <div class="job-info">
+                    <div>{{ job.title }}</div>
+                    <div>{{ job.applicationDate }}</div>
+                  </div>
+                </el-main>
+              </el-container>
+            </el-card>
+            </div >
+          </div>
+        </el-scrollbar>
+        
       </el-aside>
 
       <!-- main -->
@@ -185,6 +188,10 @@ export default {
 
         if (response.data.code === 200) {
           this.JobList = response.data.data;
+          this.JobList.forEach(job => {
+            const date = new Date(job.applicationDate);
+            job.applicationDate = date.getFullYear() + "-" + (date.getMonth() + 1).toString().padStart(2, '0') + "-" + date.getDate().toString().padStart(2, '0');
+          });
           this.filteredJobs = this.JobList;
         } else {
           alert(response.data.msg);
@@ -327,7 +334,7 @@ export default {
   flex-direction: column;
 }
 
-.el-list {
+.div {
   display: flex;
   flex-direction: column;
 }

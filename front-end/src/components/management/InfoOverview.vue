@@ -23,7 +23,7 @@
                               </template>
 
                               <el-table :data="pendingReportsData" height="500" style="width: 100%">
-                                <el-table-column prop="id" label="举报记录id" width="100"/>
+                                <el-table-column prop="id" label="ID"/>
                                 <el-table-column prop="type" label="类型" >
                                     <template #default="scope">
                                         <div style="display: flex; align-items: center">
@@ -32,8 +32,8 @@
                                       </template>
                                 </el-table-column>
                                 <el-table-column prop="reporterName" label="举报人"/>
-                                <el-table-column prop="targetContent" label="举报理由" />
-                                <el-table-column prop="content" label="举报内容" width="200"/>
+                                <el-table-column prop="targetContent" label="举报内容" width="200" />
+                                <el-table-column prop="content" label="举报理由" width="200"/>
                                                              
                               </el-table>
                         </el-card>
