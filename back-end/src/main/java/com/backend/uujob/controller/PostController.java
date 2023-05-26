@@ -1,7 +1,10 @@
 package com.backend.uujob.controller;
 
+import com.backend.uujob.controller.dto.JobExamineDTO;
 import com.backend.uujob.controller.dto.PostDetailDTO;
+import com.backend.uujob.controller.dto.PostExamineDTO;
 import com.backend.uujob.entity.Comment;
+import com.backend.uujob.entity.Job;
 import com.backend.uujob.entity.Post;
 import com.backend.uujob.entity.VO.CommentVO;
 import com.backend.uujob.entity.VO.ResponseVO;
@@ -12,6 +15,7 @@ import com.backend.uujob.result.Result;
 import com.backend.uujob.service.ICommentService;
 import com.backend.uujob.service.IPostService;
 import com.backend.uujob.service.IResponseService;
+import com.backend.uujob.service.IUserService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +37,8 @@ public class PostController {
     private ICommentService commentService;
     @Resource
     private IResponseService responseService;
+    @Resource
+    private IUserService userService;
 
     @GetMapping("/basis")
     public Result getPosts() {
@@ -89,7 +95,21 @@ public class PostController {
 
     @GetMapping("/unaudited")
     public Result getPostUnaudited() {
-        return Result.success(postService.getListByStatus(CensorStatusEnum.CENSOR_STATUS_SUBMIT));
+        List<Post> postList = postService.getListByStatus(CensorStatusEnum.CENSOR_STATUS_SUBMIT);
+        List<PostExamineDTO> postExamineDTOList = new ArrayList<>();
+        for(Post p : postList){
+            PostExamineDTO postExamineDTO = new PostExamineDTO();
+            postExamineDTO.setId(p.getId());
+            postExamineDTO.setTitle(p.getTitle());
+            postExamineDTO.setContent(p.getContent());
+            postExamineDTO.setType(p.getType());
+            postExamineDTO.setPublisherId(p.getPublisherId());
+            postExamineDTO.setUserName(userService.getNameById(p.getPublisherId()));
+
+            postExamineDTOList.add(postExamineDTO);
+        }
+
+        return Result.success(postExamineDTOList);
     }
 
     @PutMapping("/examinations")
