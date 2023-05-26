@@ -1,7 +1,9 @@
 package com.backend.uujob.controller;
 
 import com.backend.uujob.entity.*;
+import com.backend.uujob.entity.VO.CommentVO;
 import com.backend.uujob.entity.VO.JobVO;
+import com.backend.uujob.entity.VO.ResponseVO;
 import com.backend.uujob.entity.VO.StarVO;
 import com.backend.uujob.enums.ApplStatusEnum;
 import com.backend.uujob.enums.StarTypeEnum;
@@ -35,6 +37,10 @@ public class UserController {
     private IStarService starService;
     @Resource
     private IPostService postService;
+    @Resource
+    private ICommentService commentService;
+    @Resource
+    private IResponseService responseService;
 
     /**
      * @description 通过id查找一个用户
@@ -151,6 +157,61 @@ public class UserController {
         }
 
         return Result.success(res);
+    }
+
+    @GetMapping("/posts")
+    public Result getPostByUserId(@RequestParam int userId){
+        List<Post> postList = postService.getListByUserId(userId);
+        if(postList == null){
+            return Result.error(Constants.CODE_500,"该用户尚未发布帖子");
+        }
+        return Result.success(postList);
+    }
+
+    @GetMapping("/comments")
+    public Result getCommentByUserId(@RequestParam int userId){
+        List<Comment> commentList = commentService.getListByUserId(userId);
+        if(commentList == null){
+            return Result.error(Constants.CODE_500,"该用户尚未发布评论");
+        }
+
+        List<CommentVO> commentVOList = new ArrayList<>();  //设置commentVO信息
+        for(Comment c : commentList){
+            CommentVO commentVO = new CommentVO();
+            commentVO.setId(c.getId());
+            commentVO.setDate(timeTransfer(c.getDate()));
+            commentVO.setPublisherId(c.getPublisherId());
+            commentVO.setUserName(userService.getNameById(c.getPublisherId()));
+            commentVO.setContent(c.getContent());
+            commentVO.setResponseNum(responseService.getResponsesByCommentId(c.getId()).size());
+            commentVOList.add(commentVO);
+        }
+        return Result.success(commentVOList);
+    }
+
+    @GetMapping("/responses")
+    public Result getResponseByUserId(@RequestParam int userId){
+
+        List<Response> responseList = responseService.getListByUserId(userId);
+        if(responseList == null){
+            return Result.error(Constants.CODE_500,"该用户尚未发布回复");
+        }
+
+        List<ResponseVO> responseVOList = new ArrayList<>();  //设置responseVO信息
+        for(Response r : responseList){
+            ResponseVO responseVO = new ResponseVO();
+            responseVO.setId(r.getId());
+            responseVO.setContent(r.getContent());
+            responseVO.setDate(timeTransfer(r.getDate()));
+            responseVO.setPublisherId(r.getPublisherId());
+            responseVO.setPublisherName(userService.getNameById(r.getPublisherId()));
+            if(r.getTargetUserId() != null){
+                responseVO.setTargetUserId(r.getTargetUserId());
+                responseVO.setTargetUserName(userService.getNameById(r.getTargetUserId()));
+            }
+            responseVOList.add(responseVO);
+        }
+        return Result.success(responseVOList);
     }
 
 }

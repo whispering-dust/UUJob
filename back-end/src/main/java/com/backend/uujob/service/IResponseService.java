@@ -12,5 +12,7 @@ import java.util.List;
  * @date 2023年04月23日20:55
  */
 public interface IResponseService  extends IService<Response> {
-    public List<ResponseVO> getResponsesByCommentId(int id);
+    List<ResponseVO> getResponsesByCommentId(int id);
+
+    List<Response> getListByUserId(int userId);
 }

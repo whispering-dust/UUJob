@@ -1,5 +1,6 @@
 package com.backend.uujob.service.impl;
 
+import com.backend.uujob.entity.Post;
 import com.backend.uujob.entity.Report;
 import com.backend.uujob.enums.ReportStatusEnum;
 import com.backend.uujob.mapper.ReportMapper;

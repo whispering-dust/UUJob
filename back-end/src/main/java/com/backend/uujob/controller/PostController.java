@@ -4,16 +4,19 @@ import com.backend.uujob.controller.dto.PostDetailDTO;
 import com.backend.uujob.entity.Comment;
 import com.backend.uujob.entity.Post;
 import com.backend.uujob.entity.VO.CommentVO;
+import com.backend.uujob.entity.VO.ResponseVO;
 import com.backend.uujob.enums.CensorStatusEnum;
 import com.backend.uujob.enums.ReportStatusEnum;
 import com.backend.uujob.result.Constants;
 import com.backend.uujob.result.Result;
 import com.backend.uujob.service.ICommentService;
 import com.backend.uujob.service.IPostService;
+import com.backend.uujob.service.IResponseService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -28,6 +31,8 @@ public class PostController {
     private IPostService postService;
     @Resource
     private ICommentService commentService;
+    @Resource
+    private IResponseService responseService;
 
     @GetMapping("/basis")
     public Result getPosts() {
@@ -91,6 +96,27 @@ public class PostController {
     public Result examinePost(@RequestBody Post post){
         post.setDate(new java.sql.Timestamp(System.currentTimeMillis()));  //获取当前时间作为帖子的发布时间
         if(postService.updateById(post)){
+            return Result.success();
+        }
+        return Result.error();
+    }
+
+    @DeleteMapping("")
+    public Result deletePost(@RequestParam int postId){
+        List<CommentVO> comments = commentService.getCommentsByPostId(postId);  //找到帖子所有评论
+        if(!comments.isEmpty()){
+            for(CommentVO c : comments){  //对每个评论进行操作
+                List<ResponseVO> responseVOList = responseService.getResponsesByCommentId(c.getId());
+                if(!responseVOList.isEmpty()){  //若评论存在回复，则先找到所有回复并删除
+                    for(ResponseVO r : responseVOList){
+                        responseService.removeById(r.getId());
+                    }
+                }
+                commentService.removeById(c.getId());  //随后删除评论本身
+            }
+        }
+
+        if(postService.removeById(postId)){
             return Result.success();
         }
         return Result.error();
