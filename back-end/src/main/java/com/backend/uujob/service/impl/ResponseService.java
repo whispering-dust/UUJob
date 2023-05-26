@@ -1,6 +1,7 @@
 package com.backend.uujob.service.impl;
 
 
+import com.backend.uujob.entity.Report;
 import com.backend.uujob.entity.Response;
 import com.backend.uujob.entity.VO.ResponseVO;
 import com.backend.uujob.mapper.ResponseMapper;
@@ -24,5 +25,14 @@ public class ResponseService extends ServiceImpl<ResponseMapper, Response> imple
     @Override
     public List<ResponseVO> getResponsesByCommentId(int id) {
         return responseMapper.getResponseVOList(id);
+    }
+
+    @Override
+    public List<Response> getListByUserId(int userId){
+        QueryWrapper<Response> queryWrapper = new QueryWrapper<>();
+        queryWrapper
+                .eq("publisher_id", userId)  //寻找该用户发布的回复
+                .orderByDesc("date");  //按照帖子创建时间进行降序排序后返回，方便前端显示
+        return list(queryWrapper);
     }
 }

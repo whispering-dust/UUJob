@@ -73,4 +73,13 @@ public class PostService extends ServiceImpl<PostMapper,Post> implements IPostSe
                 .orderByDesc("date");  //按照帖子创建时间进行降序排序后返回，方便前端显示
         return list(queryWrapper);
     }
+
+    @Override
+    public List<Post> getListByUserId(int userId){
+        QueryWrapper<Post> queryWrapper = new QueryWrapper<>();
+        queryWrapper
+                .eq("publisher_id", userId)  //寻找该用户发布的帖子
+                .orderByDesc("date");  //按照帖子创建时间进行降序排序后返回，方便前端显示
+        return list(queryWrapper);
+    }
 }

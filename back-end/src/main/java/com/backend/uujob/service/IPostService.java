@@ -18,4 +18,6 @@ public interface IPostService extends IService<Post> {
     PostDetailDTO getPostDetailById(int id);
 
     List<Post> getListByStatus(CensorStatusEnum censorStatusEnum);
+
+    List<Post> getListByUserId(int userId);
 }
