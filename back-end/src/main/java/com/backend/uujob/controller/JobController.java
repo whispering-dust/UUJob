@@ -36,6 +36,8 @@ public class JobController {
     public Result addJob(@RequestBody Job job){
         //默认初始状态为待审核
         job.setStatus(CensorStatusEnum.CENSOR_STATUS_SUBMIT.ordinal());
+        //默认初始状态为待审核
+        job.setDate(new java.sql.Timestamp(System.currentTimeMillis()));
 
         //根据publisher-id确定company-name
         User user = userService.getById(job.getPublisherId());
