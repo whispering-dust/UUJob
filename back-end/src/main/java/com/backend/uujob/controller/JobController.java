@@ -1,5 +1,6 @@
 package com.backend.uujob.controller;
 
+import com.backend.uujob.controller.dto.ActiveDTO;
 import com.backend.uujob.controller.dto.JobExamineDTO;
 import com.backend.uujob.controller.dto.ProfileCensorDTO;
 import com.backend.uujob.entity.*;
@@ -74,12 +75,21 @@ public class JobController {
 
     @GetMapping("")
     public Result getJob(@RequestParam int id){
-        return Result.success(jobService.getById(id));
+        Job target = jobService.getById(id);
+        if(target==null){
+            return Result.error(Constants.CODE_500,"该岗位不存在");
+        }
+        return Result.success();
     }
 
     @GetMapping("/basis")
     public Result getJobBasisList(){
-        return Result.success(jobService.getListByStatus(CensorStatusEnum.CENSOR_STATUS_PASS));
+        List<Job> jobList = jobService.getListByStatus(CensorStatusEnum.CENSOR_STATUS_PASS);
+        jobList.addAll(jobService.getListByStatus(CensorStatusEnum.CENSOR_STATUS_TERMINATE));
+        if(jobList == null){
+            return Result.error(Constants.CODE_500,"没有岗位信息");
+        }
+        return Result.success(jobList);
     }
 
     @PostMapping("/applications")
@@ -151,6 +161,9 @@ public class JobController {
         censorDTO.setSubList(subList);
         censorDTO.setPassList(passList);
 
+        if(censorDTO == null){
+            return Result.error(Constants.CODE_500,"数据对象创建失败");
+        }
         return Result.success(censorDTO);
     }
 
@@ -196,7 +209,15 @@ public class JobController {
 
 
     @PutMapping("/hits")
-    public Result updateHits(@RequestBody Active active){
+    public Result updateHits(@RequestBody ActiveDTO activeDTO){
+        Active active = new Active();
+        active.setUserId(activeDTO.getUserId());
+
+        //根据job获取职位id
+        Job targetJob=jobService.getJobById(activeDTO.getJobId());
+        active.setPositionId(targetJob.getPositionId());
+
+        //更新数据
         int targetHits=activeService.saveUserActive(active);
         if(targetHits>=0){
             return Result.success(targetHits);
@@ -213,5 +234,4 @@ public class JobController {
         }
         return Result.error(Constants.CODE_500,"系统错误");
     }
-
 }
