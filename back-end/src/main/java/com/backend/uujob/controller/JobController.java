@@ -31,6 +31,9 @@ public class JobController {
     @Resource
     private IProfileService profileService;
 
+    @Resource
+    private IActiveService activeService;
+
     @PostMapping("")
     public Result addJob(@RequestBody Job job){
         //默认初始状态为待审核
@@ -178,6 +181,15 @@ public class JobController {
             return Result.success();
         }
         return Result.error();
+    }
+
+    @PutMapping("/hits")
+    public Result updateHits(@RequestBody Active active){
+        int targetHits=activeService.saveUserActive(active);
+        if(targetHits>=0){
+            return Result.success(targetHits);
+        }
+        return Result.error(Constants.CODE_500,"点击数据更新失败，没写入数据库");
     }
 
 }
