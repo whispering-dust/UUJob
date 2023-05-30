@@ -1,51 +1,129 @@
 <template>
-  <el-container style="height: 100%; width: 100%;">
-    <el-aside width="22%">
-      <el-scrollbar>
-        <div class="search-bar">
-          <el-input v-model="input" placeholder="搜索帖子" @input="searchPosts" :prefix-icon="Search"></el-input>
-        </div>
-        <el-scrollbar height="700px">
-          <div class="post-list" v-for="post in filteredPosts" :key="post.id" @click="selectPost(post.id)">
-            <el-card shadow="hover" class="mr-3 mt-1">
-              <el-container>
-                <el-aside style="padding: 0px; background-color: white" width="30%">
-                  <div class="user-avatar">{{ post.title.slice(0, 1) }}</div>
-                </el-aside>
-                <el-main style="padding: 0px;">
-                  <div class="post-info">
-                    <div class="post-header">
-                      <div style="overflow: hidden; height:20px;width:80px">
-                        {{ post.title }}
-                      </div>
-                      <div class="post-date">
-                        {{ post.date }}
-                      </div>
-                    </div>
-                    <div style="overflow: hidden; height:20px">{{ post.content.slice(0, 10)}}</div>
-                  </div>
-                </el-main>
-              </el-container>
-            </el-card>
-          </div>
-        </el-scrollbar>
-        
-      </el-scrollbar>
-    </el-aside>
+    <el-tabs v-model="activeName" class="demo-tabs" style="height: 100%; width: 100%;">
+      <el-tab-pane name="posts">
+        <template #label>
+          <span class="custom-tabs-label mt-0" >
+            <el-icon><Document /></el-icon>
+            <span>我的帖子</span>
+          </span>
+        </template>
 
-    <!-- 帖子详情 -->
-    <el-main>
-      <!-- 需要自行添加帖子详情的内容 -->
-      <el-card class="postcard mb-5" style="min-height: 500px;" v-if="selectedPost && selectedPost.postId">
-        <PostCard :targetPostId="selectedPost.postId" :flag="false"></PostCard>
-    </el-card>
-    </el-main>
-    <el-aside width="10%">
-        <div class="action-buttons">
-          <el-button class="ml-2 mt-2" style="width: 75%;" type="danger" @click="deletePost"><el-icon class="mr-1"><DeleteFilled /></el-icon>删除帖子</el-button>
+        <el-container style="height: 100%; width: 100%;">
+        <el-aside width="22%">
+          <el-scrollbar>
+            <div class="search-bar">
+              <el-input v-model="input" placeholder="搜索帖子" @input="searchPosts" :prefix-icon="Search"></el-input>
+            </div>
+            <el-scrollbar height="700px">
+              <div class="post-list" v-for="post in filteredPosts" :key="post.id" @click="selectPost(post.id)">
+                <el-card shadow="hover" class="mr-3 mt-1">
+                  <el-container>
+                    <el-aside style="padding: 0px; background-color: white" width="30%">
+                      <div class="user-avatar">{{ post.title.slice(0, 1) }}</div>
+                    </el-aside>
+                    <el-main style="padding: 0px;">
+                      <div class="post-info">
+                        <div class="post-header">
+                          <div style="overflow: hidden; height:20px;width:80px">
+                            {{ post.title }}
+                          </div>
+                          <div class="post-date">
+                            {{ post.date }}
+                          </div>
+                        </div>
+                        <div style="overflow: hidden; height:20px">{{ post.content.slice(0, 10)}}</div>
+                      </div>
+                    </el-main>
+                  </el-container>
+                </el-card>
+              </div>
+            </el-scrollbar>
+            
+          </el-scrollbar>
+        </el-aside>
+    
+        <!-- 帖子详情 -->
+        <el-main>
+          <el-card class="postcard mb-5" style="min-height: 500px;" v-if="selectedPost && selectedPost.postId">
+            <PostCard :targetPostId="selectedPost.postId" :flag="false"></PostCard>
+          </el-card>     
+        </el-main>
+        <el-aside width="10%">
+            <div class="action-buttons">
+              <el-button class="ml-2 mt-2" style="width: 75%;" type="danger" @click="deletePost"><el-icon class="mr-1"><DeleteFilled /></el-icon>删除帖子</el-button>
+            </div>
+          </el-aside>  
+        </el-container>      
+      </el-tab-pane>
+
+      <el-tab-pane name="comments" >
+        <template #label>
+          <span class="custom-tabs-label">
+            <el-icon><ChatLineSquare /></el-icon>
+            <span>我的评论</span>
+          </span>
+        </template>
+        <!-- 评论组件 -->
+        <div class="container pt-3" style="width: 80%;">
+          <el-scrollbar height="700px">
+            <div class="comments p-2 mb-2" v-for="mycomment in myComments">
+              <div class="comment-top p-0 m-0" >
+                <div class="comment-top-left">
+                  <p class="pr-3" style="display: flex;">
+                    <strong class="pr-2">用户名:</strong>{{ mycomment.userName }}
+                  </p>
+                  <p>
+                    <strong class="pr-2">回复数</strong>({{ mycomment.responseNum }})
+                  </p>
+                  </div>
+                  <div class="comment-top-right">
+                    发布时间：{{ mycomment.date }}
+                  </div>
+              </div>
+              <div  class="comment-content p-0 mt-2" >
+                <p class="pr-3">评论内容:</p>
+                {{ mycomment.content }}
+              </div>
+              <el-divider />
+            </div>
+          </el-scrollbar>
         </div>
-      </el-aside>
-  </el-container>
+      </el-tab-pane>
+      <el-tab-pane name="responses">
+        <template #label>
+          <span class="custom-tabs-label">
+            <el-icon><ChatDotSquare /></el-icon>
+            <span>我的回复</span>
+          </span>
+        </template>
+        <!-- 回复组件 -->
+        <div class="container pt-3" style="width: 80%;">
+          <el-scrollbar height="700px">
+            <div class="responses p-2 mb-2" v-for="myResponse in myResponses">
+              <div class="response-top p-0 m-0" >
+                <div class="response-top-left">
+                  <p class="pr-3" style="display: flex;">
+                    <strong class="pr-2">用户名:</strong>{{ myResponse.publisherName }}
+                  </p>
+                  <p>
+                    <strong class="pr-2">@</strong>{{ myResponse.targetUserName }}
+                  </p>
+                  </div>
+                  <div class="response-top-right">
+                    发布时间：{{ myResponse.date }}
+                  </div>
+              </div>
+              <div  class="response-content p-0 mt-2" >
+                <p class="pr-3">评论内容:</p>
+                {{ myResponse.content }}
+              </div>
+              <el-divider />
+            </div>
+          </el-scrollbar>
+        </div>
+      </el-tab-pane>
+    </el-tabs>
+
 </template>
 
 <script>
@@ -74,22 +152,6 @@ export default {
             content: "这是张三的第一篇帖子cZcZc",
             title: "究极大爆炸"
         },
-        {
-            id: 2,
-            authorId: "222",
-            authorName: "李四",
-            date: '2023-02-05',
-            content: "这是李四的第一篇帖子",
-            title: "还没爆炸"
-        },
-        {
-            id: 3,
-            authorId: "333",
-            authorName: "王五",
-            date: '2023-04-06',
-            content: "说个屁屁",
-            title: "java经验分享"
-        },
       ],
       filteredPosts: [
         {
@@ -100,26 +162,20 @@ export default {
             content: "这是张三的第一篇帖子cZcZc",
             title: "究极大爆炸"
         },
-        {
-            id: 2,
-            authorId: "222",
-            authorName: "李四",
-            date: '2023-02-05',
-            content: "这是李四的第一篇帖子",
-            title: "还没爆炸"
-        },
-        {
-            id: 3,
-            authorId: "333",
-            authorName: "王五",
-            date: '2023-04-06',
-            content: "说个屁屁",
-            title: "java经验分享"
-        },
       ],
       selectedPost:{
         postId: null,
       },
+      activeName:"posts",
+      myComments:[
+        {
+          userName:"username",
+          content:"content",
+          date: "2020-2-3",
+          responseNum: 2
+        }
+      ],
+      myResponses:[],
     };
   },
   methods: {
@@ -196,9 +252,47 @@ export default {
         console.error("Failed to delete the post:", error);
         }
     },
+    async getMyComments(){
+      try {
+        // Replace the URL with your API endpoint to delete a post
+        const response = await axios.get(`http://localhost:9090/users/comments`,{
+            params:{
+                userId: this.userId
+            }
+        });
+    
+        if (response.data.code === 200) {
+          this.myComments = response.data.data
+        } else {
+            alert(response.data.msg);
+        }
+        } catch (error) {
+        console.error("Failed to delete the post:", error);
+        }
+    },
+    async getMyResponses(){
+      try {
+        // Replace the URL with your API endpoint to delete a post
+        const response = await axios.get(`http://localhost:9090/users/responses`,{
+            params:{
+                userId: this.userId
+            }
+        });
+    
+        if (response.data.code === 200) {
+          this.myResponses = response.data.data
+        } else {
+            alert(response.data.msg);
+        }
+        } catch (error) {
+        console.error("Failed to delete the post:", error);
+        }
+    }
   },
   mounted() {
     this.getUserPosts();
+    this.getMyComments();
+    this.getMyResponses();
   },
 };
 </script>
@@ -257,5 +351,59 @@ export default {
     background-color: rgb(66, 74, 92);
     height: 100%;
     padding-top: 50px;
+  }
+  .demo-tabs > .el-tabs__content {
+    padding: 32px;
+    color: #6b778c;
+    font-size: 32px;
+    font-weight: 600;
+  }
+  ::v-deep .el-tabs__header {
+    margin: 0 !important;
+  }
+  .demo-tabs .custom-tabs-label .el-icon {
+    vertical-align: middle;
+  }
+  .demo-tabs .custom-tabs-label span {
+    vertical-align: middle;
+    margin-left: 4px;
+  }
+
+  .comments{
+    width: 100%;
+  }
+  .comment-top{
+    display: flex;
+    justify-content: space-between;
+  }
+  .comment-top-left{
+    display: flex;
+    text-align: center;
+  }
+  .comment-top-right{
+    display: flex;
+    margin-right: 20px;
+  }
+  .comment-content{
+    display: flex;
+  }
+
+  .responses{
+    width: 100%;
+  }
+  .response-top{
+    display: flex;
+    justify-content: space-between;
+  }
+  .response-top-left{
+    display: flex;
+    text-align: center;
+  }
+  .response-top-right{
+    display: flex;
+    margin-right: 20px;
+  }
+  .response-content{
+    display: flex;
   }
 </style>

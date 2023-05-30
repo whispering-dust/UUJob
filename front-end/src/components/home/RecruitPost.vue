@@ -13,7 +13,15 @@
 
             <el-col style="width:500px">
                 <el-form-item label="招聘岗位">
-                    <el-input v-model="form.position" />
+                    <!-- <el-input v-model="form.position" /> -->
+                    <el-select v-model="form.position" filterable placeholder="Select">
+                        <el-option
+                          v-for="item in positions"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value"
+                        />
+                      </el-select>
                 </el-form-item>
             </el-col>
 
@@ -55,8 +63,8 @@
             </span>
             <template #footer>
                 <span class="dialog-footer">
-                    <el-button type="primary" @click="dialogVisible = false">不，点错了!</el-button>
-                    <el-button type="warning" @click="dialogVisible = false; handlecancel()">是，就要撤！</el-button>
+                    <el-button type="info" @click="dialogVisible = false">不，点错了!</el-button>
+                    <el-button type="danger" @click="dialogVisible = false; handlecancel()">是，就要撤！</el-button>
                 </span>
             </template>
         </el-dialog>
@@ -94,14 +102,22 @@ export default {
                 { value: 'shenzhen', label: '南京' },
                 // 其他城市
             ],
+            positions: [
+                {
+                    value: '设计师', label: '设计师' 
+                },
+                {
+                    value: '架构师', label: '架构师' 
+                },
+            ],
             userId: useStore().state.userId,
             form: {
                 userName: useStore().state.userName,
-                title: "标题",
-                position: "",
-                salary: "",
-                description: "",
-                location: "",
+                title: null,
+                position: null,
+                salary: null,
+                description: null,
+                location: null,
             },
         }
     },
@@ -112,7 +128,7 @@ export default {
                 message: '已取消！',
                 type: 'success',
             });
-
+            this.$emit('cancel');
         },
         async submit() {
             let that = this;
@@ -125,7 +141,7 @@ export default {
                     title: that.form.title,
                     position: that.form.position,
                     description: that.form.description,
-                    salary: that.form.salary,
+                    salary: that.form.salary+"元/月",
                     location: that.form.location,
                 },
             }).then(function (response) {
