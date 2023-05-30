@@ -43,6 +43,12 @@
                 招聘管理
               </el-menu-item>
             </router-link>
+            <router-link v-if="store.role === 1" class="text-white" to="/myspace/myJob" >
+              <el-menu-item index="7">
+                <el-icon><Document /></el-icon>
+                岗位管理
+              </el-menu-item>
+            </router-link>
             <el-sub-menu index="4">
               <template #title>
                 <el-icon><Star /></el-icon>

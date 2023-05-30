@@ -15,7 +15,7 @@
 
   <el-dialog top="0vh" v-model="dialogFormVisible" title="请填写表单信息" draggable :lock-scroll=false>
     <el-scrollbar>
-      <RecruitPost></RecruitPost>
+      <RecruitPost  @cancel="dialogFormVisible = false"></RecruitPost>
     </el-scrollbar>
   </el-dialog>
 </template>
@@ -50,7 +50,7 @@ export default {
         this.dialogFormVisible = true
       }
 
-    }
+    },
   },
 }
 

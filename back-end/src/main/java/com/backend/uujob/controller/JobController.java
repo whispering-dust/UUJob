@@ -33,11 +33,11 @@ public class JobController {
     private IProfileService profileService;
 
     @Resource
+
     private IActiveService activeService;
     
     @Resource
     private IPositionService positionService;
-
 
     @PostMapping("")
     public Result addJob(@RequestBody Job job){
@@ -213,5 +213,4 @@ public class JobController {
         }
         return Result.error(Constants.CODE_500,"系统错误");
     }
-
 }

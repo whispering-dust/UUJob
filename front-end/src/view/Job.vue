@@ -12,7 +12,7 @@
             </div>
             <div class="name">
               <h1>{{ jobInfo.title }}</h1>
-              <span class="salary">{{ jobInfo.salary }}/每月</span>
+              <span class="salary">{{ jobInfo.salary }}</span>
             </div>
             <p>
               <span>

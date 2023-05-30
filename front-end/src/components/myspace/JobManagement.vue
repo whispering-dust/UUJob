@@ -220,11 +220,9 @@
     </el-main>
     <el-aside width="10%">
       <div class="action-buttons">
-        <el-button class="ml-2 mt-2" style="width: 75%;" type="danger">删除岗位</el-button>
-        <br>
         <el-button class="ml-2 mt-2" style="width: 75%;" type="primary" @click="passProfile">通过</el-button>
         <el-button class="ml-2 mt-2" style="width: 75%;" type="info">忽略</el-button>
-        <br>
+        <br><br>
         <el-button class="ml-2 mt-2" style="width: 75%;" @click="back">上一个</el-button>
         <el-button class="ml-2 mt-2" style="width: 75%;" @click="next">下一个</el-button>
       </div>
@@ -259,7 +257,13 @@ export default {
       unreviewedProfile: [],
       reviewedProfile: [],
       selectedProfile: {},
-      filteredJobs: [],
+      filteredJobs: [
+        {
+          jobId:"1",
+          title:"java招聘",
+          date:"2020-2-3"
+        }
+      ],
       selectedJob: {},
     };
   },
@@ -407,8 +411,6 @@ export default {
   
 <style scoped>
 .action-buttons {
-  display: flex;
-  flex-direction: column;
   gap: 10px;
   background-color: rgb(66, 74, 92);
   height: 100%;

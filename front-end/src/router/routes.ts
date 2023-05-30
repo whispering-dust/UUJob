@@ -115,6 +115,11 @@ const routes = [
             component:()=>import('@/components/myspace/UserAccount.vue')
           },
           {
+            path:'/myspace/myJob',
+            name:'myJob',
+            component:()=>import('@/components/myspace/MyJob.vue')
+          },
+          {
             path: '/myspace/chatList',
             name: 'chatList',
             component: () => import('@/components/myspace/ChatList.vue'),

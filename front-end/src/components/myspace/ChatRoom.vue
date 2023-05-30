@@ -239,8 +239,8 @@ export default {
   mounted() {
     this.initPage();
     // 在组件加载时开始轮询   
+    // this,scrollToBottom();
     this.startPolling();
-
     //this.getHistoryMessages()
   },
   unmounted() {
