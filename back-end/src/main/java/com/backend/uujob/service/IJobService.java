@@ -10,5 +10,7 @@ import java.util.List;
 public interface IJobService extends IService<Job> {
     List<Job> getListByStatus(CensorStatusEnum censorStatusEnum);
     List<Job> getListByUserId(int userId);
+
+    Job getJobById(int jobId);
 }
 
