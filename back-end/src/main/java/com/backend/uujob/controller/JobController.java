@@ -32,6 +32,9 @@ public class JobController {
     @Resource
     private IProfileService profileService;
 
+    @Resource
+    private IPositionService positionService;
+
     @PostMapping("")
     public Result addJob(@RequestBody Job job){
         //默认初始状态为待审核
@@ -187,4 +190,13 @@ public class JobController {
         return Result.error();
     }
 
+    @GetMapping("/positions")
+    public Result getPositionList(){
+        List<Position> list = positionService.getPositionList();
+
+        if(!list.isEmpty()){
+            return Result.success(list);
+        }
+        return Result.error(Constants.CODE_500,"系统错误");
+    }
 }

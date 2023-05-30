@@ -1,6 +1,7 @@
 package com.backend.uujob.controller;
 
 import com.backend.uujob.controller.dto.JobExamineDTO;
+import com.backend.uujob.controller.dto.PostDTO;
 import com.backend.uujob.controller.dto.PostDetailDTO;
 import com.backend.uujob.controller.dto.PostExamineDTO;
 import com.backend.uujob.entity.Comment;
@@ -42,7 +43,11 @@ public class PostController {
 
     @GetMapping("/basis")
     public Result getPosts() {
-        return Result.success(postService.getPostList());
+        List<PostDTO> list = postService.getPostList();
+        if(!list.isEmpty()){
+            return Result.success(list);
+        }
+        return Result.error(Constants.CODE_500,"帖子数据获取失败");
     }
 
     @GetMapping("/detail")
@@ -68,7 +73,7 @@ public class PostController {
             return Result.success(post.getId());
         }
         else{
-            return Result.error();
+            return Result.error(Constants.CODE_500,"数据保存失败");
         }
     }
 
@@ -77,7 +82,7 @@ public class PostController {
         if(postService.updateById(post)){
             return Result.success(post.getId());
         }
-        return Result.error();
+        return Result.error(Constants.CODE_500,"数据更新失败");
     }
 
     @PostMapping("/comments")
@@ -89,7 +94,7 @@ public class PostController {
             return Result.success(comment.getId());
         }
         else{
-            return Result.error();
+            return Result.error(Constants.CODE_500,"数据保存失败");
         }
     }
 
@@ -118,7 +123,7 @@ public class PostController {
         if(postService.updateById(post)){
             return Result.success();
         }
-        return Result.error();
+        return Result.error(Constants.CODE_500,"审查数据修改失败");
     }
 
     @DeleteMapping("")
@@ -139,6 +144,6 @@ public class PostController {
         if(postService.removeById(postId)){
             return Result.success();
         }
-        return Result.error();
+        return Result.error(Constants.CODE_500,"数据库更改失败");
     }
 }
