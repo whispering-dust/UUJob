@@ -241,10 +241,6 @@ export default {
     // 在组件加载时开始轮询   
     // this,scrollToBottom();
     this.startPolling();
-<<<<<<< HEAD
-=======
-
->>>>>>> 5aa5aad5f08895493e8cb5b8d78beb1d7399ef0a
     //this.getHistoryMessages()
   },
   unmounted() {

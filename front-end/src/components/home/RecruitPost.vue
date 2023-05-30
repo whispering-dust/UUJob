@@ -110,11 +110,7 @@ export default {
                 userName: useStore().state.userName,
                 title: null,
                 position: null,
-<<<<<<< HEAD
                 salary: null,
-=======
-                salary: 0,
->>>>>>> 5aa5aad5f08895493e8cb5b8d78beb1d7399ef0a
                 description: null,
                 location: null,
             },
