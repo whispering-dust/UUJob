@@ -11,6 +11,7 @@ public class Job {
   private Integer id;
   private String title;
   private String position;
+  private Integer positionId;
   private String location;
   private String salary;
   private String companyName;
@@ -44,6 +45,13 @@ public class Job {
 
   public void setPosition(String position) {
     this.position = position;
+  }
+  public Integer getPositionId() {
+    return positionId;
+  }
+
+  public void setPositionId(Integer positionId) {
+    this.positionId = positionId;
   }
 
 
