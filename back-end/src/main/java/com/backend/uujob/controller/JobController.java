@@ -6,6 +6,7 @@ import com.backend.uujob.entity.*;
 import com.backend.uujob.entity.VO.ProfileVO;
 import com.backend.uujob.enums.ApplStatusEnum;
 import com.backend.uujob.enums.CensorStatusEnum;
+import com.backend.uujob.enums.RoleEnum;
 import com.backend.uujob.result.Constants;
 import com.backend.uujob.result.Result;
 import com.backend.uujob.service.*;
@@ -33,22 +34,30 @@ public class JobController {
 
     @Resource
     private IActiveService activeService;
+    
+    @Resource
+    private IPositionService positionService;
+
 
     @PostMapping("")
     public Result addJob(@RequestBody Job job){
         //默认初始状态为待审核
         job.setStatus(CensorStatusEnum.CENSOR_STATUS_SUBMIT.ordinal());
+        //默认初始状态为待审核
+        job.setDate(new java.sql.Timestamp(System.currentTimeMillis()));
 
         //根据publisher-id确定company-name
         User user = userService.getById(job.getPublisherId());
-        Company company = companyService.getById(user.getCompanyId());
-        if(company == null){
+        if(user.getRole() == RoleEnum.ROLE_RECRUITER.ordinal()){
             return Result.error(Constants.CODE_401, "该用户没有发布岗位的权限");
         }
+        Company company = companyService.getById(user.getCompanyId());
         job.setCompanyName(company.getName());
 
-        jobService.save(job);
-        return Result.success(job.getId());
+        if(jobService.save(job)){
+            return Result.success(job.getId());
+        }
+        return Result.error(Constants.CODE_400, "岗位存储失败");
     }
 
     @PutMapping("")
@@ -56,8 +65,10 @@ public class JobController {
         //一旦对岗位信息进行修改就需要重新进行审核，所以状态为待审核
         job.setStatus(CensorStatusEnum.CENSOR_STATUS_SUBMIT.ordinal());
 
-        jobService.updateById(job);
-        return Result.success(job.getId());
+        if(jobService.updateById(job)){
+            return Result.success(job.getId());
+        }
+        return Result.error(Constants.CODE_400, "岗位更新失败");
     }
 
 
@@ -183,6 +194,7 @@ public class JobController {
         return Result.error();
     }
 
+
     @PutMapping("/hits")
     public Result updateHits(@RequestBody Active active){
         int targetHits=activeService.saveUserActive(active);
@@ -190,6 +202,16 @@ public class JobController {
             return Result.success(targetHits);
         }
         return Result.error(Constants.CODE_500,"点击数据更新失败，没写入数据库");
+    }
+
+    @GetMapping("/positions")
+    public Result getPositionList(){
+        List<Position> list = positionService.getPositionList();
+
+        if(!list.isEmpty()){
+            return Result.success(list);
+        }
+        return Result.error(Constants.CODE_500,"系统错误");
     }
 
 }
