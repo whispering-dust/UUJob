@@ -73,6 +73,7 @@ export default {
 
     return {
       router: useRouter(),
+      userId: useStore().state.userId,
       select_id: "",
       dialogApplyVisible: false,
       pagedRecruitObjs: [], // 当前页展示的求职帖子的数组
@@ -134,8 +135,21 @@ export default {
     },
 
     enterJob(id) {
+      axios({
+        method: "put",
+        url: "http://localhost:9090/jobs/hits",
+        data: {
+          userId: this.userId,
+          jobId: id,
+        }
+      }).then(function (response) {
+        if (response.data.code == 200) {
+          console.log("hit");
+        } else {
+          alert("error");
+        }
+      })
       this.router.push("../job/" + id)
-
     },
 
     handleChange(val) {

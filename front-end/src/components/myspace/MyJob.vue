@@ -97,10 +97,16 @@
         <el-aside width="10%">
           <div class="action-buttons">
             <el-button class="ml-2 mt-2" style="width: 75%;" type="danger" ><el-icon class="mr-1"><DeleteFilled /></el-icon>删除岗位</el-button>
-            <el-button class="ml-2 mt-2" style="width: 75%;" type="primary" ><el-icon class="mr-1"><Edit /></el-icon>修改信息</el-button>
+            <el-button class="ml-2 mt-2" style="width: 75%;" type="primary"  @click="dialogFormVisible=true"><el-icon class="mr-1"><Edit /></el-icon>修改信息</el-button>
           </div>
         </el-aside>
     </el-container>
+
+    <el-dialog top="0vh" v-model="dialogFormVisible" title="请填写表单信息" draggable :lock-scroll=false>
+      <el-scrollbar>
+        功能面板
+      </el-scrollbar>
+    </el-dialog>
   </template>
   
   <script>
@@ -152,7 +158,8 @@
           userId:'',
           userName:'owner',
           phone:'13726928387',
-        }
+        },
+        dialogFormVisible: false,
       };
     },
     methods: {
@@ -193,6 +200,7 @@
           this.filteredJobs = this.JobList;
         }
       },
+
     },
     mounted() {
       this.getJobList();
