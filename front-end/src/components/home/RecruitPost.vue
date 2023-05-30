@@ -1,8 +1,8 @@
 <template>
     <div class="recruit-card">
         <el-form :model="form" label-width="80px">
-            <el-form-item label="发布用户" >
-                <span >{{ form.userName }}</span>
+            <el-form-item label="发布用户">
+                <span>{{ form.userName }}</span>
             </el-form-item>
 
             <el-col style="width:500px">
@@ -34,13 +34,8 @@
             <el-col style="width:300px">
                 <el-form-item label="位置/城市">
                     <el-select v-model="form.location" placeholder="请选择城市">
-                        <el-option
-                          v-for="city in cities"
-                          :key="city.value"
-                          :label="city.label"
-                          :value="city.value"
-                        />
-                      </el-select>
+                        <el-option v-for="city in cities" :key="city.value" :label="city.label" :value="city.value" />
+                    </el-select>
                 </el-form-item>
             </el-col>
 
@@ -115,7 +110,11 @@ export default {
                 userName: useStore().state.userName,
                 title: null,
                 position: null,
+<<<<<<< HEAD
                 salary: null,
+=======
+                salary: 0,
+>>>>>>> 5aa5aad5f08895493e8cb5b8d78beb1d7399ef0a
                 description: null,
                 location: null,
             },

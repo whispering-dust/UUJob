@@ -147,7 +147,7 @@
                     <el-table-column prop="jobName" label="岗位名称"></el-table-column>
                     <el-table-column prop="companyName" label="公司名称"></el-table-column>
                     <el-table-column prop="salary" label="薪资范围"></el-table-column>
-                    
+
                   </el-table>
                 </div>
 
