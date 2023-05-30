@@ -1,31 +1,31 @@
 <template>
   <div class="chatroom">
-     <div class="messages">
+    <div class="messages">
       <el-scrollbar ref="messagesScroll" style="width: 100%;">
-          <div class="mb-5" v-for="message in messages" :key="message.id"
+        <div class="mb-5" v-for="message in messages" :key="message.id"
           :class="{ 'my-message': message.isMine, 'their-message': !message.isMine }">
-            <img class="avatar" v-if="!message.isMine" :src="message.avatar" alt="user" />
-            <div class="message-main">
-              <div class="message-content" :class="{ 'my-bubble': message.isMine, 'their-bubble': !message.isMine }">
-                <div v-if="message.type === 'text'">
-                  {{ message.content }}
-                </div>
-                <div v-if="message.type === 'image'">
-                  <img :src="message.content" class="uploaded-image" @click="downloadFile(message.content)" />
-                </div>
-                <div v-if="message.type === 'file'">
-                  <a :href="message.content" download @click="downloadFile(message.content)">
-                    {{ message.fileName }}
-                  </a>
-                </div>
+          <img class="avatar" v-if="!message.isMine" :src="message.avatar" alt="user" />
+          <div class="message-main">
+            <div class="message-content" :class="{ 'my-bubble': message.isMine, 'their-bubble': !message.isMine }">
+              <div v-if="message.type === 'text'">
+                {{ message.content }}
               </div>
-              <div class="message-time">
-                {{message.createdAt}}
+              <div v-if="message.type === 'image'">
+                <img :src="message.content" class="uploaded-image" @click="downloadFile(message.content)" />
+              </div>
+              <div v-if="message.type === 'file'">
+                <a :href="message.content" download @click="downloadFile(message.content)">
+                  {{ message.fileName }}
+                </a>
               </div>
             </div>
-            <img class="avatar" v-if="message.isMine" :src="message.avatar" alt="user" />
+            <div class="message-time">
+              {{ message.createdAt }}
+            </div>
           </div>
-       
+          <img class="avatar" v-if="message.isMine" :src="message.avatar" alt="user" />
+        </div>
+
       </el-scrollbar>
     </div>
 
@@ -40,11 +40,11 @@
               <Picture />
             </el-icon></el-button>
 
-            <el-button size="large" @click="scrollToBottom" circle><el-icon size="large">
+          <el-button size="large" @click="scrollToBottom" circle><el-icon size="large">
               <ArrowDown />
             </el-icon></el-button>
 
-            <el-button size="large" @click="scrollToTop" circle><el-icon size="large">
+          <el-button size="large" @click="scrollToTop" circle><el-icon size="large">
               <ArrowUp />
             </el-icon></el-button>
         </div>
@@ -126,8 +126,8 @@ export default {
             }
             message.type = 'text';
             var date = new Date(message.createdAt);
-            message.createdAt=(date.getMonth() + 1).toString().padStart(2, '0') + "-" + date.getDate().toString().padStart(2, '0')
-              + " " +date.getHours().toString()+":"+date.getMinutes().toString().padStart(2, '0');
+            message.createdAt = (date.getMonth() + 1).toString().padStart(2, '0') + "-" + date.getDate().toString().padStart(2, '0')
+              + " " + date.getHours().toString() + ":" + date.getMinutes().toString().padStart(2, '0');
             //头像有待处理
             message.avatar = 'https://via.placeholder.com/40'
           });
@@ -156,11 +156,11 @@ export default {
           this.$message.success('发送成功')
 
 
-          this.newMessage=''
+          this.newMessage = ''
           await this.getHistoryMessages();
           this.scrollToBottom()
 
-          
+
           this.$emit("message-sent", {
             chatId: this.conversationId,
             lastMessage: this.newMessage,
@@ -214,7 +214,10 @@ export default {
         scrollContainer.scrollTo({ top: 0 });
       });
     },
-
+    async initPage() {
+      await this.getHistoryMessages();
+      this.scrollToBottom();
+    },
   },
   watch: {
     '$route.params.conversationId': {
@@ -232,10 +235,12 @@ export default {
       },
     },
   },
+
   mounted() {
+    this.initPage();
     // 在组件加载时开始轮询   
     this.startPolling();
-    // this.scrollToBottom();
+
     //this.getHistoryMessages()
   },
   unmounted() {
@@ -312,10 +317,11 @@ export default {
   max-width: 500px;
 }
 
-.my-message .message-time{
+.my-message .message-time {
   float: right;
 }
-.their-message .message-time{
+
+.their-message .message-time {
   float: left;
 }
 
