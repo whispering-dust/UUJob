@@ -22,3 +22,14 @@ mybatis-plus:
     mvc:
       path match:
         matching-strategy: ant_path_matcher
+
+#上传文件到文件服务器的配置
+ftp-ubuntu:
+  #IP
+  host: 110.42.189.226
+  #端口
+  port: 22
+  user: user
+  password: 134679!user
+  basePath: /home/user/UUJob
+
