@@ -22,8 +22,8 @@
             <div class="position">
               {{ recruitObj.position }}
             </div>
-            <div class="ml-3">
-              {{ recruitObj.status }}
+            <div class="ml-3" :style="{ color: getStatusColor(recruitObj.status) }">
+              {{ getStatusText(recruitObj.status)}}
             </div>
           </div>
           <div class="col-4">
@@ -48,9 +48,6 @@
 
   </div>
 
-  <!-- <el-dialog v-model="dialogApplyVisible" title="请填写简历信息">
-    <Apply :tableId="select_id"></Apply>
-  </el-dialog> -->
 </template>
   
 <script>
@@ -166,18 +163,20 @@ export default {
         url: "http://localhost:9090/jobs/basis",
       }).then(function (response) {
         if (response.data.code == 200) {
-          that.recruitObjs = [];
-          response.data.data.forEach(element => {
-            that.recruitObjs.push(
-              {
-                id: element.id,
-                title: element.title,
-                position: element.position,
-                salary: element.salary,
-                description: element.description,
-              }
-            )
-          });
+          that.recruitObjs = response.data.data
+          //以前是怎么写出这种nt东西的
+          // that.recruitObjs = [];
+          // response.data.data.forEach(element => {
+          //   that.recruitObjs.push(
+          //     {
+          //       id: element.id,
+          //       title: element.title,
+          //       position: element.position,
+          //       salary: element.salary,
+          //       description: element.description,
+          //     }
+          //   )
+          // });
 
           that.filteredRecruits = that.recruitObjs;
         } else {
@@ -205,6 +204,26 @@ export default {
           recruit.position.toLowerCase().includes(searchKeyword.toLowerCase()) ||
           recruit.description.toLowerCase().includes(searchKeyword.toLowerCase())
       );
+    },
+
+    getStatusText(status) {
+      if (status === 1) {
+        return "招聘中";
+      } else if (status === 2) {
+        return "已终止";
+      } else {
+        return "";
+      }
+    },
+    // 根据状态值返回对应的文字颜色样式
+    getStatusColor(status) {
+      if (status === 1) {
+        return "rgb(107, 171, 240)";
+      } else if (status === 2) {
+        return "red";
+      } else {
+        return "";
+      }
     },
   },
   computed: {

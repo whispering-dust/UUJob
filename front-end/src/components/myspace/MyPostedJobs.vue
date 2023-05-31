@@ -39,12 +39,12 @@
               薪资：{{ selectedJob.salary }}
             </p>
           </div>
-          <div class="row mb-3">
+          <!-- <div class="row mb-3">
             <el-tag v-for="item in items" :key="item.label" :type="item.type" class="mx-1" effect="dark" round>
               {{ item.label }}
             </el-tag>
   
-          </div>
+          </div> -->
           <div class="row text-area p-3" v-html="formattedText">
           </div>
 
@@ -133,17 +133,17 @@ import { useStore } from "vuex";
 
 export default {
   data() {
-    const items = ref([
-      { type: '', label: 'Tag 1' },
-      { type: 'success', label: 'Tag 2' },
-      { type: 'info', label: 'Tag 3' },
-      { type: 'danger', label: 'Tag 4' },
-      { type: 'warning', label: 'Tag 5' },
-    ])
+    // const items = ref([
+    //   { type: '', label: 'Tag 1' },
+    //   { type: 'success', label: 'Tag 2' },
+    //   { type: 'info', label: 'Tag 3' },
+    //   { type: 'danger', label: 'Tag 4' },
+    //   { type: 'warning', label: 'Tag 5' },
+    // ])
 
     return {
       userId: useStore().state.userId,
-      items,
+      // items,
       Search,
       search: "",
       selectedJobText: "工作内容\n1、独立完成相关短视频的拍摄和后期剪辑工作；包含但不限于素材、视频剪辑、特效制作、添加片头、片尾和字幕等；2、理解项目需求，进行脚本的规划与制定；\n3、协调与沟通视频制作过程中的各个环节，完成制作全过程，保证成片质量；\n4、熟悉直播平台玩法和制作，对B站、小红书等视频平台的热点内容敏感，分析跑量视频特征，快速同款及精进；\n任职资格：\n1、大专以上学历，影视后期、广告编导、视觉设计相关专业毕业，一年以上相关经验；\n2、熟悉并热爱视频类广告创作，脑洞大，具有良好的审美和节奏感，有良好的内容热点嗅觉；\n3、熟练使用AE、PR、PS、edius等后期软件；\n4、熟练使用各种摄像和照片拍摄设备；\n5、乐观向上，有良好的职业素养，具有较强的团队协作精神、沟通能力和责任心。",

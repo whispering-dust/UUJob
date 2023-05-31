@@ -238,18 +238,18 @@ import { useStore } from "vuex";
 
 export default {
   data() {
-    const items = ref([
-      { type: '', label: 'Tag 1' },
-      { type: 'success', label: 'Tag 2' },
-      { type: 'info', label: 'Tag 3' },
-      { type: 'danger', label: 'Tag 4' },
-      { type: 'warning', label: 'Tag 5' },
-    ])
+    // const items = ref([
+    //   { type: '', label: 'Tag 1' },
+    //   { type: 'success', label: 'Tag 2' },
+    //   { type: 'info', label: 'Tag 3' },
+    //   { type: 'danger', label: 'Tag 4' },
+    //   { type: 'warning', label: 'Tag 5' },
+    // ])
 
     return {
       activeName: '',
       userId: useStore().state.userId,
-      items,
+      // items,
       Search,
       search: "",
       JobList: [ ],
@@ -282,6 +282,7 @@ export default {
         });
 
         if (response.data.code === 200) {
+          console.log(response.data.data.subList);
           const profiles = [];
           response.data.data.subList.forEach(profile => {
             profile.profileId = profile.id
@@ -358,8 +359,7 @@ export default {
       try {
         const response = await axios.put("http://localhost:9090/jobs/applications", {
           data: {
-            jobId: this.selectedJob.jobId,
-            profileId: this.selectedProfile.profileId,
+            id: this.selectedProfile.applicationId,
             status: 1
           },
         });
@@ -380,8 +380,7 @@ export default {
       try {
         const response = await axios.put("http://localhost:9090/jobs/applications", {
           data: {
-            jobId: this.selectedJob.jobId,
-            profileId: this.selectedProfile.profileId,
+            id: this.selectedProfile.applicationId,
             status: 2
           },
         });

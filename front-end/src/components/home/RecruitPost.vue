@@ -5,39 +5,52 @@
                 <span>{{ form.userName }}</span>
             </el-form-item>
 
-            <el-col style="width:500px">
+            <div style="width:500px">
                 <el-form-item label="标题">
                     <el-input v-model="form.title" />
                 </el-form-item>
-            </el-col>
+            </div>
 
-            <el-col style="width:500px">
+            <div style="width:500px">
                 <el-form-item label="招聘岗位">
                     <!-- <el-input v-model="form.position" /> -->
-                    <el-select v-model="form.position" filterable placeholder="Select">
+                    <el-select v-model="form.position" filterable placeholder="Select" @change="handlePositionChange">
                         <el-option
                           v-for="item in positions"
-                          :key="item.value"
-                          :label="item.label"
-                          :value="item.value"
+                          :key="item.id"
+                          :label="item.value"
+                          :value="item.id"
                         />
                       </el-select>
                 </el-form-item>
-            </el-col>
+            </div>
 
-            <el-col style="width:500px;display:flex;align-content:center">
+            <div style="width:500px;display:flex;align-content:center">
                 <el-form-item label="招聘工资">
                     <el-input-number v-model="form.salary" :min="0" :max="1000000" />
                 </el-form-item>
                 <p class="ml-4 mt-2">元/每月</p>
-            </el-col>
-            <el-col style="width:300px">
+            </div>
+            <div style="width:300px">
                 <el-form-item label="位置/城市">
                     <el-select v-model="form.location" placeholder="请选择城市">
                         <el-option v-for="city in cities" :key="city.value" :label="city.label" :value="city.value" />
                     </el-select>
                 </el-form-item>
-            </el-col>
+            </div>
+
+            <div style="width: 300px">
+                <el-form-item label="教育信息">
+                    <el-select v-model="form.education" placeholder="请选择教育信息">
+                        <el-option label="博士" value="博士" />
+                        <el-option label="硕士" value="硕士" />
+                        <el-option label="本科" value="本科" />
+                        <el-option label="大专" value="大专" />
+                        <el-option label="中专" value="中专" />
+                        <el-option label="无要求" value="无要求" />
+                    </el-select>
+                </el-form-item>
+            </div>
 
             <el-form-item label="详细描述">
                 <el-input v-model="form.description" type="textarea" :autosize="{ minRows: 5 }" style="width: 600px;" />
@@ -86,29 +99,24 @@ export default {
             dialogVisible,
             size,
             cities: [
-                { value: 'beijing', label: '北京' },
-                { value: 'shanghai', label: '上海' },
-                { value: 'guangzhou', label: '广州' },
-                { value: 'shenzhen', label: '深圳' },
-                { value: 'shenzhen', label: '杭州' },
-                { value: 'shenzhen', label: '武汉' },
-                { value: 'shenzhen', label: '天津' },
-                { value: 'shenzhen', label: '苏州' },
-                { value: 'shenzhen', label: '南京' },
+                { value: '北京', label: '北京' },
+                { value: '上海', label: '上海' },
+                { value: '广州', label: '广州' },
+                { value: '深圳', label: '深圳' },
+                { value: '杭州', label: '杭州' },
+                { value: '武汉', label: '武汉' },
+                { value: '天津', label: '天津' },
+                { value: '苏州', label: '苏州' },
+                { value: '南京', label: '南京' },
                 // 其他城市
             ],
-            positions: [
-                {
-                    value: '设计师', label: '设计师' 
-                },
-                {
-                    value: '架构师', label: '架构师' 
-                },
-            ],
+            positions: [],
             userId: useStore().state.userId,
             form: {
                 userName: useStore().state.userName,
                 title: null,
+                positionId: null,
+                education: null,
                 position: null,
                 salary: null,
                 description: null,
@@ -117,7 +125,13 @@ export default {
         }
     },
     methods: {
+        handlePositionChange(value) {
+            const selectedPosition = this.positions.find(item => item.id === value);
+            this.form.position = selectedPosition.value;
+            this.form.positionId = selectedPosition.id;
+        },
         handlecancel() {
+            this.form = [];
             ElNotification({
                 title: '已取消',
                 message: '已取消！',
@@ -134,26 +148,41 @@ export default {
                 data: {
                     publisherId: that.userId,
                     title: that.form.title,
+                    positionId: that.form.positionId,
                     position: that.form.position,
+                    education: that.form.education,
                     description: that.form.description,
                     salary: that.form.salary+"元/月",
                     location: that.form.location,
                 },
             }).then(function (response) {
-                alert(response.data.msg);
                 if (response.data.code === 200) {
-                    alert("操作成功");
+                    that.$message.success("提交操作成功");
+                    that.form = [];
+                    that.$emit('cancel');
                 }
                 else {
-                    alert(response.data.msg);
+                    that.$message.error(response.data.msg);
                 }
             });
 
         },
+        async getPositions(){
+            const response = await axios.get('http://localhost:9090/jobs/positions');
+            if(response.data.code == 200){
+                console.log(response.data.data);
+                this.positions = response.data.data.map(item => ({
+                    id: item.id, value: item.positionName
+                }));
+            }else{
+                this.$message.error(response.data.msg);
+            }
+        }
 
     },
     mounted() {
         //alert(this.userId)
+        this.getPositions()
     },
 }
 
