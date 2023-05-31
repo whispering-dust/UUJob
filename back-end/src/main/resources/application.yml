@@ -30,6 +30,6 @@ ftp-ubuntu:
   #端口
   port: 22
   user: user
-  password: 134679!user
-  basePath: /home/user/UUJob
+  password: nihao192837465
+  basePath: /opt/tomcat/webresources/uujob_file
 

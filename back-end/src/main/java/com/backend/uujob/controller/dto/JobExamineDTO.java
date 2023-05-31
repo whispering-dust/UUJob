@@ -9,6 +9,7 @@ public class JobExamineDTO {
     private String position;
     private String location;
     private String salary;
+    private String education;
     private String description;
     private Integer publisherId;
     private String userName;

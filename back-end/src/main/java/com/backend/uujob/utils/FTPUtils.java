@@ -3,6 +3,7 @@ package com.backend.uujob.utils;
 import com.jcraft.jsch.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 
@@ -15,7 +16,7 @@ import java.io.*;
  * @Version 1.0  上传文件到文件服务器上（CentOS系统服务器）
  */
 @Component
-public class FTPUtil {
+public class FTPUtils {
     private static String host;
     @Value(value = "${ftp-ubuntu.host}")
     public  void setHost(String hostName){
@@ -44,8 +45,8 @@ public class FTPUtil {
 
     private static String basePath;
     @Value(value = "${ftp-ubuntu.basePath}")
-    public  void setBasePath(String basePath) {
-        FTPUtil.basePath = basePath;
+    public void setBasePath(String basePath) {
+        FTPUtils.basePath = basePath;
     }
 
     public static void sshSftp(byte[] bytes, String fileName) throws Exception {
@@ -102,6 +103,17 @@ public class FTPUtil {
                 channel.disconnect();
             }
         }
+    }
+
+    public static Boolean uploadFolder(MultipartFile file) {
+        try {
+            byte[] bytes = file.getBytes();
+            FTPUtils.sshSftp(bytes, file.getOriginalFilename());
+            return Boolean.TRUE;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Boolean.FALSE;
     }
 }
 

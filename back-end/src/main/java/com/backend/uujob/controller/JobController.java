@@ -1,6 +1,7 @@
 package com.backend.uujob.controller;
 
 import com.backend.uujob.controller.dto.ActiveDTO;
+import com.backend.uujob.controller.dto.FileUploadDTO;
 import com.backend.uujob.controller.dto.JobExamineDTO;
 import com.backend.uujob.controller.dto.ProfileCensorDTO;
 import com.backend.uujob.entity.*;
@@ -13,6 +14,7 @@ import com.backend.uujob.service.IActiveService;
 import com.backend.uujob.result.Constants;
 import com.backend.uujob.result.Result;
 import com.backend.uujob.service.*;
+import com.backend.uujob.service.impl.JobService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.backend.uujob.utils.TimeUtils.timeTransfer;
+import static com.backend.uujob.utils.FTPUtils.uploadFolder;
 
 @RestController
 @RequestMapping("/jobs")
@@ -37,7 +40,6 @@ public class JobController {
 
     @Resource
     private IActiveService activeService;
-    
     @Resource
     private IPositionService positionService;
 
@@ -48,9 +50,9 @@ public class JobController {
         //默认初始状态为待审核
         job.setDate(new java.sql.Timestamp(System.currentTimeMillis()));
 
-        //根据publisher-id确定company-name
+        //根据publisher-id确定company-name，并检查用户是否有发布岗位的权限
         User user = userService.getById(job.getPublisherId());
-        if(user.getRole() == RoleEnum.ROLE_RECRUITER.ordinal()){
+        if(user.getRole() != RoleEnum.ROLE_RECRUITER.ordinal()){
             return Result.error(Constants.CODE_401, "该用户没有发布岗位的权限");
         }
         Company company = companyService.getById(user.getCompanyId());
@@ -69,6 +71,18 @@ public class JobController {
 
         if(jobService.updateById(job)){
             return Result.success(job.getId());
+        }
+        return Result.error(Constants.CODE_400, "岗位更新失败");
+    }
+
+    @PutMapping("/terminate")
+    public Result terminateJob(@RequestParam Integer id){
+        //根据id获取工作信息并将状态置为结束
+        Job job = jobService.getJobById(id);
+        job.setStatus(CensorStatusEnum.CENSOR_STATUS_TERMINATE.ordinal());
+
+        if(jobService.updateById(job)){
+            return Result.success();
         }
         return Result.error(Constants.CODE_400, "岗位更新失败");
     }
@@ -189,6 +203,7 @@ public class JobController {
             jobExamineDTO.setPosition(j.getPosition());
             jobExamineDTO.setLocation(j.getLocation());
             jobExamineDTO.setSalary(j.getSalary());
+            jobExamineDTO.setEducation(j.getEducation());
             jobExamineDTO.setCompanyName(j.getCompanyName());
             jobExamineDTO.setPublisherId(j.getPublisherId());
             jobExamineDTO.setUserName(userService.getNameById(j.getPublisherId()));
@@ -234,5 +249,19 @@ public class JobController {
             return Result.success(list);
         }
         return Result.error(Constants.CODE_500,"系统错误");
+    }
+
+    @PostMapping("/upload")
+    public Result uploadJobTemplate(@RequestBody FileUploadDTO jobFile){
+        Job job = jobService.getJobById(jobFile.getId());
+        if(job == null){
+            return Result.error(Constants.CODE_400,"该岗位不存在");
+        }
+
+        if(uploadFolder(jobFile.getFile())){
+            //尚未完成将url保存到数据库的逻辑，先随便反一个数值，最后这里应该反url
+            return Result.success("上传成功！");
+        }
+        return Result.error(Constants.CODE_500,"文件上传失败");
     }
 }

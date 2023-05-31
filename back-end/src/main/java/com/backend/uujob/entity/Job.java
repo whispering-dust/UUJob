@@ -14,6 +14,7 @@ public class Job {
   private Integer positionId;
   private String location;
   private String salary;
+  private String education;
   private String companyName;
   private Timestamp date;
   private String description;
@@ -70,6 +71,14 @@ public class Job {
 
   public void setSalary(String salary) {
     this.salary = salary;
+  }
+
+  public String getEducation() {
+    return education;
+  }
+
+  public void setEducation(String education) {
+    this.education = education;
   }
 
   public String getCompanyName() {
