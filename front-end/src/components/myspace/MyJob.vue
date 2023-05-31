@@ -92,19 +92,86 @@
                 </el-descriptions-item>
             </el-descriptions>
             </div>
+            <h6 class="mt-3 mb-3">招聘状态</h6>
+            <el-steps :space="200" :active="selectedJob.status+1" process-status="wait"  finish-status="success">
+              <el-step title="待审核" />
+              <el-step title="招聘中" />
+              <el-step title="已终止" />
+            </el-steps>
           </el-card>
         </el-main>
         <el-aside width="10%">
           <div class="action-buttons">
             <el-button class="ml-2 mt-2" style="width: 75%;" type="danger" ><el-icon class="mr-1"><DeleteFilled /></el-icon>删除岗位</el-button>
-            <el-button class="ml-2 mt-2" style="width: 75%;" type="primary"  @click="dialogFormVisible=true"><el-icon class="mr-1"><Edit /></el-icon>修改信息</el-button>
+            <el-button class="ml-2 mt-2" style="width: 75%;" type="primary"  @click="dialogFormVisible=true;"><el-icon class="mr-1"><Edit /></el-icon>修改信息</el-button>
           </div>
         </el-aside>
     </el-container>
 
     <el-dialog top="0vh" v-model="dialogFormVisible" title="请填写表单信息" draggable :lock-scroll=false>
       <el-scrollbar>
-        功能面板
+        <el-form :model="selectedJob" label-width="80px">
+          <el-form-item label="发布用户">
+              <span>{{ userName }}</span>
+          </el-form-item>
+
+          <el-row >
+              <el-form-item label="标题">
+                  <el-input style="width:400px" v-model="selectedJob.title" />
+              </el-form-item>
+          </el-row>
+
+          <el-row >
+              <el-col :span="12">
+                <el-form-item label="招聘岗位">
+                  <!-- <el-input v-model="form.position" /> -->
+                  <el-select v-model="selectedJob.position" filterable placeholder="Select">
+                      <el-option
+                        v-for="item in positions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      />
+                    </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="修改状态">
+                  <!-- <el-input v-model="form.position" /> -->
+                  <el-select v-model="selectedJob.statusEdit" filterable placeholder="Select">
+                      <el-option
+                        v-for="item in status"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      />
+                    </el-select>
+                </el-form-item>
+              </el-col>
+          </el-row>
+
+          <el-row style="width:500px;display:flex;align-content:center">
+              <el-form-item label="招聘工资">
+                  <el-input-number v-model="selectedJob.salaryEdit" :min="0" :max="1000000" />
+              </el-form-item>
+              <p class="ml-4 mt-2">元/每月</p>
+          </el-row>
+          <el-row style="width:300px">
+              <el-form-item label="位置/城市">
+                  <el-select v-model="selectedJob.location" placeholder="请选择城市">
+                      <el-option v-for="city in cities" :key="city.value" :label="city.label" :value="city.value" />
+                  </el-select>
+              </el-form-item>
+          </el-row>
+
+          <el-form-item label="详细描述">
+              <el-input v-model="selectedJob.description" type="textarea" :autosize="{ minRows: 5 }" style="width: 600px;" />
+          </el-form-item>
+
+          <el-form-item>
+              <el-button type="primary" :icon="Check" @click="submit()">确认修改</el-button>
+          </el-form-item>
+        </el-form>  
       </el-scrollbar>
     </el-dialog>
   </template>
@@ -127,6 +194,7 @@
   
       return {
         userId: useStore().state.userId,
+        userName: useStore().state.userName,
         items,
         Search,
         search: "",
@@ -141,16 +209,6 @@
             applicationDate: "2023-04-01",
             reviewDate: null
           },
-          {
-            jobId: 2,
-            title: "UI设计师",
-            position: "设计",
-            location: "北京",
-            salary: "12K-20K",
-            applicationDate: "2023-04-10",
-            status: 0,
-            reviewDate: null
-          },
         ],
         filteredJobs: [],
         selectedJob: {},
@@ -160,6 +218,18 @@
           phone:'13726928387',
         },
         dialogFormVisible: false,
+        positions:[],
+        cities:[],
+        status:[
+          {
+            label:"招聘中",
+            value:1,
+          },
+          {
+            label:"已终止",
+            value:2,
+          },
+        ],
       };
     },
     methods: {
@@ -172,6 +242,7 @@
           });
   
           if (response.data.code === 200) {
+            console.log( response.data.data);
             this.JobList = response.data.data;
             this.JobList.forEach(job => {
               const date = new Date(job.date);
@@ -200,6 +271,40 @@
           this.filteredJobs = this.JobList;
         }
       },
+      async submit() {
+            let that = this;
+            const id = this.selectedJob.id;
+            if(this.selectedJob.salaryEdit ==null){
+              alert("薪资为空")
+              return
+            }
+            //alert(this.userId)
+            axios({
+                method: "put",
+                url: "http://localhost:9090/jobs",
+                data: {
+                    id: this.selectedJob.id,
+                    publisherId: this.userId,
+                    title: this.selectedJob.title,
+                    position: this.selectedJob.position,
+                    description: this.selectedJob.description,
+                    salary: this.selectedJob.salaryEdit+"元/月",
+                    location: this.selectedJob.location,
+                    status: this.selectedJob.statusEdit,
+                },
+            }).then(async function (response) {
+                if (response.data.code === 200) {
+                    that.$message.success("修改成功")
+                    await that.getJobList()
+                    that.selectJob(id)
+                    that.dialogFormVisible = false 
+                }
+                else {
+                    alert(response.data.msg);
+                }
+            });
+
+        },
 
     },
     mounted() {
@@ -213,11 +318,11 @@
       showStatus(){
         if (this.selectedJob.status == 0) {
           return "未审核"
-        }else if(this.selectedJob.status == 1){
+        }else if(this.selectedJob.status == 1 || this.selectedJob.status==2){
           return "已通过"
         }
         
-      }
+      },
     },
   };
   </script>

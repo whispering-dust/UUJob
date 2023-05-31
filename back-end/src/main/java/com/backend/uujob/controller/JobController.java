@@ -79,7 +79,7 @@ public class JobController {
         if(target==null){
             return Result.error(Constants.CODE_500,"该岗位不存在");
         }
-        return Result.success();
+        return Result.success(target);
     }
 
     @GetMapping("/basis")

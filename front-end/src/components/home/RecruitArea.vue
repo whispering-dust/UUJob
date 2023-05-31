@@ -18,14 +18,17 @@
           </div>
         </template>
         <div class="row">
-          <div class="col-8">
+          <div class="col-8" style="display:flex">
             <div class="position">
               {{ recruitObj.position }}
+            </div>
+            <div class="ml-3">
+              {{ recruitObj.status }}
             </div>
           </div>
           <div class="col-4">
             <div class="salary">
-              {{ recruitObj.salary }}元/每月
+              {{ recruitObj.salary }}
             </div>
           </div>
         </div>
