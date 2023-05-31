@@ -126,7 +126,7 @@ public class JobController {
             Profile p = profileService.getById(a.getProfileId());
 
             ProfileVO pvo = new ProfileVO();
-            pvo.setId(p.getId());
+            pvo.setProfileId(p.getId());
             pvo.setName(p.getName());
             pvo.setAge(p.getAge());
             pvo.setSex(p.getSex());
@@ -140,6 +140,7 @@ public class JobController {
             pvo.setPersonalDescription(p.getPersonalDescription());
             pvo.setReward(p.getReward());
             pvo.setExpectedLocation(p.getExpectedLocation());
+            pvo.setApplicationId(a.getId());
             pvo.setApplicationDate(timeTransfer(a.getApplicationDate()));
 
             subList.add(pvo);
@@ -152,7 +153,7 @@ public class JobController {
             Profile p = profileService.getById(a.getProfileId());
 
             ProfileVO pvo = new ProfileVO();
-            pvo.setId(p.getId());
+            pvo.setProfileId(p.getId());
             pvo.setName(p.getName());
             pvo.setAge(p.getAge());
             pvo.setSex(p.getSex());
@@ -166,6 +167,7 @@ public class JobController {
             pvo.setPersonalDescription(p.getPersonalDescription());
             pvo.setReward(p.getReward());
             pvo.setExpectedLocation(p.getExpectedLocation());
+            pvo.setApplicationId(a.getId());
             pvo.setApplicationDate(timeTransfer(a.getApplicationDate()));
             pvo.setReviewDate(timeTransfer(a.getReviewDate()));
 
