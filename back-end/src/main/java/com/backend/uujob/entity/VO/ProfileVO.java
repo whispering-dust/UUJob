@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class ProfileVO {
-    private Integer id;
+    private Integer profileId;
     private String name;
     private Integer age;
     private String sex;
@@ -18,6 +18,7 @@ public class ProfileVO {
     private String personalDescription;
     private String reward;
     private String expectedLocation;
+    private Integer applicationId;
     private String applicationDate;
     private String reviewDate;
 }
