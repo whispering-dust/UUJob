@@ -8,6 +8,8 @@ import com.backend.uujob.entity.VO.ProfileVO;
 import com.backend.uujob.enums.ApplStatusEnum;
 import com.backend.uujob.enums.CensorStatusEnum;
 import com.backend.uujob.enums.RoleEnum;
+import com.backend.uujob.entity.Active;
+import com.backend.uujob.service.IActiveService;
 import com.backend.uujob.result.Constants;
 import com.backend.uujob.result.Result;
 import com.backend.uujob.service.*;
@@ -34,7 +36,6 @@ public class JobController {
     private IProfileService profileService;
 
     @Resource
-
     private IActiveService activeService;
     
     @Resource
