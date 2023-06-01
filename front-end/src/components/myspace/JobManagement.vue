@@ -355,11 +355,11 @@ export default {
     //这玩意有问题
     async passProfile() {
       console.log(this.selectedJob.jobId);
-      console.log(this.selectedProfile.profileId);
+      console.log("this.selectedProfile.id:"+this.selectedProfile.id);
       try {
         const response = await axios.put("http://localhost:9090/jobs/applications", {
           data: {
-            id: this.selectedProfile.applicationId,
+            id: this.selectedProfile.id,
             status: 1
           },
         });
@@ -367,7 +367,7 @@ export default {
         if (response.data.code === 200) {
           this.$message.success('已通过该简历')
         } else {
-          alert(response.data.msg);
+          this.$message.error(response.data.msg);
         }
       } catch (error) {
         console.error("Failed to fetch job list:", error);
@@ -380,7 +380,7 @@ export default {
       try {
         const response = await axios.put("http://localhost:9090/jobs/applications", {
           data: {
-            id: this.selectedProfile.applicationId,
+            id: this.selectedProfile.id,
             status: 2
           },
         });
