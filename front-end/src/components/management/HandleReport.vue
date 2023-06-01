@@ -60,7 +60,7 @@
                 <el-descriptions-item label-class-name="my-label">
                   <template #label>
                     <div class="cell-item">
-                      <el-icon :style="iconStyle">
+                      <el-icon>
                         <user />
                       </el-icon>
                       发布用户
@@ -71,7 +71,7 @@
                 <el-descriptions-item>
                   <template #label>
                     <div class="cell-item">
-                      <el-icon :style="iconStyle">
+                      <el-icon>
                         <iphone />
                       </el-icon>
                       联系方式
@@ -82,7 +82,7 @@
                 <el-descriptions-item>
                   <template #label>
                     <div class="cell-item">
-                      <el-icon :style="iconStyle">
+                      <el-icon>
                         <location />
                       </el-icon>
                       地点
@@ -95,7 +95,7 @@
           </div>
           <div v-if="selectedPendingReportsData.type == '评论'">
             <div class="comment-item" style="display: flex;">
-              <el-avatar class="mr-2" src="avatar.png" size="50"></el-avatar>
+              <el-avatar class="mr-2" src="avatar.png" :size="50"></el-avatar>
               <div class="comment-right">
                 <div style="display: flex; height:20px">
                   <p class="mr-2">{{ comment.userName }}</p>
@@ -118,6 +118,7 @@
 import axios from "axios";
 import { useStore } from "vuex";
 import PostCard from '@/components/forum/PostCard.vue'
+import { reactive, toRefs, watch, ref, computed } from "vue";
 export default {
   components: {
     PostCard,

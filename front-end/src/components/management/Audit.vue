@@ -72,7 +72,7 @@
               <el-descriptions-item label-class-name="my-label">
                 <template #label>
                   <div class="cell-item">
-                    <el-icon :style="iconStyle">
+                    <el-icon>
                       <user />
                     </el-icon>
                     发布用户
@@ -83,7 +83,7 @@
               <el-descriptions-item>
                 <template #label>
                   <div class="cell-item">
-                    <el-icon :style="iconStyle">
+                    <el-icon>
                       <iphone />
                     </el-icon>
                     联系方式
@@ -94,7 +94,7 @@
               <el-descriptions-item>
                 <template #label>
                   <div class="cell-item">
-                    <el-icon :style="iconStyle">
+                    <el-icon>
                       <location />
                     </el-icon>
                     地点
@@ -113,6 +113,7 @@
 <script>
 import axios from "axios";
 import { useStore } from "vuex";
+import { reactive, toRefs, watch, ref, computed } from "vue";
 
 export default {
   data() {

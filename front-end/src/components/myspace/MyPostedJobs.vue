@@ -49,7 +49,7 @@
             <el-descriptions-item label-class-name="my-label">
               <template #label>
                 <div class="cell-item">
-                  <el-icon :style="iconStyle">
+                  <el-icon>
                     <user />
                   </el-icon>
                   发布用户
@@ -60,7 +60,7 @@
             <el-descriptions-item>
               <template #label>
                 <div class="cell-item">
-                  <el-icon :style="iconStyle">
+                  <el-icon>
                     <iphone />
                   </el-icon>
                   联系方式
@@ -71,7 +71,7 @@
             <el-descriptions-item>
               <template #label>
                 <div class="cell-item">
-                  <el-icon :style="iconStyle">
+                  <el-icon>
                     <location />
                   </el-icon>
                   地点
@@ -82,7 +82,7 @@
             <el-descriptions-item>
               <template #label>
                 <div class="cell-item">
-                  <el-icon :style="iconStyle">
+                  <el-icon>
                     <tickets />
                   </el-icon>
                   审核状态
@@ -93,7 +93,7 @@
             <el-descriptions-item>
               <template #label>
                 <div class="cell-item">
-                  <el-icon :style="iconStyle">
+                  <el-icon>
                     <tickets />
                   </el-icon>
                   审核日期

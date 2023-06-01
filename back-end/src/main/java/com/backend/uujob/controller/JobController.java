@@ -198,6 +198,7 @@ public class JobController {
     public Result getJobUnaudited(){
         List<Job> jobList = jobService.getListByStatus(CensorStatusEnum.CENSOR_STATUS_SUBMIT);
         List<JobExamineDTO> jobExamineDTOList = new ArrayList<>();
+        int num = 0;
         for(Job j : jobList){
             JobExamineDTO jobExamineDTO = new JobExamineDTO();
             jobExamineDTO.setId(j.getId());
@@ -212,6 +213,10 @@ public class JobController {
             jobExamineDTO.setUserName(userService.getNameById(j.getPublisherId()));
 
             jobExamineDTOList.add(jobExamineDTO);
+            num++;
+            if(num>=30){
+                break;
+            }
         }
 
         return Result.success(jobExamineDTOList);
