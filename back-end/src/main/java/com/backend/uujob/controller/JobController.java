@@ -58,6 +58,7 @@ public class JobController {
         Company company = companyService.getById(user.getCompanyId());
         job.setCompanyName(company.getName());
 
+
         if(jobService.save(job)){
             return Result.success(job.getId());
         }

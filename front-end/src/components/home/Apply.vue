@@ -48,7 +48,7 @@
             </el-form-item>
 
             <el-form-item>
-                <el-button type="primary" :icon="Check" @click="submit()">确认投递</el-button>
+                <el-button type="primary" icon="Check" @click="submit()">确认投递</el-button>
             </el-form-item>
         </el-form>
 

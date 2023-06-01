@@ -1,20 +1,16 @@
 <template>
   <el-container style="height:100% width:100%">
-      <el-aside width="20%">
-        <el-scrollbar>
-          <div class="search-bar">
-            <el-input v-model="search" placeholder="搜索职位" @input="searchJobs" :prefix-icon="Search"/>
-          </div>
-          <div class="job-list">
-            <div 
-              v-for="job in filteredJobs"
-              :key="job.jobId"
-              @click="selectJob(job.jobId)"
-            >
+    <el-aside width="20%">
+      <el-scrollbar>
+        <div class="search-bar">
+          <el-input v-model="search" placeholder="搜索职位" @input="searchJobs" prefix-icon="Search" />
+        </div>
+        <div class="job-list">
+          <div v-for="job in filteredJobs" :key="job.jobId" @click="selectJob(job.jobId)">
             <el-card shadow="hover" class="mr-3 mt-1">
               <el-container>
                 <el-aside style="padding: 0px;background-color:white" width="30%">
-                  <div class="company-logo">{{ job.title.slice(0, 1) }}</div>          
+                  <div class="company-logo">{{ job.title.slice(0, 1) }}</div>
                 </el-aside>
                 <el-main style="padding: 0px;">
                   <div class="job-info">
@@ -24,104 +20,102 @@
                 </el-main>
               </el-container>
             </el-card>
-            </div >
           </div>
-        </el-scrollbar>
-        
-      </el-aside>
+        </div>
+      </el-scrollbar>
 
-      <!-- main -->
-      <el-main>
-        <el-card v-if="selectedJob.title" class="box-card p-0 card" shadow="never" >
-          <div class="card-header p-0 mb-3" style="">
-            <span style="font-size: larger;"><strong>{{selectedJob.title}}</strong></span>
-            <p style="color:deepskyblue">
-              薪资：{{ selectedJob.salary }}
-            </p>
-          </div>
-          <!-- <div class="row mb-3">
+    </el-aside>
+
+    <!-- main -->
+    <el-main>
+      <el-card v-if="selectedJob.title" class="box-card p-0 card" shadow="never">
+        <div class="card-header p-0 mb-3">
+          <span style="font-size:larger;"><strong>{{ selectedJob.title }}</strong></span>
+          <p style="color:deepskyblue">
+            薪资：{{ selectedJob.salary }}
+          </p>
+        </div>
+        <!-- <div class="row mb-3">
             <el-tag v-for="item in items" :key="item.label" :type="item.type" class="mx-1" effect="dark" round>
               {{ item.label }}
             </el-tag>
   
           </div> -->
-          <div class="row text-area p-3" v-html="formattedText">
-          </div>
-
-          <div class="row p-3">
-            <el-descriptions
-              class="margin-top"
-              title="信息栏"
-              :column="1"
-              :size="larger"
-              border
-              style="width:80%"
-            >
-              <el-descriptions-item label-class-name="my-label">
-                <template #label>
-                  <div class="cell-item">
-                    <el-icon :style="iconStyle">
-                      <user />
-                    </el-icon>
-                    发布用户
-                  </div>
-                </template>
-                {{owner.userName}}
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template #label>
-                  <div class="cell-item">
-                    <el-icon :style="iconStyle">
-                      <iphone />
-                    </el-icon>
-                    联系方式
-                  </div>
-                </template>
-                {{owner.phone}}
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template #label>
-                  <div class="cell-item">
-                    <el-icon :style="iconStyle">
-                      <location />
-                    </el-icon>
-                    地点
-                  </div>
-                </template>
-                {{selectedJob.location}}
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template #label>
-                  <div class="cell-item">
-                    <el-icon :style="iconStyle">
-                      <tickets />
-                    </el-icon>
-                    审核状态
-                  </div>
-                </template>
-                <el-tag size="large" >{{showStatus}}</el-tag>
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template #label>
-                  <div class="cell-item">
-                    <el-icon :style="iconStyle">
-                      <tickets />
-                    </el-icon>
-                    审核日期
-                  </div>
-                </template>
-                {{selectedJob.reviewDate}}
-              </el-descriptions-item>
-          </el-descriptions>
-          </div>
-        </el-card>
-      </el-main>
-      <el-aside width="10%">
-        <div class="action-buttons">
-          <el-button class="ml-2 mt-2" style="width: 75%;" type="danger" @click="revokeApplication"><el-icon class="mr-1"><WarnTriangleFilled /></el-icon>撤销投递</el-button>
-          <el-button class="ml-2 mt-2" style="width: 75%;" type="primary" @click="$router.push('/myspace/chatList')"><el-icon class="mr-1"><ChatDotRound /></el-icon>联系</el-button>
+        <div class="row text-area p-3" v-html="formattedText">
         </div>
-      </el-aside>
+
+        <div class="row p-3">
+          <el-descriptions class="margin-top" title="信息栏" :column="1" :size="size" border style="width:80%">
+            <el-descriptions-item label-class-name="my-label">
+              <template #label>
+                <div class="cell-item">
+                  <el-icon :style="iconStyle">
+                    <user />
+                  </el-icon>
+                  发布用户
+                </div>
+              </template>
+              {{ owner.userName }}
+            </el-descriptions-item>
+            <el-descriptions-item>
+              <template #label>
+                <div class="cell-item">
+                  <el-icon :style="iconStyle">
+                    <iphone />
+                  </el-icon>
+                  联系方式
+                </div>
+              </template>
+              {{ owner.phone }}
+            </el-descriptions-item>
+            <el-descriptions-item>
+              <template #label>
+                <div class="cell-item">
+                  <el-icon :style="iconStyle">
+                    <location />
+                  </el-icon>
+                  地点
+                </div>
+              </template>
+              {{ selectedJob.location }}
+            </el-descriptions-item>
+            <el-descriptions-item>
+              <template #label>
+                <div class="cell-item">
+                  <el-icon :style="iconStyle">
+                    <tickets />
+                  </el-icon>
+                  审核状态
+                </div>
+              </template>
+              <el-tag size="large">{{ showStatus }}</el-tag>
+            </el-descriptions-item>
+            <el-descriptions-item>
+              <template #label>
+                <div class="cell-item">
+                  <el-icon :style="iconStyle">
+                    <tickets />
+                  </el-icon>
+                  审核日期
+                </div>
+              </template>
+              {{ selectedJob.reviewDate }}
+            </el-descriptions-item>
+          </el-descriptions>
+        </div>
+      </el-card>
+    </el-main>
+    <el-aside width="10%">
+      <div class="action-buttons">
+        <el-button class="ml-2 mt-2" style="width: 75%;" type="danger" @click="revokeApplication"><el-icon class="mr-1">
+            <WarnTriangleFilled />
+          </el-icon>撤销投递</el-button>
+        <el-button class="ml-2 mt-2" style="width: 75%;" type="primary"
+          @click="$router.push('/myspace/chatList')"><el-icon class="mr-1">
+            <ChatDotRound />
+          </el-icon>联系</el-button>
+      </div>
+    </el-aside>
   </el-container>
 </template>
 
@@ -170,11 +164,12 @@ export default {
       ],
       filteredJobs: [],
       selectedJob: {},
-      owner:{
-        userId:'',
-        userName:'owner',
-        phone:'13726928387',
-      }
+      owner: {
+        userId: '',
+        userName: 'owner',
+        phone: '13726928387',
+      },
+      size: ref('large')
     };
   },
   methods: {
@@ -222,7 +217,7 @@ export default {
         console.error("Failed to fetch job:", error);
       }
     },
-    async getOwner(){
+    async getOwner() {
       try {
         const response = await axios.get("http://localhost:9090/users", {
           params: {
@@ -280,20 +275,19 @@ export default {
       // 将换行符替换为 <br> 标签
       return this.selectedJobText.replace(/\n/g, "<br>");
     },
-    showStatus(){
+    showStatus() {
       if (this.selectedJob.status == 0) {
         return "未审核"
-      }else if(this.selectedJob.status == 1){
+      } else if (this.selectedJob.status == 1) {
         return "已通过"
       }
-      
+
     }
   },
 };
 </script>
 
 <style scoped>
-
 .action-buttons {
   display: flex;
   flex-direction: column;
@@ -302,6 +296,7 @@ export default {
   height: 100%;
   padding-top: 50px;
 }
+
 .el-aside {
   background-color: #f5f7fa;
 }
@@ -314,9 +309,11 @@ export default {
   height: calc(100% - 70px);
   overflow-y: auto;
 }
-.box-card{
+
+.box-card {
   height: 100%;
 }
+
 .company-logo {
   background-color: #409EFF;
   border-radius: 50%;
@@ -344,10 +341,12 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
+
 .box-card {
   overflow-y: auto;
 }
-.my-label{
+
+.my-label {
   width: 30%;
 }
 </style>

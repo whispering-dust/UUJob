@@ -2,10 +2,10 @@
   <el-container style="height:100% width:100%">
     <el-aside width="20%">
       <div class="search-bar">
-        <el-input v-model="search" placeholder="搜索职位" @input="searchJobs" :prefix-icon="Search" />
+        <el-input v-model="search" placeholder="搜索职位" @input="searchJobs" prefix-icon="Search" />
       </div>
-      <el-list class="job-list">
-        <el-list-item v-for="job in filteredJobs" :key="job.jobId" @click="selectJob(job.jobId)">
+      <div class="job-list">
+        <div v-for="job in filteredJobs" :key="job.jobId" @click="selectJob(job.jobId)">
           <el-card shadow="hover" class="mr-3 mt-1">
             <el-container>
               <el-aside style="padding: 0px;background-color:white" width="30%">
@@ -19,8 +19,8 @@
               </el-main>
             </el-container>
           </el-card>
-        </el-list-item>
-      </el-list>
+        </div>
+      </div>
     </el-aside>
 
     <!-- 简历列表 -->
@@ -30,10 +30,10 @@
         <el-container style="height: 100%;">
           <el-aside width="200px">
             <div class="profile-list">
-              <el-tabs v-model="activeName" @tab-change="handleChange" class="demo-tabs m-3" stretch="true">
+              <el-tabs v-model="activeName" @tab-change="handleChange" class="demo-tabs m-3" :stretch=true>
                 <el-tab-pane label="未审核" name="first">
-                  <el-list>
-                    <el-list-item v-for="profile in unreviewedProfile" :key="profile.profileId"
+                  <div class="el-list">
+                    <div v-for="profile in unreviewedProfile" :key="profile.profileId"
                       @click="selectProfile(profile.profileId)">
                       <el-card shadow="hover" class="mt-2 pt-2 pr-2 pl-2 pb-0"
                         :body-style="{ padding: '0px', height: '100%' }">
@@ -51,12 +51,12 @@
                           </el-container>
                         </div>
                       </el-card>
-                    </el-list-item>
-                  </el-list>
+                    </div>
+                  </div>
                 </el-tab-pane>
                 <el-tab-pane label="已通过" name="second">
-                  <el-list>
-                    <el-list-item v-for="profile in reviewedProfile" :key="profile.profileId"
+                  <div class="el-list">
+                    <div v-for="profile in reviewedProfile" :key="profile.profileId"
                       @click="selectProfile(profile.profileId)">
                       <el-card shadow="hover" class="mt-2 pt-2 pr-2 pl-2 pb-0"
                         :body-style="{ padding: '0px', height: '100%' }">
@@ -74,8 +74,8 @@
                           </el-container>
                         </div>
                       </el-card>
-                    </el-list-item>
-                  </el-list>
+                    </div>
+                  </div>
                 </el-tab-pane>
               </el-tabs>
 
@@ -252,16 +252,16 @@ export default {
       // items,
       Search,
       search: "",
-      JobList: [ ],
+      JobList: [],
       ProfileList: [],
       unreviewedProfile: [],
       reviewedProfile: [],
       selectedProfile: {},
       filteredJobs: [
         {
-          jobId:"1",
-          title:"java招聘",
-          date:"2020-2-3"
+          jobId: "1",
+          title: "java招聘",
+          date: "2020-2-3"
         }
       ],
       selectedJob: {},
@@ -420,7 +420,7 @@ export default {
   background-color: #f5f7fa;
 }
 
-.search-bar {
+sizelar .search-bar {
   padding: 20px;
 }
 

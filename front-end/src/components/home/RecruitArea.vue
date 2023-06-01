@@ -14,16 +14,18 @@
         <template #header>
           <div class="card-header">
             <span style="font-size:larger">{{ recruitObj.title }}</span>
+
             <el-button class="button" color="black" @click="enterJob(recruitObj.id)"> 详情</el-button>
           </div>
+          <span style="font-size: 8px;color: gray;">发布时间:{{ recruitObj.date }}</span>
         </template>
         <div class="row">
           <div class="col-8" style="display:flex">
             <div class="position">
               {{ recruitObj.position }}
             </div>
-            <div class="ml-3" :style="{ color: getStatusColor(recruitObj.status) }">
-              {{ getStatusText(recruitObj.status)}}
+            <div class="ml-3" :style="{ color: getStatusColor(recruitObj.status), marginTop: '5px' }">
+              {{ getStatusText(recruitObj.status) }}
             </div>
           </div>
           <div class="col-4">
@@ -33,25 +35,24 @@
           </div>
         </div>
         <div class="description">
-          {{ recruitObj.description.slice(0,50) }}
+          {{ recruitObj.description.slice(0, 50) }}
         </div>
 
       </el-card>
     </div>
 
-    <div >
-      <el-pagination  :hide-on-single-page="totalRecruitObjs<=4?true:false"  @current-change="handlePageChange" :current-page="currentPage" :page-size="pageSize"
-        :total="totalRecruitObjs" layout="prev, pager, next" background>
+    <div>
+      <el-pagination :hide-on-single-page="totalRecruitObjs <= 4 ? true : false" @current-change="handlePageChange"
+        :current-page="currentPage" :page-size="pageSize" :total="totalRecruitObjs" layout="prev, pager, next" background>
       </el-pagination>
     </div>
-    
+
 
   </div>
-
 </template>
   
 <script>
-import { ref,watch  } from 'vue';
+import { ref, watch } from 'vue';
 import axios from "axios";
 import Apply from "@/components/home/Apply.vue";
 import { useStore } from "vuex";
@@ -89,6 +90,7 @@ export default {
           position: "算法工程师",
           salary: "1.5w-2w",
           description: "快来家人们",
+          date: ''
         },
         {
           id: "2",
@@ -96,34 +98,7 @@ export default {
           position: "算法工程师",
           salary: "1.5w-2w",
           description: "快来家人们",
-        },
-        {
-          id: "3",
-          title: "蔚蓝求职",
-          position: "算法工程师",
-          salary: "1.5w-2w",
-          description: "快来家人们",
-        },
-        {
-          id: "4",
-          title: "蔚蓝求职",
-          position: "算法工程师",
-          salary: "1.5w-2w",
-          description: "快来家人们",
-        },
-        {
-          id: "5",
-          title: "蔚蓝求职",
-          position: "算法工程师",
-          salary: "1.5w-2w",
-          description: "快来家人们",
-        },
-        {
-          id: "1",
-          title: "蔚蓝求职",
-          position: "算法工程师",
-          salary: "1.5w-2w",
-          description: "快来家人们",
+          date: ''
         },
 
       ]
@@ -164,6 +139,10 @@ export default {
       }).then(function (response) {
         if (response.data.code == 200) {
           that.recruitObjs = response.data.data
+          for (var item of that.recruitObjs) {
+            var tmp = new Date(item.date)
+            item.date = tmp.getFullYear() + "-" + (tmp.getMonth() + 1).toString().padStart(2, '0') + "-" + tmp.getDate().toString().padStart(2, '0');
+          }
           //以前是怎么写出这种nt东西的
           // that.recruitObjs = [];
           // response.data.data.forEach(element => {

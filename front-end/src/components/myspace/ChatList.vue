@@ -3,7 +3,7 @@
     <el-aside width="22%">
       <el-scrollbar>
         <div class="search-bar">
-          <el-input v-model="input" placeholder="搜索聊天" @input="searchChats" :prefix-icon="Search"></el-input>
+          <el-input v-model="input" placeholder="搜索聊天" @input="searchChats" prefix-icon="Search"></el-input>
         </div>
         <div class="chat-list" v-for="chat in filteredChats" :key="chat.id" @click="selectChat(chat.id)">
           <el-card shadow="hover" class="mr-3 mt-1">
@@ -111,7 +111,6 @@ export default {
       this.selectedChat = this.userChatList.find((chat) => chat.id === chatId);
       this.router.replace('')
       this.router.replace("/myspace/chatList/chatRoom/" + chatId + "/" + this.selectedChat.contactId)
-
     },
     searchChats() {
       if (this.input) {
@@ -123,7 +122,7 @@ export default {
       }
     },
     updateChatList({ chatId, lastMessage, lastMessageTime }) {
-     
+
     },
   },
   mounted() {
@@ -144,6 +143,8 @@ export default {
 }
 
 .chat-list {
+  display: flex;
+  flex-direction: column;
   height: calc(100% - 70px);
   overflow-y: auto;
 }
@@ -161,11 +162,6 @@ export default {
 }
 
 .chat-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.el-list {
   display: flex;
   flex-direction: column;
 }
