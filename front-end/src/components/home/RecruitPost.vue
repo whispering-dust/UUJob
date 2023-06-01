@@ -15,13 +15,9 @@
                 <el-form-item label="招聘岗位">
                     <!-- <el-input v-model="form.position" /> -->
                     <el-select v-model="form.position" filterable placeholder="Select" @change="handlePositionChange">
-                        <el-option
-                          v-for="item in positions"
-                          :key="item.id"
-                          :label="item.value"
-                          :value="item.id"
-                        />
-                      </el-select>
+                        <el-option v-for="item in positions" :key="item.id" :label="item.value" :value="item.id" />
+                    </el-select>
+                    <div style="font-size: 10px;">（请在框内输入要招聘岗位关键词以搜索类别词条）</div>
                 </el-form-item>
             </div>
 
@@ -57,15 +53,15 @@
             </el-form-item>
 
             <el-form-item>
-                <el-button type="primary" :icon="Check" @click="submit()">确认发布</el-button>
-                <el-button type="danger" :icon="Delete" @click="dialogVisible = true">
+                <el-button type="primary" icon="Check" @click="submit()">确认发布</el-button>
+                <el-button type="danger" icon="Delete" @click="dialogVisible = true">
                     取消发布
                 </el-button>
             </el-form-item>
         </el-form>
 
 
-        <el-dialog v-model="dialogVisible" title="Tips" :before-close=true>
+        <el-dialog v-model="dialogVisible" title="Tips">
             <span>
                 是否确定取消发布？
             </span>
@@ -87,13 +83,27 @@ import { ElNotification } from 'element-plus'
 import { Delete, Check } from '@element-plus/icons-vue'
 import { useStore } from "vuex"
 import axios from 'axios';
-
+import { ElMessage } from 'element-plus'
 
 export default {
     data() {
         const dialogVisible = ref(false);
         const size = ref('');
-
+        const successMsg = (value) => {
+            ElMessage({
+                message: value,
+                type: 'success',
+            })
+        }
+        const warningMsg = (value) => {
+            ElMessage({
+                message: value,
+                type: 'warning',
+            })
+        }
+        const errorMsg = (value) => {
+            ElMessage.error(value)
+        }
         return {
             Delete, Check,
             dialogVisible,
@@ -112,6 +122,7 @@ export default {
             ],
             positions: [],
             userId: useStore().state.userId,
+            userName: useStore().state.userName,
             form: {
                 userName: useStore().state.userName,
                 title: null,
@@ -122,6 +133,9 @@ export default {
                 description: null,
                 location: null,
             },
+            successMsg,
+            warningMsg,
+            errorMsg
         }
     },
     methods: {
@@ -131,7 +145,16 @@ export default {
             this.form.positionId = selectedPosition.id;
         },
         handlecancel() {
-            this.form = [];
+            this.form = {
+                userName: this.userName,
+                title: null,
+                positionId: null,
+                education: null,
+                position: null,
+                salary: null,
+                description: null,
+                location: null,
+            }
             ElNotification({
                 title: '已取消',
                 message: '已取消！',
@@ -141,42 +164,79 @@ export default {
         },
         async submit() {
             let that = this;
+            //console.log("提交前", this.form)
             //alert(this.userId)
-            axios({
-                method: "post",
-                url: "http://localhost:9090/jobs",
-                data: {
-                    publisherId: that.userId,
-                    title: that.form.title,
-                    positionId: that.form.positionId,
-                    position: that.form.position,
-                    education: that.form.education,
-                    description: that.form.description,
-                    salary: that.form.salary+"元/月",
-                    location: that.form.location,
-                },
-            }).then(function (response) {
-                if (response.data.code === 200) {
-                    that.$message.success("提交操作成功");
-                    that.form = [];
-                    that.$emit('cancel');
-                }
-                else {
-                    that.$message.error(response.data.msg);
-                }
-            });
+            console.log(this.form)
+            if (this.checkout()) {
+                axios({
+                    method: "post",
+                    url: "http://localhost:9090/jobs",
+                    data: {
+                        publisherId: that.userId,
+                        title: that.form.title,
+                        positionId: that.form.positionId,
+                        position: that.form.position,
+                        education: that.form.education,
+                        description: that.form.description,
+                        salary: that.form.salary + "元/月",
+                        location: that.form.location,
+                    },
+                }).then(function (response) {
+                    if (response.data.code === 200) {
+                        that.$message.success("提交操作成功");
+                        that.form = {
+                            userName: that.userName,
+                            title: null,
+                            positionId: null,
+                            education: null,
+                            position: null,
+                            salary: null,
+                            description: null,
+                            location: null,
+                        }
+                        that.$emit('cancel');
+                    }
+                    else {
+                        that.$message.error(response.data.msg);
+                        that.errorMsg(response.data.msg)
+                    }
+
+
+                });
+            }
+
 
         },
-        async getPositions(){
+        async getPositions() {
             const response = await axios.get('http://localhost:9090/jobs/positions');
-            if(response.data.code == 200){
+            if (response.data.code == 200) {
                 console.log(response.data.data);
                 this.positions = response.data.data.map(item => ({
                     id: item.id, value: item.positionName
                 }));
-            }else{
+            } else {
+
                 this.$message.error(response.data.msg);
+                that.errorMsg(response.data.msg)
             }
+        },
+        checkout() {
+            for (var i in this.form) {
+                console.log()
+                if (this.form[i] == null) {
+                    this.errorMsg("表单有内容为空！请填写完成再提交")
+                    return false;
+                }
+            }
+            if (this.form.description == "") {
+                this.errorMsg("描述为空，请填写后再提交")
+                return false;
+            }
+            if (this.form.title == "") {
+                this.errorMsg("标题为空，请填写后再提交")
+                return false;
+            }
+            return true;
         }
 
     },

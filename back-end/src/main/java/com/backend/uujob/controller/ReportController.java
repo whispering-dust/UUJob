@@ -69,10 +69,10 @@ public class ReportController {
             if(reportVO.getType() == ReportTypeEnum.REPORT_TYPE_POST.ordinal()){
                 reportVO.setTargetContent(postService.getById(reportVO.getTargetId()).getTitle());
             }
-            if(reportVO.getType() == ReportTypeEnum.REPORT_TYPE_JOB.ordinal()){
+            else if(reportVO.getType() == ReportTypeEnum.REPORT_TYPE_JOB.ordinal()){
                 reportVO.setTargetContent(jobService.getById(reportVO.getTargetId()).getTitle());
             }
-            if(reportVO.getType() == ReportTypeEnum.REPORT_TYPE_COMMENT.ordinal()){
+            else if(reportVO.getType() == ReportTypeEnum.REPORT_TYPE_COMMENT.ordinal()){
                 reportVO.setTargetContent(commentService.getById(reportVO.getTargetId()).getContent());
             }
 

@@ -140,7 +140,7 @@ export default {
           alert(response.data.msg);
         }
       } catch (error) {
-        console.error("Failed to fetch chat list:", error);
+        console.error("Function getHistoryMessages() failed to fetch chat list:", error);
       }
     },
     async sendMessage() {
@@ -235,13 +235,15 @@ export default {
       },
     },
   },
-
   mounted() {
     this.initPage();
     // 在组件加载时开始轮询   
     // this,scrollToBottom();
     this.startPolling();
     //this.getHistoryMessages()
+  },
+  updated() {
+    this.initPage();
   },
   unmounted() {
     // 在组件销毁时停止轮询
