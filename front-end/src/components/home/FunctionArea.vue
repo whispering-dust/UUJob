@@ -7,15 +7,15 @@
     </template>
 
     <el-tooltip class="box-item" effect="dark" content="发布岗位" placement="top">
-          <el-button  v-if="store.state.role == 1"  @click="postJob" :icon="DocumentAdd" circle size="large">            
-          </el-button>
+      <el-button v-if="store.state.role == 1" @click="postJob" icon="DocumentAdd" circle size="large">
+      </el-button>
     </el-tooltip>
-    
+
   </el-card>
 
   <el-dialog top="0vh" v-model="dialogFormVisible" title="请填写表单信息" draggable :lock-scroll=false>
     <el-scrollbar>
-      <RecruitPost  @cancel="dialogFormVisible = false"></RecruitPost>
+      <RecruitPost @cancel="dialogFormVisible = false"></RecruitPost>
     </el-scrollbar>
   </el-dialog>
 </template>

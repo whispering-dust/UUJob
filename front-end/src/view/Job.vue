@@ -8,7 +8,7 @@
         <div class="row">
           <div class="job-banner col-8">
             <div class="job-status">
-              <span>{{jobInfo.statusStr}}</span>
+              <span>{{ jobInfo.statusStr }}</span>
             </div>
             <div class="name">
               <h1>{{ jobInfo.title }}</h1>
@@ -25,7 +25,9 @@
                   <Calendar />
                 </el-icon> 发布于{{ jobInfo.date }} </span>
               <span>
-                <el-icon><School /></el-icon>
+                <el-icon>
+                  <School />
+                </el-icon>
                 {{ jobInfo.education }}
               </span>
             </p>
@@ -322,9 +324,9 @@ export default {
           var data = response.data.data;
           console.log('获取工作信息', response.data.data);
           that.jobInfo = data;
-          if(that.jobInfo.status == 1){
+          if (that.jobInfo.status == 1) {
             that.jobInfo.statusStr = "招聘中"
-          }else{
+          } else {
             that.jobInfo.statusStr = "已终止"
           }
           var date = new Date(data.date);
