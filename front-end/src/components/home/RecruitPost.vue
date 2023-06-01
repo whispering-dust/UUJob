@@ -122,6 +122,7 @@ export default {
             ],
             positions: [],
             userId: useStore().state.userId,
+            userName: useStore().state.userName,
             form: {
                 userName: useStore().state.userName,
                 title: null,
@@ -144,7 +145,16 @@ export default {
             this.form.positionId = selectedPosition.id;
         },
         handlecancel() {
-            this.form = [];
+            this.form = {
+                userName: this.userName,
+                title: null,
+                positionId: null,
+                education: null,
+                position: null,
+                salary: null,
+                description: null,
+                location: null,
+            }
             ElNotification({
                 title: '已取消',
                 message: '已取消！',
@@ -154,8 +164,9 @@ export default {
         },
         async submit() {
             let that = this;
+            //console.log("提交前", this.form)
             //alert(this.userId)
-
+            console.log(this.form)
             if (this.checkout()) {
                 axios({
                     method: "post",
@@ -173,13 +184,24 @@ export default {
                 }).then(function (response) {
                     if (response.data.code === 200) {
                         that.$message.success("提交操作成功");
-                        that.form = [];
+                        that.form = {
+                            userName: that.userName,
+                            title: null,
+                            positionId: null,
+                            education: null,
+                            position: null,
+                            salary: null,
+                            description: null,
+                            location: null,
+                        }
                         that.$emit('cancel');
                     }
                     else {
                         that.$message.error(response.data.msg);
                         that.errorMsg(response.data.msg)
                     }
+
+
                 });
             }
 
@@ -205,6 +227,14 @@ export default {
                     this.errorMsg("表单有内容为空！请填写完成再提交")
                     return false;
                 }
+            }
+            if (this.form.description == "") {
+                this.errorMsg("描述为空，请填写后再提交")
+                return false;
+            }
+            if (this.form.title == "") {
+                this.errorMsg("标题为空，请填写后再提交")
+                return false;
             }
             return true;
         }
