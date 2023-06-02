@@ -10,6 +10,11 @@ spring:
     username: yfy
     #?????
     password: yfy123
+#  上传文件大小
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
 
 mybatis:
   mapper-locations: classpath:mapper/xml/*.xml
@@ -32,4 +37,5 @@ ftp-ubuntu:
   user: user
   password: nihao192837465
   basePath: /opt/tomcat/webresources/uujob_file
+  urlPath: http://110.42.189.226:8080/super/uujob_file/
 

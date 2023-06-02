@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @ProjectName SecurityTest
@@ -41,15 +43,28 @@ public class FTPUtils {
         password = passwordName;
     }
 
-
-
     private static String basePath;
     @Value(value = "${ftp-ubuntu.basePath}")
     public void setBasePath(String basePath) {
         FTPUtils.basePath = basePath;
     }
 
+    private static String urlPath;
+    @Value(value = "${ftp-ubuntu.urlPath}")
+    public void setUrlPath(String urlPath) {
+        FTPUtils.urlPath = urlPath;
+    }
+
+    private static List<String> suffixList = new ArrayList<>();
+
     public static void sshSftp(byte[] bytes, String fileName) throws Exception {
+        //校验文件后缀
+        suffixList.add("pdf");
+        String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
+        if (!suffixList.contains(suffix)) {
+            throw new Exception("unsupported file format");
+        }
+
         Session session = null;
         Channel channel = null;
         JSch jsch = new JSch();
@@ -105,15 +120,16 @@ public class FTPUtils {
         }
     }
 
-    public static Boolean uploadFolder(MultipartFile file) {
+    public static String uploadFolder(MultipartFile file) {
+        //尝试上传文件至指定路径，成功则返回访问路径，错误则返回null
         try {
             byte[] bytes = file.getBytes();
             FTPUtils.sshSftp(bytes, file.getOriginalFilename());
-            return Boolean.TRUE;
+            return urlPath + file.getOriginalFilename();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return Boolean.FALSE;
+        return null;
     }
 }
 

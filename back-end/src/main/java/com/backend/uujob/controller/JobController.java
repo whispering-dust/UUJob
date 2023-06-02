@@ -17,6 +17,7 @@ import com.backend.uujob.service.*;
 import com.backend.uujob.service.impl.JobService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -259,16 +260,40 @@ public class JobController {
         return Result.error(Constants.CODE_500,"系统错误");
     }
 
-    @PostMapping("/upload")
-    public Result uploadJobTemplate(@RequestBody FileUploadDTO jobFile){
-        Job job = jobService.getJobById(jobFile.getId());
+    @PostMapping("/upload-files")
+    public Result uploadJobTemplate(
+            @RequestParam("jobId") Integer jobId,
+            @RequestParam("template") MultipartFile template
+    ){
+        Job job = jobService.getById(jobId);
         if(job == null){
             return Result.error(Constants.CODE_400,"该岗位不存在");
         }
 
-        if(uploadFolder(jobFile.getFile())){
-            //尚未完成将url保存到数据库的逻辑，先随便反一个数值，最后这里应该反url
-            return Result.success("上传成功！");
+        String url = uploadFolder(template);
+        if(url != null){
+            job.setTemplateUrl(url);
+            jobService.updateById(job);
+            return Result.success(url);
+        }
+        return Result.error(Constants.CODE_500,"文件上传失败");
+    }
+
+    @PostMapping("/applications/upload-files")
+    public Result uploadApplicationAnnex(
+            @RequestParam("applicationId") Integer applicationId,
+            @RequestParam("annex") MultipartFile annex
+    ){
+        Application application = applicationService.getById(applicationId);
+        if(application == null){
+            return Result.error(Constants.CODE_400,"该申请不存在");
+        }
+
+        String url = uploadFolder(annex);
+        if(url != null){
+            application.setAnnexUrl(url);
+            applicationService.updateById(application);
+            return Result.success(url);
         }
         return Result.error(Constants.CODE_500,"文件上传失败");
     }
