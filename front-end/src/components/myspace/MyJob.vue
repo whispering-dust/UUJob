@@ -1,7 +1,7 @@
 <template>
   <el-container style="height:100% width:100%">
     <el-aside width="20%">
-      <el-scrollbar>
+      <el-scrollbar max-height="750px">
         <div class="search-bar">
           <el-input v-model="search" placeholder="搜索职位" @input="searchJobs" prefix-icon="Search" />
         </div>

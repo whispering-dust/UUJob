@@ -1,26 +1,28 @@
 <template>
   <el-container style="height:100% width:100%">
     <el-aside width="20%">
-      <div class="search-bar">
-        <el-input v-model="search" placeholder="搜索职位" @input="searchJobs" prefix-icon="Search" />
-      </div>
-      <div class="job-list">
-        <div v-for="job in filteredJobs" :key="job.jobId" @click="selectJob(job.jobId)">
-          <el-card shadow="hover" class="mr-3 mt-1">
-            <el-container>
-              <el-aside style="padding: 0px;background-color:white" width="30%">
-                <div class="company-logo">{{ job.title.slice(0, 1) }}</div>
-              </el-aside>
-              <el-main style="padding: 0px;">
-                <div class="job-info">
-                  <div>{{ job.title }}</div>
-                  <div>{{ job.date }}</div>
-                </div>
-              </el-main>
-            </el-container>
-          </el-card>
+      <el-scrollbar max-height="750px">
+        <div class="search-bar">
+          <el-input v-model="search" placeholder="搜索职位" @input="searchJobs" prefix-icon="Search" />
         </div>
-      </div>
+        <div class="job-list">
+          <div v-for="job in filteredJobs" :key="job.id" @click="selectJob(job.jobId)">
+            <el-card shadow="hover" class="mr-3 mt-1">
+              <el-container>
+                <el-aside style="padding: 0px;background-color:white" width="30%">
+                  <div class="company-logo">{{ job.title.slice(0, 1) }}</div>
+                </el-aside>
+                <el-main style="padding: 0px;">
+                  <div class="job-info">
+                    <div>{{ job.title }}</div>
+                    <div>{{ job.date }}</div>
+                  </div>
+                </el-main>
+              </el-container>
+            </el-card>
+          </div>
+        </div>
+      </el-scrollbar>
     </el-aside>
 
     <!-- 简历列表 -->
@@ -257,13 +259,7 @@ export default {
       unreviewedProfile: [],
       reviewedProfile: [],
       selectedProfile: {},
-      filteredJobs: [
-        {
-          jobId: "1",
-          title: "java招聘",
-          date: "2020-2-3"
-        }
-      ],
+      filteredJobs: [],
       selectedJob: {},
     };
   },
@@ -420,7 +416,7 @@ export default {
   background-color: #f5f7fa;
 }
 
-sizelar .search-bar {
+.search-bar {
   padding: 20px;
 }
 
