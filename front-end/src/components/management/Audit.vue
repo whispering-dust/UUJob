@@ -7,19 +7,23 @@
             <span class="h4">待审核数({{ pendingAuditsNum }})</span>
           </div>
         </template>
-
-        <el-table :data="pendingAuditsData" height="700" style="width: 100%" @row-click="handleRowClick">
-          <el-table-column prop="targetId" label="ID" width="100" />
-          <el-table-column prop="type" label="类型">
-            <template #default="scope">
-              <div style="display: flex; align-items: center">
-                <el-tag>{{ scope.row.type }}</el-tag>
-              </div>
-            </template>
-          </el-table-column>
-          <el-table-column prop="userName" label="发起人" />
-          <el-table-column prop="title" label="标题" width="200" />
-        </el-table>
+        <el-skeleton :rows="20" :loading="loading" animated>
+          <template #default>
+            <el-table v-if="!loading" :data="pendingAuditsData" height="700" style="width: 100%" @row-click="handleRowClick">
+              <el-table-column prop="targetId" label="ID" width="100" />
+              <el-table-column prop="type" label="类型">
+                <template #default="scope">
+                  <div style="display: flex; align-items: center">
+                    <el-tag>{{ scope.row.type }}</el-tag>
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column prop="userName" label="发起人" />
+              <el-table-column prop="title" label="标题" width="200" />
+            </el-table>
+          </template>
+        </el-skeleton>
+        
       </el-card>
     </el-col>
 
@@ -28,7 +32,10 @@
         <template #header>
           <div style="display: flex; justify-content:space-between">
             <span class="h4">审核内容详情</span>
-            <el-button type="primary" round @click="handleAudit">审核通过</el-button>
+            <span>
+              <el-button type="primary" round @click="handleAudit">审核通过</el-button>
+              <el-button type="info" round @click="neglectAudit">忽略</el-button>
+            </span>
           </div>
         </template>
 
@@ -60,11 +67,11 @@
               薪资：{{ selectedJob.salary }}
             </p>
           </div>
-          <div class="row mb-3">
+          <!-- <div class="row mb-3">
             <el-tag v-for="item in items" :key="item.label" :type="item.type" class="mx-1" effect="dark" round>
               {{ item.label }}
             </el-tag>
-          </div>
+          </div> -->
           <div class="row text-area p-3" v-html="formattedText"></div>
 
           <div class="row p-3">
@@ -118,8 +125,9 @@ import { reactive, toRefs, watch, ref, computed } from "vue";
 export default {
   data() {
     return {
+      loading: true,
       userName: useStore().state.userName,
-      pendingAuditsNum: 5,
+      pendingAuditsNum: null,
       pendingAuditsData: null,
       selectedPendingAuditsData: {},
       selectedJob: {},
@@ -176,6 +184,7 @@ export default {
             this.pendingAuditsData.push(element);
           });
           this.pendingAuditsNum = this.pendingAuditsData.length;
+          this.loading = false;
         } else {
           alert(response.data.msg);
         }
@@ -222,10 +231,10 @@ export default {
         console.error("Failed to fetch user:", error);
       }
     },
-    async handleAudit() {
-
+    async handleAudit() {  
+      console.log(this.selectedPendingAuditsData.type);
       try {
-        const response = null;
+        let response = null;
         if (this.selectedPendingAuditsData.type == '帖子') {
           response = await axios.put("http://localhost:9090/posts/examinations", {
             id: this.selectedPendingAuditsData.id,
@@ -242,6 +251,14 @@ export default {
 
         if (response.data.code === 200) {
           this.$message.success("已审核");
+          this.pendingAuditsNum =  this.pendingAuditsNum-1;
+          const index = this.pendingAuditsData.indexOf(this.selectedPendingAuditsData);
+          if (index > -1) {
+            this.pendingAuditsData.splice(index, 1);
+          }
+          this.selectedPendingAuditsData={};
+          this.selectedJob = {};
+          this.seletcedPost = {};
         } else {
           alert(response.data.msg);
         }
@@ -249,7 +266,43 @@ export default {
         console.error("Failed to handle audit:", error);
       }
 
-      await this.getPendingAudits();
+      //await this.getPendingAudits();
+    },
+    async neglectAudit(){
+      try {
+        let response = null;
+        if (this.selectedPendingAuditsData.type == '帖子') {
+          response = await axios.put("http://localhost:9090/posts/examinations", {
+            id: this.selectedPendingAuditsData.id,
+            status: 3,
+          });
+        }
+
+        if (this.selectedPendingAuditsData.type == '岗位') {
+          response = await axios.put("http://localhost:9090/jobs/examinations", {
+            id: this.selectedPendingAuditsData.id,
+            status: 3,
+          });
+        }
+
+        if (response.data.code === 200) {
+          this.$message.success("已忽略");
+          this.pendingAuditsNum =  this.pendingAuditsNum-1;
+          const index = this.pendingAuditsData.indexOf(this.selectedPendingAuditsData);
+          if (index > -1) {
+            this.pendingAuditsData.splice(index, 1);
+          }
+          this.selectedPendingAuditsData={};
+          this.selectedJob = {};
+          this.seletcedPost = {};
+        } else {
+          alert(response.data.msg);
+        }
+      } catch (error) {
+        console.error("Failed to neglect audit:", error);
+      }
+
+      //await this.getPendingAudits();
     },
     async getJob() {
       try {
@@ -299,7 +352,10 @@ export default {
   },
   computed: {
     formattedText() {
-      return this.selectedJob.selectedJobText.replace(/\n/g, "<br>");
+      if (this.selectedJob && this.selectedJob.selectedJobText) {
+        return this.selectedJob.selectedJobText.replace(/\n/g, "<br>");
+      }
+      return "";
     },
     formattedPostText() {
       return this.seletcedPost.content.replace(/\n/g, "<br>");

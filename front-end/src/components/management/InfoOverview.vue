@@ -46,13 +46,17 @@
                                   <span class="h4">待审核的岗位({{ pendingJobsNum }})</span>
                                 </div>
                               </template>
-                            <el-table :data="pendingJobsData" height="500" style="width: 100%">
-                                <el-table-column prop="id" label="岗位ID" />
-                                <el-table-column prop="title" label="岗位标题" />
-                                <el-table-column prop="companyName" label="公司" />
-                                <el-table-column prop="location" label="地点" />
-                                <el-table-column prop="salary" label="薪资" />
-                            </el-table>
+                              <el-skeleton :rows="10" :loading="loading" animated>
+                                <template #default>
+                                    <el-table :data="pendingJobsData" height="500" style="width: 100%">
+                                        <el-table-column prop="id" label="岗位ID" />
+                                        <el-table-column prop="title" label="岗位标题" />
+                                        <el-table-column prop="companyName" label="公司" />
+                                        <el-table-column prop="location" label="地点" />
+                                        <el-table-column prop="salary" label="薪资" />
+                                    </el-table>
+                                </template>
+                              </el-skeleton>                            
                         </el-card>
                     </el-col>
                 </el-row>
@@ -67,6 +71,7 @@
   export default {
     data() {
       return {
+        loading: true,
         userName: useStore().state.userName, 
         pendingReportsNum: 5, 
         pendingReportsData: null,
@@ -123,6 +128,7 @@
                 console.log(response.data.data);
                 this.pendingJobsData = response.data.data;
                 this.pendingJobsNum = this.pendingJobsData.length;
+                this.loading = false;
                 } else {
                 alert(response.data.msg);
                 }
