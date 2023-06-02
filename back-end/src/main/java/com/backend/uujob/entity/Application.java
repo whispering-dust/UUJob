@@ -9,6 +9,7 @@ public class Application {
   private Integer id;
   private Integer profileId;
   private Integer jobId;
+  private String annexUrl;
   private Timestamp applicationDate;
   private Integer status;
   private Timestamp reviewDate;
@@ -36,6 +37,14 @@ public class Application {
 
   public void setJobId(Integer jobId) {
     this.jobId = jobId;
+  }
+
+  public String getAnnexUrl() {
+    return annexUrl;
+  }
+
+  public void setAnnexUrl(String annexUrl) {
+    this.annexUrl = annexUrl;
   }
 
 

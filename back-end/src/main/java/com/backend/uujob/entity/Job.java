@@ -18,6 +18,7 @@ public class Job {
   private String companyName;
   private Timestamp date;
   private String description;
+  private String templateUrl;
   private Integer publisherId;
   private Integer status;
 
@@ -105,6 +106,14 @@ public class Job {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  public String getTemplateUrl() {
+    return templateUrl;
+  }
+
+  public void setTemplateUrl(String templateUrl) {
+    this.templateUrl = templateUrl;
   }
 
 
