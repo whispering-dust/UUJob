@@ -243,6 +243,7 @@ export default {
     mounted() {
         //alert(this.userId)
         this.getPositions()
+
     },
 }
 
