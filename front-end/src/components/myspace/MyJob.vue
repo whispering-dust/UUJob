@@ -102,7 +102,8 @@
     </el-main>
     <el-aside width="10%">
       <div class="action-buttons">
-        <el-button class="ml-2 mt-2" style="width: 75%;" type="danger"><el-icon class="mr-1">
+        <el-button class="ml-2 mt-2" style="width: 75%;" type="danger" @click="deletDialogVisible = true"><el-icon
+            class="mr-1">
             <DeleteFilled />
           </el-icon>删除岗位</el-button>
         <el-button class="ml-2 mt-2" style="width: 75%;" type="primary" @click="dialogFormVisible = true;"><el-icon
@@ -112,6 +113,19 @@
       </div>
     </el-aside>
   </el-container>
+
+  <el-dialog v-model="deletDialogVisible" title="Tips">
+    <span>
+      你确定要删除岗位吗？
+    </span>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button type="info" @click="deletDialogVisible = false">不，点错了!</el-button>
+        <el-button type="danger" @click="deletDialogVisible = false; deleteJob()">是，就要删除！</el-button>
+      </span>
+    </template>
+  </el-dialog>
+
 
   <el-dialog top="0vh" v-model="dialogFormVisible" title="请填写表单信息" draggable :lock-scroll=false>
     <el-scrollbar>
@@ -131,7 +145,7 @@
             <el-form-item label="招聘岗位">
               <!-- <el-input v-model="form.position" /> -->
               <el-select v-model="selectedJob.position" filterable placeholder="Select">
-                <el-option v-for="item in positions" :key="item.value" :label="item.label" :value="item.value" />
+                <el-option v-for=" item  in  positions " :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
@@ -139,7 +153,7 @@
             <el-form-item label="修改状态">
               <!-- <el-input v-model="form.position" /> -->
               <el-select v-model="selectedJob.statusEdit" filterable placeholder="Select">
-                <el-option v-for="item in status" :key="item.value" :label="item.label" :value="item.value" />
+                <el-option v-for=" item  in  status " :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
@@ -154,7 +168,7 @@
         <el-row style="width:300px">
           <el-form-item label="位置/城市">
             <el-select v-model="selectedJob.location" placeholder="请选择城市">
-              <el-option v-for="city in cities" :key="city.value" :label="city.label" :value="city.value" />
+              <el-option v-for=" city  in  cities " :key="city.value" :label="city.label" :value="city.value" />
             </el-select>
           </el-form-item>
         </el-row>
@@ -187,6 +201,7 @@ import axios from "axios";
 import { Search } from '@element-plus/icons-vue'
 import { reactive, toRefs, watch, ref } from 'vue'
 import { useStore } from "vuex";
+import { ElMessage } from 'element-plus'
 
 export default {
   data() {
@@ -197,7 +212,21 @@ export default {
     //   { type: 'danger', label: 'Tag 4' },
     //   { type: 'warning', label: 'Tag 5' },
     // ])
-
+    const successMsg = (value) => {
+      ElMessage({
+        message: value,
+        type: 'success',
+      })
+    }
+    const warningMsg = (value) => {
+      ElMessage({
+        message: value,
+        type: 'warning',
+      })
+    }
+    const errorMsg = (value) => {
+      ElMessage.error(value)
+    }
     return {
       userId: useStore().state.userId,
       userName: useStore().state.userName,
@@ -214,6 +243,7 @@ export default {
         phone: '13726928387',
       },
       dialogFormVisible: false,
+      deletDialogVisible: false,
       positions: [],
       cities: [
         { value: '北京', label: '北京' },
@@ -237,11 +267,16 @@ export default {
           value: 2,
         },
       ],
-      size: ref('large')
+      size: ref('large'),
+      successMsg,
+      warningMsg,
+      errorMsg
     };
   },
   methods: {
     async getJobList() {
+      this.JobList = [];
+      this.selectedJob = {};
       try {
         const response = await axios.get("http://localhost:9090/users/jobs", {
           params: {
@@ -277,6 +312,26 @@ export default {
         );
       } else {
         this.filteredJobs = this.JobList;
+      }
+    },
+    async deleteJob() {
+      var that = this;
+      console.log("要删除的工作是", that.selectedJob)
+      try {
+        const response = await axios.delete("http://localhost:9090/jobs", {
+          params: {
+            jobId: that.selectedJob.id,
+          },
+        });
+
+        if (response.data.code === 200) {
+          that.successMsg("删除成功！")
+          that.getJobList();
+        } else {
+          that.errorMsg("删除失败，原因为：", response.data.message)
+        }
+      } catch (error) {
+        console.error("Failed to fetch job list:", error);
       }
     },
     async submit() {

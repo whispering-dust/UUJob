@@ -43,12 +43,6 @@ const routes = [
       component: () => import('@/components/forum/PublishPost.vue')
     },
     {
-      name: 'ManagePosted',
-      path: '/manageposted',
-      meta: {keepAlive: true},
-      component: () => import('@/view/ManagePosted.vue')
-    },
-    {
       name: 'Position',
       path: '/Position',
       meta: {keepAlive: true},
