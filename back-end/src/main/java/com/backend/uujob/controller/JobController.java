@@ -297,4 +297,12 @@ public class JobController {
         }
         return Result.error(Constants.CODE_500,"文件上传失败");
     }
+
+    @DeleteMapping("")
+    public Result deleteJob(@RequestParam int jobId){
+        if(jobService.removeById(jobId)){
+            return Result.success();
+        }
+        return Result.error(Constants.CODE_500,"数据库操作失败，可能是没有该id的job");
+    }
 }
