@@ -60,6 +60,8 @@ public class FTPUtils {
     public static void sshSftp(byte[] bytes, String fileName) throws Exception {
         //校验文件后缀
         suffixList.add("pdf");
+        suffixList.add("png");
+        suffixList.add("jpg");
         String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
         if (!suffixList.contains(suffix)) {
             throw new Exception("unsupported file format");

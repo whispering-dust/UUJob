@@ -23,6 +23,7 @@ public class Profile {
   private String personalDescription;
   private String reward;
   private String expectedLocation;
+  private String photoUrl;
 
 
   public Integer getId() {
@@ -157,6 +158,14 @@ public class Profile {
 
   public void setExpectedLocation(String expectedLocation) {
     this.expectedLocation = expectedLocation;
+  }
+
+  public String getPhotoUrl() {
+    return photoUrl;
+  }
+
+  public void setPhotoUrl(String photoUrl) {
+    this.photoUrl = photoUrl;
   }
 
 }
