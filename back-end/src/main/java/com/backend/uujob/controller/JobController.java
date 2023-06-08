@@ -152,6 +152,8 @@ public class JobController {
             pvo.setPersonalDescription(p.getPersonalDescription());
             pvo.setReward(p.getReward());
             pvo.setExpectedLocation(p.getExpectedLocation());
+            pvo.setPhotoUrl(p.getPhotoUrl());
+            pvo.setAnnexUrl(a.getAnnexUrl());
             pvo.setApplicationId(a.getId());
             pvo.setApplicationDate(timeTransfer(a.getApplicationDate()));
 
@@ -179,6 +181,8 @@ public class JobController {
             pvo.setPersonalDescription(p.getPersonalDescription());
             pvo.setReward(p.getReward());
             pvo.setExpectedLocation(p.getExpectedLocation());
+            pvo.setPhotoUrl(p.getPhotoUrl());
+            pvo.setAnnexUrl(a.getAnnexUrl());
             pvo.setApplicationId(a.getId());
             pvo.setApplicationDate(timeTransfer(a.getApplicationDate()));
             pvo.setReviewDate(timeTransfer(a.getReviewDate()));

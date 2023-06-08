@@ -18,6 +18,8 @@ public class ProfileVO {
     private String personalDescription;
     private String reward;
     private String expectedLocation;
+    private String photoUrl;
+    private String annexUrl;
     private Integer applicationId;
     private String applicationDate;
     private String reviewDate;
