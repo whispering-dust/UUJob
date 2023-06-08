@@ -3,6 +3,7 @@ package com.backend.uujob.service.impl;
 import com.backend.uujob.entity.UserSimilarity;
 import com.backend.uujob.mapper.UserSimilarityMapper;
 import com.backend.uujob.service.IUserSimilarityService;
+import com.backend.uujob.utils.RecommendUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
@@ -60,4 +61,28 @@ public class UserSimilarityService extends ServiceImpl<UserSimilarityMapper, Use
         return userSimilarityList;
 
     }
+
+    @Override
+    public List<Integer> getTopNUser(Integer userId, Integer num) {
+
+        // 1.查询出某个用户与其他用户的相似度列表
+        List<UserSimilarity> userSimilarityList = listUserSimilarityByUId(userId);
+
+        //2.打印输出
+        for (UserSimilarity userSimilarity: userSimilarityList) {
+            System.out.println(userSimilarity.getUserId() + "\t" + userSimilarity.getRefUserId() + "\t" + userSimilarity.getSimilarity());
+        }
+
+        // 3.获取与id为userId的用户的浏览行为最相似的前num个用户
+        List<Integer> userIds = RecommendUtils.getSimilarityBetweenUsers(userId, userSimilarityList, num);
+
+        // 4.打印输出
+        System.out.println("与" + userId + "号用户最相似的前"+num+"个用户为：");
+        for (Integer refUserId : userIds) {
+            System.out.println(refUserId);
+        }
+        return userIds;
+    }
+
+
 }

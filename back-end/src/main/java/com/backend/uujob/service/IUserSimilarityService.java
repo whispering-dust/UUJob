@@ -37,4 +37,11 @@ public interface IUserSimilarityService extends IService<UserSimilarity> {
      * @return 该用户与其他用户的相似度列表
      */
     List<UserSimilarity> listUserSimilarityByUId(Integer userId);
+
+    /**
+     * 取出与指定用户相似度最高的前N个用户
+     * @param num 需要获取的用户数
+     * @return 与该用户相似的前num个用户的列表
+     */
+    List<Integer> getTopNUser(Integer userId, Integer num);
 }

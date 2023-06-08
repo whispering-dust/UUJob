@@ -184,7 +184,7 @@ public class RecommendUtils {
 
         // 1.从与useId浏览行为相似的每个用户中找出一个推荐的职位类别
         for (Integer refId : similarUserList) {
-            // 计算当前用户所点击的二级类目次数与被推荐的用户所点击的职位类别的次数的差值
+            // 计算当前用户所点击的岗位类别次数与被推荐的用户所点击的职位类别的次数的差值
             // 找到当前这个用户的浏览行为
             List<Active> currActiveList = findUsersBrowsBehavior(refId, userActiveList);
 
@@ -196,13 +196,18 @@ public class RecommendUtils {
                 }
             });
 
-            // 记录差值最大的二级类目的id
+            // 记录差值最大的岗位类别的id
             Integer maxPositionId = 0;
 
             // 记录最大的差值
             double maxDifference = 0.0;
-            for (int i = 0; i < currActiveList.size(); i++) {
-                // 求出点击量差值最大的二级类目，即为要推荐的类目
+
+            int minSize=userIdActiveList.size();
+            if(minSize>currActiveList.size()){
+                minSize= currActiveList.size();
+            }
+            for (int i = 0; i < minSize; i++) {
+                // 求出点击量差值最大的岗位类别，即为要推荐的岗位类别
                 double difference = Math.abs(currActiveList.get(i).getHits() - userIdActiveList.get(i).getHits());
                 if (difference > maxDifference) {
                     maxDifference = difference;
@@ -222,9 +227,9 @@ public class RecommendUtils {
      */
     public static List<Active> findUsersBrowsBehavior(Integer userId, List<Active> userActiveList) {
         List<Active> currActiveList = new ArrayList<Active>();
-        for (Active userActiveDTO : userActiveList) {
-            if (userActiveDTO.getUserId().equals(userId)) {
-                currActiveList.add(userActiveDTO);
+        for (Active userActive : userActiveList) {
+            if (userActive.getUserId().equals(userId)) {
+                currActiveList.add(userActive);
             }
         }
         return currActiveList;

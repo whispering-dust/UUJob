@@ -45,4 +45,12 @@ public class JobService extends ServiceImpl<JobMapper, Job> implements IJobServi
         return getOne(jobQueryWrapper);
     }
 
+    @Override
+    public List<Job> getListByPositionId(Integer positionId) {
+        QueryWrapper<Job> jobQueryWrapper = new QueryWrapper<>();
+        jobQueryWrapper.eq("position_id",positionId)
+                .orderByDesc("date");  //根据日期降序排列方便查找;
+        return list(jobQueryWrapper);
+    }
+
 }
