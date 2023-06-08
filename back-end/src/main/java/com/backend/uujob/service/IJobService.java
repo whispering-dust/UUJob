@@ -12,5 +12,7 @@ public interface IJobService extends IService<Job> {
     List<Job> getListByUserId(int userId);
 
     Job getJobById(int jobId);
+
+    List<Job> getListByPositionId(Integer positionId);
 }
 
