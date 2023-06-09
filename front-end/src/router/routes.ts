@@ -17,12 +17,6 @@ const routes = [
       meta: {keepAlive: false},
       component: () => import('@/view/Management.vue')
     },
-    {
-      name: 'Demo',
-      path: '/demo',
-      meta: {keepAlive: true},
-      component: () => import('@/components/TiptapEditorDemo.vue')
-  },
 
     {
         name: 'Home',
@@ -41,12 +35,6 @@ const routes = [
       path: '/forum/publishPost',
       meta: {keepAlive: true},
       component: () => import('@/components/forum/PublishPost.vue')
-    },
-    {
-      name: 'Position',
-      path: '/Position',
-      meta: {keepAlive: true},
-      component: () => import('@/view/PositionView.vue')
     },
     {
       name: 'Job',
@@ -135,11 +123,11 @@ const routes = [
         ]
 
     },
-    // {
-    //     name: 'FaultPage',
-    //     path: '/:catchAll(.*)',
-    //     component: () => import('@/view/404.vue')
-    // },
+    {
+        name: 'FaultPage',
+        path: '/:catchAll(.*)',
+        component: () => import('@/view/404.vue')
+    },
 
 ];
 

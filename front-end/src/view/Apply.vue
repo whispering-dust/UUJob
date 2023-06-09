@@ -3,8 +3,9 @@
         <div class="bg-tertiary text-white px-4 px-lg-5 py-5 rounded-0 border-0 mb-0" style="height: 300px;">
             <div class="container">
                 <el-card class="mt-5 ml-5" style="height: 100%;width:80%;">
-                <div class="row container">
-                    <div class="col-6 font-weight-bold" style="font-size: large;margin-left:40%">投递简历</div>
+                <div class="row container" style="display: flex;justify-content: center;">
+                    <div class="font-weight-bold" style="font-size: large;margin-left:45% ; margin-right: auto;">投递简历</div>
+                    <el-button  type="success" style="background-color: black;"><el-icon><Download /></el-icon>下载模板</el-button>
                 </div>
                 <div class="row mt-3">
                     <div class="col-4" style="padding-left: 100px;">
@@ -16,9 +17,9 @@
                             :on-error="handleUploadError"
                             :show-file-list="false"
                         >
-                            <el-button type="success" style="background-color: black;" icon="el-icon-upload">导入简历 (PDF)</el-button>
+                            <el-button type="success" style="background-color: black;"><el-icon><Upload /></el-icon>上传简历 (PDF)</el-button>
                         </el-upload>
-                    
+                        
                     </div>
                     <div class="col-8 pt-1"><p>已经有简历? 那就上传你的简历🤗🤗🤗🤗🤗🤗🤗🤗</p></div>
                 </div>

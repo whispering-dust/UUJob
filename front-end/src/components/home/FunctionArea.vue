@@ -13,6 +13,7 @@
 
   </el-card>
 
+
   <el-dialog top="0vh" v-model="dialogFormVisible" title="请填写表单信息" draggable :lock-scroll=false>
     <el-scrollbar>
       <RecruitPost @cancel="dialogFormVisible = false"></RecruitPost>
