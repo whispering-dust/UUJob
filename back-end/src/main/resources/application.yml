@@ -24,10 +24,6 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 
-    mvc:
-      path match:
-        matching-strategy: ant_path_matcher
-
 #上传文件到文件服务器的配置
 ftp-ubuntu:
   #IP
