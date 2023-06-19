@@ -111,7 +111,7 @@
             <WarnTriangleFilled />
           </el-icon>撤销投递</el-button>
         <el-button class="ml-2 mt-2" style="width: 75%;" type="primary"
-          @click="$router.push('/myspace/chatList')"><el-icon class="mr-1">
+          @click="redictToChat()"><el-icon class="mr-1">
             <ChatDotRound />
           </el-icon>联系</el-button>
       </div>
@@ -269,6 +269,26 @@ export default {
         this.filteredJobs = this.JobList;
       }
     },
+    async redictToChat(){
+      try {
+        const response = await axios.get("http://localhost:9090/jobs", {
+          params: {
+            senderId: this.userId,
+            receiverId: this.owner.userId,
+          },
+        });
+
+        if (response.data.code === 200) {
+          var conversationId = response.data.data
+          this.$router.push('/myspace/chatList/'+conversationId+'/'+this.owner.userId)
+        } else {
+          alert(response.data.msg);
+        }
+      } catch (error) {
+        console.error("Failed to fetch job:", error);
+      }
+      
+    }
   },
   mounted() {
     this.getJobList();

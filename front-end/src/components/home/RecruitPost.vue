@@ -59,8 +59,7 @@
                     :limit="1"
                     :on-exceed="handleExceed"
                     :auto-upload="false"
-                    :action="getUploadUrl()"
-                    :data="getUploadData"
+                    :on-change="handleChange"
                 >
                     <template #trigger>
                         <el-button ><el-icon><Upload /></el-icon>上传本地文件</el-button>
@@ -156,8 +155,10 @@ export default {
             },
             successMsg,
             warningMsg,
-            errorMsg
+            errorMsg,
+            fileToUpload: null,
         }
+        
     },
     methods: {
         handlePositionChange(value) {
@@ -204,8 +205,7 @@ export default {
                     },
                 }).then(function (response) {
                     if (response.data.code === 200) {
-                        that.jobId = response.data.jobId; // Assign the generated jobId
-                        that.$refs.upload.submit(); // Trigger the file upload
+                        that.uploadFile(response.data.data);
                         that.$message.success("提交操作成功");
                         that.form = {
                             userName: that.userName,
@@ -261,17 +261,29 @@ export default {
             }
             return true;
         },
-        getUploadUrl() {
-            // Replace 'YOUR_UPLOAD_ENDPOINT' with the actual backend endpoint for uploading files
-            return 'YOUR_UPLOAD_ENDPOINT';
+        handleChange(file, fileList) {
+            this.fileToUpload = file;
         },
-        getUploadData() {
-            const formData = new FormData();
-            formData.append('jobId', this.jobId);
-            formData.append('file', this.$refs.upload.uploadFiles[0].raw);
+        uploadFile(id) {
+            console.log(id);
+            const jobId = id;  // replace this with your jobId
+            let formData = new FormData();
+            formData.append("jobId", jobId);
+            formData.append("file", this.fileToUpload.raw);
+            
 
-            return formData;
+            axios.put("http://localhost:9090/jobs/upload-files", formData)
+            .then(response => {
+                if (response.data.code === 200) {
+                    this.successMsg("文件上传成功");
+                } else {
+                    this.errorMsg(response.data.msg);
+                }
+            }).catch(error => {
+                this.errorMsg("文件上传失败");
+            });
         },
+
 
     },
     mounted() {
