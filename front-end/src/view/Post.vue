@@ -6,28 +6,30 @@
                 <el-card class="postcard mb-5">
                     <PostCard :targetPostId="postId"></PostCard>
                 </el-card>
-                
-                <div> <Comment :postId="postId"></Comment></div>
+
+                <div>
+                    <Comment :postId="postId"></Comment>
+                </div>
             </div>
         </div>
-        
-        
-    </div>
 
+
+    </div>
 </template>
 
 <script>
 import PostCard from '@/components/forum/PostCard.vue'
 import Comment from '@/components/forum/Comment.vue'
 import { useRoute } from 'vue-router';
-export default{
-    components:{
+import { ElMessage } from 'element-plus'
+export default {
+    components: {
         PostCard,
         Comment,
     },
-    data(){
-        return{
-            postId: useRoute().params.postId,
+    data() {
+        return {
+            postId: parseInt(useRoute().params.postId),
         }
     }
 }
@@ -41,11 +43,12 @@ export default{
     min-height: 800px;
     background-color: rgb(223, 229, 235);
 }
-  
+
 .card-bk {
     height: 300px;
 }
-.post-area{
+
+.post-area {
     display: flex;
     flex-direction: column;
 }

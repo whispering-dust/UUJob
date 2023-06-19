@@ -50,6 +50,7 @@ public class PostService extends ServiceImpl<PostMapper,Post> implements IPostSe
         postWrapper.eq("id", id);  //查找指定帖子
 
         //处理常规信息
+        obj.setPostId(getOne(postWrapper).getId());
         obj.setTitle(getOne(postWrapper).getTitle());
         obj.setContent(getOne(postWrapper).getContent());
         obj.setPublisherId(getOne(postWrapper).getPublisherId());

@@ -4,14 +4,15 @@
       <div class="container upmain  mb-5">
         <br>
         <div class="container mt-5" style="height: 70px;width:70%">
-
           <!-- 搜索栏 -->
           <div class="card row" style="justify-content: center;height: 80%; background-color:#000000;">
             <el-input round v-model="input" placeholder="Please input" clearable @keydown.enter="searchSubmit"
               style="height:100% ;  width:85%;margin:2px;">
             </el-input>
             <el-link @click="searchSubmit" :underline="false" style="height: 100%;margin-right:20px;margin-top: 10px;">
-              <h3 class="text-white"><el-icon size="20"><Search /></el-icon>搜索</h3>
+              <h3 class="text-white"><el-icon size="20">
+                  <Search />
+                </el-icon>搜索</h3>
             </el-link>
           </div>
 
@@ -19,7 +20,8 @@
 
         <div class="container hot-list">
           <span class="hot-item text-white" style="font-size:24px "><strong>热门搜索:</strong></span>
-          <span class="hot-item" style="background-color:lightgray;font-size:small;" v-for="item in hotList" :key="item" @click="searchHotKeyword(item)">{{ item }}</span>
+          <span class="hot-item" style="background-color:lightgray;font-size:small;" v-for="item in hotList" :key="item"
+            @click="searchHotKeyword(item)">{{ item }}</span>
         </div>
       </div>
       <div class="bkmain bg-dark">
