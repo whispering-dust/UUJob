@@ -328,6 +328,7 @@ export default {
     },
     selectProfile(profileId) {
       this.selectedProfile = this.ProfileList.find((profile) => profile.profileId === profileId);
+      console.log(this.selectedProfile);
     },
     async selectJob(jobId) {
       this.selectedJob = this.JobList.find((job) => job.jobId === jobId);

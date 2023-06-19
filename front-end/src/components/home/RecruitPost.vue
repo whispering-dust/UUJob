@@ -266,13 +266,12 @@ export default {
         },
         uploadFile(id) {
             console.log(id);
-            const jobId = id;  // replace this with your jobId
             let formData = new FormData();
-            formData.append("jobId", jobId);
-            formData.append("file", this.fileToUpload.raw);
             
+            formData.append("jobId", id);
+            formData.append("template", this.fileToUpload.raw);
 
-            axios.put("http://localhost:9090/jobs/upload-files", formData)
+            axios.post("http://localhost:9090/jobs/upload-files", formData)
             .then(response => {
                 if (response.data.code === 200) {
                     this.successMsg("文件上传成功");
