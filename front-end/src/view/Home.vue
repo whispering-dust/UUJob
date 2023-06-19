@@ -11,7 +11,7 @@
               style="height:100% ;  width:85%;margin:2px;">
             </el-input>
             <el-link @click="searchSubmit" :underline="false" style="height: 100%;margin-right:20px;margin-top: 10px;">
-              <h3 class="text-white">搜索</h3>
+              <h3 class="text-white"><el-icon size="20"><Search /></el-icon>搜索</h3>
             </el-link>
           </div>
 
@@ -25,13 +25,13 @@
       <div class="bkmain bg-dark">
         <div class="container main">
           <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-7">
               <section class="container">
                 <RecruitArea ref="recruitArea"></RecruitArea>
               </section>
 
             </div>
-            <div class="col-md-4">
+            <div class="col-md-5">
               <FunctionArea></FunctionArea>
             </div>
           </div>

@@ -52,6 +52,27 @@
                 <el-input v-model="form.description" type="textarea" :autosize="{ minRows: 5 }" style="width: 600px;" />
             </el-form-item>
 
+            <el-form-item label="简历模板">
+                <el-upload
+                    ref="upload"
+                    class="upload-demo"
+                    :limit="1"
+                    :on-exceed="handleExceed"
+                    :auto-upload="false"
+                    :action="getUploadUrl()"
+                    :data="getUploadData"
+                >
+                    <template #trigger>
+                        <el-button ><el-icon><Upload /></el-icon>上传本地文件</el-button>
+                    </template>
+                    <template #tip>
+                    <div class="el-upload__tip text-red">
+                        一次只能上传一个文件
+                    </div>
+                    </template>
+                </el-upload>
+            </el-form-item>
+
             <el-form-item>
                 <el-button type="primary" icon="Check" @click="submit()">确认发布</el-button>
                 <el-button type="danger" icon="Delete" @click="dialogVisible = true">
@@ -183,6 +204,8 @@ export default {
                     },
                 }).then(function (response) {
                     if (response.data.code === 200) {
+                        that.jobId = response.data.jobId; // Assign the generated jobId
+                        that.$refs.upload.submit(); // Trigger the file upload
                         that.$message.success("提交操作成功");
                         that.form = {
                             userName: that.userName,
@@ -237,7 +260,18 @@ export default {
                 return false;
             }
             return true;
-        }
+        },
+        getUploadUrl() {
+            // Replace 'YOUR_UPLOAD_ENDPOINT' with the actual backend endpoint for uploading files
+            return 'YOUR_UPLOAD_ENDPOINT';
+        },
+        getUploadData() {
+            const formData = new FormData();
+            formData.append('jobId', this.jobId);
+            formData.append('file', this.$refs.upload.uploadFiles[0].raw);
+
+            return formData;
+        },
 
     },
     mounted() {
