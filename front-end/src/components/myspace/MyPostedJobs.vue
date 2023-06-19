@@ -106,7 +106,7 @@
       </el-card>
     </el-main>
     <el-aside width="10%">
-      <div class="action-buttons">
+      <div class="action-buttons" v-if="selectedJob.jobId!=null">
         <el-button class="ml-2 mt-2" style="width: 75%;" type="danger" @click="revokeApplication"><el-icon class="mr-1">
             <WarnTriangleFilled />
           </el-icon>撤销投递</el-button>
@@ -242,7 +242,12 @@ export default {
     },
     selectJob(jobId) {
       this.selectedJob = this.JobList.find((job) => job.jobId === jobId);
-      this.getJob();
+      this.$nextTick(
+        ()=>{
+          this.getJob();
+        }
+      )
+     
       //this.showStatus();
     },
     async revokeApplication() {
@@ -271,16 +276,14 @@ export default {
     },
     async redictToChat(){
       try {
-        const response = await axios.get("http://localhost:9090/jobs", {
-          params: {
-            senderId: this.userId,
-            receiverId: this.owner.userId,
-          },
+        const response = await axios.post("http://localhost:9090/conversations/target", {
+          senderId: this.userId,
+          receiverId: this.owner.userId,
         });
 
         if (response.data.code === 200) {
           var conversationId = response.data.data
-          this.$router.push('/myspace/chatList/'+conversationId+'/'+this.owner.userId)
+          this.$router.push('/myspace/chatList/chatRoom/'+conversationId+'/'+this.owner.userId)
         } else {
           alert(response.data.msg);
         }

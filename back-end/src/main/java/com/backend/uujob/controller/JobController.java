@@ -121,7 +121,7 @@ public class JobController {
         //获取当前时间作为申请提交时间
         application.setApplicationDate(new java.sql.Timestamp(System.currentTimeMillis()));
         if(applicationService.save(application)){
-            return Result.success();
+            return Result.success(application.getId());
         }
         return Result.error();
     }

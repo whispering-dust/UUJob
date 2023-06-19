@@ -36,7 +36,7 @@ public class ConversationController {
         return Result.success(conversation.getId());
     }
 
-    @PostMapping("")
+    @PostMapping("/target")
     public Result getConversation(@RequestBody Conversation conversation){
         Conversation c = conversationService.getByTwoUserId(conversation.getSenderId(), conversation.getReceiverId());  //先判断由此两人创建的对话是否存在
         if(c == null){  //如果会话不存在，则返回error

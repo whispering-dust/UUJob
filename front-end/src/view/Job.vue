@@ -91,12 +91,6 @@
                 </el-button>
 
               </div>
-              <!-- <div class="row mb-3">
-                <el-tag v-for="item in items" :key="item.label" :type="item.type" class="mx-1" effect="dark" round>
-                  {{ item.label }}
-                </el-tag>
-
-              </div> -->
 
               <div class="row text-area p-3" v-html="formattedText">
               </div>
@@ -111,7 +105,7 @@
 
         <div class="container p-0 mt-3">
           <div class="row">
-            <div class="col-8">
+            <div class="col-7">
               <el-card class="box-card p-0 ">
                 <div class="card-header p-0" style="">
                   <span style="font-size: larger;"><strong>{{ companyObj.name }}</strong></span>
@@ -141,19 +135,20 @@
 
             </div>
 
-            <div class="col-4">
+            <div class="col-5">
               <el-card class="box-card p-0 ">
                 <div class="card-header p-0 mb-2">
-                  <span style="font-size: larger;"><strong>相似职位</strong></span>
+                  <span style="font-size: larger;"><strong>岗位推荐</strong></span>
                 </div>
 
 
                 <div class="row text-area p-1">
-                  <el-table :data="recommendJobList" style="width: 100%">
-                    <el-table-column prop="jobName" label="岗位名称"></el-table-column>
-                    <el-table-column prop="companyName" label="公司名称"></el-table-column>
-                    <el-table-column prop="salary" label="薪资范围"></el-table-column>
-
+                  <el-table :data="recommendData" stripe style="width: 100%" @row-click="redirectToJob">
+                    <el-table-column prop="title" label="标题" width="120" />
+                    <el-table-column prop="location" label="地点" width="70" />
+                    <el-table-column prop="salary" label="薪资" />
+                    <el-table-column prop="companyName" label="公司" />
+                    
                   </el-table>
                 </div>
 
@@ -187,13 +182,6 @@ export default {
   data() {
     const store = useStore()
 
-    // const items = ref([
-    //   { type: '', label: 'Tag 1' },
-    //   { type: 'success', label: 'Tag 2' },
-    //   { type: 'info', label: 'Tag 3' },
-    //   { type: 'danger', label: 'Tag 4' },
-    //   { type: 'warning', label: 'Tag 5' },
-    // ])
     const successStar = () => {
       ElMessage({
         message: '收藏成功！',
@@ -240,28 +228,7 @@ export default {
         address: '上海长宁区金虹桥商业广场金虹桥国际中心',
         homePageUrl: 'https://www.pinduoduo.com/'
       },
-      recommendJobList: [
-        {
-          jobName: 'jobName',
-          companyName: 'companyName',
-          salary: 'salary',
-        },
-        {
-          jobName: 'jobName',
-          companyName: 'companyName',
-          salary: 'salary',
-        },
-        {
-          jobName: 'jobName',
-          companyName: 'companyName',
-          salary: 'salary',
-        },
-        {
-          jobName: 'jobName',
-          companyName: 'companyName',
-          salary: 'salary',
-        },
-      ],
+      recommendData:[],
       successStar,
       failStar,
       successDeleteStar,
@@ -423,7 +390,31 @@ export default {
         }
         //window.location.reload();
       })
-    }
+    },
+    async getRecommendData(){
+      console.log(this.store.state.userId)
+      try {
+        const response = await axios.get("http://localhost:9090/recommendation", {
+          params: {
+            id: this.store.state.userId,
+          },
+        });
+
+        if (response.data.code === 200) {
+          console.log(response.data.data);
+          this.recommendData=response.data.data;
+
+        } else {
+          this.$message.error(response.data.msg);
+        }
+      } catch (error) {
+        console.error("Failed to fetch user:", error);
+      }
+    },
+    redirectToJob(row,column,event){
+      console.log(row)
+      this.router.push("../job/" + row.id);
+    },
 
   },
 
@@ -431,6 +422,7 @@ export default {
     this.getJob()
     this.getCompany()
     this.getStarStatus()
+    this.getRecommendData()
   },
 
   computed: {
@@ -442,7 +434,17 @@ export default {
     formattedCompanyText() {
       return this.companyObj.description.replace(/\n/g, "<br>");
     },
-  }
+  },
+
+  watch: {
+    '$route.params.jobId': {
+      immediate: true,
+      handler(jobId) {
+        this.jobId = jobId;
+        this.getJob();
+      },
+    },
+  },
 }
 
 
