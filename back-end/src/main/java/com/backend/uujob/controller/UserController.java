@@ -90,21 +90,26 @@ public class UserController {
 
     @GetMapping("/profiles")
     public Result getProfileByUserId(@RequestParam int userId){
-        Profile targetProtile = profileService.getByUserId(userId);
-        if(targetProtile == null){
+        Profile targetProfile = profileService.getByUserId(userId);
+        if(targetProfile == null){
             return Result.error(Constants.CODE_500,"该用户尚未创建简历");
         }
-        return Result.success(targetProtile);
+        return Result.success(targetProfile);
     }
 
     @GetMapping("/applications")
     public Result getApplicationByUserId(@RequestParam int userId){
-        Profile targetProtile = profileService.getByUserId(userId);  //先获取用户拥有的简历
-        if(targetProtile == null){
+        List<Profile> profileList = profileService.getListByUserId(userId);  //先获取用户拥有的简历
+        if(profileList.isEmpty()){
             return Result.error(Constants.CODE_500,"该用户尚未创建简历");
         }
 
-        List<Application> applicationList = applicationService.getByProfileId(targetProtile.getId());  //再根据简历查找他被投递到哪些岗位
+        List<Application> applicationList = new ArrayList<>();
+        for(Profile p : profileList){
+            Application res = applicationService.getByProfileId(p.getId()); //再根据简历查找他被投递到哪些岗位
+            applicationList.add(res);
+        }
+
         List<JobVO> jobList = new ArrayList<>();
         for(Application a : applicationList){
             Job j = jobService.getById(a.getJobId());

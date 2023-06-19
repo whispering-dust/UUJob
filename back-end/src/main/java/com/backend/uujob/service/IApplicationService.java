@@ -8,5 +8,5 @@ import java.util.List;
 public interface IApplicationService extends IService<Application> {
     List<Application> getByJobIdAndStatus(int jobId, int status);
 
-    List<Application> getByProfileId(int profileId);
+    Application getByProfileId(int profileId);
 }

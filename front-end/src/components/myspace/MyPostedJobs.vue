@@ -199,6 +199,7 @@ export default {
     },
     async getJob() {
       try {
+        this.selectedJobText = null;
         const response = await axios.get("http://localhost:9090/jobs", {
           params: {
             id: this.selectedJob.jobId,
@@ -219,6 +220,8 @@ export default {
     },
     async getOwner() {
       try {
+        this.owner.userName = '';
+        this.owner.phone = '';
         const response = await axios.get("http://localhost:9090/users", {
           params: {
             id: this.owner.userId,
@@ -240,7 +243,7 @@ export default {
     selectJob(jobId) {
       this.selectedJob = this.JobList.find((job) => job.jobId === jobId);
       this.getJob();
-      this.showStatus();
+      //this.showStatus();
     },
     async revokeApplication() {
       try {
@@ -281,7 +284,6 @@ export default {
       } else if (this.selectedJob.status == 1) {
         return "已通过"
       }
-
     }
   },
 };

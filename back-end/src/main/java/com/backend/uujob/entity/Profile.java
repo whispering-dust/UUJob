@@ -18,6 +18,7 @@ public class Profile {
   private String phone;
   private String college;
   private String major;
+  private Integer profileType;
   private Timestamp admissionDate;
   private Timestamp graduationDate;
   private String personalDescription;
@@ -32,6 +33,14 @@ public class Profile {
 
   public void setId(Integer id) {
     this.id = id;
+  }
+
+  public Integer getProfileType() {
+    return profileType;
+  }
+
+  public void setProfileType(Integer profileType) {
+    this.profileType = profileType;
   }
 
 

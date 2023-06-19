@@ -111,6 +111,11 @@ public class JobController {
 
     @PostMapping("/applications")
     public Result applyForJob(@RequestBody Application application){
+
+        //复制一份简历作为被投递的简历
+        int targetProfileId =application.getProfileId();
+        Profile newProfile = profileService.copyGenerate(targetProfileId);
+        application.setProfileId(newProfile.getId());
         //申请提交时默认状态为待审核
         application.setStatus(ApplStatusEnum.APPL_STATUS_SUBMIT.ordinal());
         //获取当前时间作为申请提交时间
