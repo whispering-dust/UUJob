@@ -44,18 +44,13 @@
                 </el-icon>
               </el-button>
             </div>
-
             <div class="button-area">
-              <el-button color="#45454A" style=" color:aliceblue; border:0px;width:125px;" @click="addStar"
-                v-if="starId === -1" :key="2">
-                加入收藏
+              <el-button color="#45454A" style=" color:aliceblue; border:0px;width:125px;" @click="changeStarStatus"
+                :key="2">
+                <span v-if="!isStar">加入收藏</span>
+                <span v-else>取消收藏</span>
+
                 <el-icon class="el-icon--right">
-                  <Star />
-                </el-icon>
-              </el-button>
-              <el-button color="#45454A" style=" color:aliceblue; border:0px;width:125px;" @click="deleteStar"
-                v-if="starId != -1" :key="3">
-                取消收藏<el-icon class="el-icon--right">
                   <Star />
                 </el-icon>
               </el-button>
@@ -203,9 +198,9 @@ export default {
     const failDeleteStar = () => {
       ElMessage.error('取消收藏失败')
     }
-    let starId = ref(-1)
     return {
-      starId,
+      isStar: false,
+      starId: -1,
       router: useRouter(),
       reportContent: "",
       reportDialogTableVisible: false,
@@ -232,11 +227,19 @@ export default {
       successStar,
       failStar,
       successDeleteStar,
-      failDeleteStar
+      failDeleteStar,
     }
   },
 
   methods: {
+    changeStarStatus() {
+      if (this.isStar) {
+        this.deleteStar();
+      }
+      else {
+        this.addStar();
+      }
+    },
     async newChat() {
       try {
         // Replace the URL with your API endpoint to fetch chats
@@ -339,7 +342,7 @@ export default {
         if (response.data.code == 200) {
           console.log(response.data.data);
           that.successStar();
-          that.isStar = true;
+          that.isStar = !that.isStar;
         } else {
           alert("error");
           that.failStar();
@@ -365,6 +368,12 @@ export default {
           var data = response.data.data
           that.starId = data;
           console.log('收藏Id', that.starId)
+          if (that.starId != -1) {
+            that.isStar = true;
+          }
+          else {
+            that.isStar = false;
+          }
         } else {
           alert("error");
         }
@@ -383,7 +392,7 @@ export default {
         if (response.data.code == 200) {
 
           that.successDeleteStar();
-          that.isStar = false;
+          that.isStar = !that.isStar;
         } else {
           alert("error");
           that.failDeleteStar();
