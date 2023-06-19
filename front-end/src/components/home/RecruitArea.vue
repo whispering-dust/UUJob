@@ -15,7 +15,7 @@
           <div class="card-header">
             <span style="font-size:larger">{{ recruitObj.title }}</span>
 
-            <el-button class="button" color="black" @click="enterJob(recruitObj.id)"> 详情</el-button>
+            <el-button class="button" color="black" @click="enterJob(recruitObj.id)"> <el-icon><MagicStick /></el-icon>详情</el-button>
           </div>
           <span style="font-size: 8px;color: gray;">发布时间:{{ recruitObj.date }}</span>
         </template>

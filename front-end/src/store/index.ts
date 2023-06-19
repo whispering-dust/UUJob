@@ -5,6 +5,7 @@ export default createStore({
   state: {
     userId: storage.get('userId'),
     userAvatar:'',
+    profileImgUrl:'',
     userName: storage.get('userName'),
     profileId: storage.get('profileId'),
     role: storage.get('role'),//0 是求职者，1 是招聘者
@@ -22,6 +23,9 @@ export default createStore({
     },
     getProfileId(state){
       return state.profileId;
+    },
+    getProfileImgUrl(state){
+      return state.profileImgUrl;
     }
   },
   mutations: {
@@ -46,6 +50,10 @@ export default createStore({
     },
     setUserAvatar(state, value) {
       state.userAvatar = value;
+    },
+    setProfileImgUrl(state, value){
+      state.profileImgUrl = value;
+      storage.set('profileImgUrl',value);
     },
 
   },
