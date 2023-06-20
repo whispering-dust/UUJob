@@ -1,15 +1,19 @@
 <template>
   <el-dialog :visible.sync="dialogVisible" title="编辑个人资料">
     <el-form :model="updatedProfile" label-width="120px">
+
       <el-form-item label="简历头像">
-        <el-upload :action="uploadUrl" accept="image/*" :show-file-list="false" :on-success="handleUploadSuccess"
-          :before-upload="beforeUpload" :headers="headers">
-          <el-button size="small" type="primary">点击上传</el-button>
-          <div v-if="imageUrl" style="display:inline-block; margin-left: 10px">
-            <el-image :src="imageUrl" style="width: 60px; height: 60px;"></el-image>
-          </div>
+        <el-upload 
+          ref="upload"
+          class="upload-demo"
+          :show-file-list="false" :on-change="handleAvatarChange" :auto-upload="false"
+        >
+          <template #trigger>
+            <el-button size="small" type="primary">点击上传</el-button>
+          </template>
         </el-upload>
       </el-form-item>
+
       <el-form-item label="姓名">
         <el-input v-model="updatedProfile.name" style="width: 30%;" />
       </el-form-item>
@@ -86,6 +90,7 @@ export default {
       seekerId: useStore().state.userId,
       profileId: null,
       store: useStore(),
+      avatarToUpload: null,
     };
   },
   watch: {
@@ -133,6 +138,9 @@ export default {
         alert(response.data.code)
         console.log("后端返回的数据", response.data.data)
         if (response.data.code === 200) {
+          if (response.data.code === 200 && this.avatarToUpload !== null) {
+            this.uploadAvatar(response.data.data);
+          }
           this.$emit("update", this.updatedProfile);
           this.$message.success("个人资料已更新");
           this.dialogVisible = false;
@@ -147,6 +155,35 @@ export default {
     closeDialog() {
       this.$emit("close");
       this.dialogVisible = false;
+    },
+    // New method for handling the file selection
+    handleAvatarChange(file) {
+      this.$message.success("上传")
+      this.avatarToUpload = file;
+      console.log(this.avatarToUpload);
+    },
+
+    // New method for uploading the avatar
+    async uploadAvatar(id) {
+      console.log(id);
+      let formData = new FormData();
+      
+      formData.append("profileId", id);
+      formData.append("photo", this.avatarToUpload.raw);
+
+      console.log(id);
+      console.log(this.avatarToUpload.raw);
+
+      axios.post("http://localhost:9090/profiles/upload-files", formData)
+      .then(response => {
+        if (response.data.code === 200) {
+          this.$message.success("头像上传成功");
+        } else {
+          this.$message.error(response.data.msg);
+        }
+      }).catch(error => {
+        this.$message.error("头像上传失败");
+      });
     },
   },
 };
