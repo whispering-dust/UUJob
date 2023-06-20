@@ -190,6 +190,8 @@ export default {
 
         if (response.data.code === 200) {
           this.$message.success('已忽略该举报')
+          this.selectedPendingReportsData={}
+          this.selectedJob={}
         } else {
           alert(response.data.msg);
         }
@@ -211,6 +213,9 @@ export default {
 
         if (response.data.code === 200) {
           this.$message.success('已处理该举报')
+          this.selectedPendingReportsData={}
+          this.selectedJob={}
+          
         } else {
           alert(response.data.msg);
         }
