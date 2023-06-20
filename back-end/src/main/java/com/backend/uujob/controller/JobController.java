@@ -69,7 +69,9 @@ public class JobController {
     @PutMapping("")
     public Result modifyJob(@RequestBody Job job){
         //一旦对岗位信息进行修改就需要重新进行审核，所以状态为待审核
-        job.setStatus(CensorStatusEnum.CENSOR_STATUS_SUBMIT.ordinal());
+        if(job.getStatus() == CensorStatusEnum.CENSOR_STATUS_SUBMIT.ordinal() || job.getStatus() == CensorStatusEnum.CENSOR_STATUS_PASS.ordinal()){
+            job.setStatus(CensorStatusEnum.CENSOR_STATUS_SUBMIT.ordinal());
+        }
 
         if(jobService.updateById(job)){
             return Result.success(job.getId());

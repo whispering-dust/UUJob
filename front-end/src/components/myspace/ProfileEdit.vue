@@ -34,7 +34,7 @@
           <el-option label="博士" value="博士"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="所在单位" style="width: 80%;">
+      <el-form-item label="毕业院校" style="width: 80%;">
         <el-input v-model="updatedProfile.college" />
       </el-form-item>
       <el-form-item label="专业" style="width: 40%;">
