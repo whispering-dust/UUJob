@@ -111,7 +111,9 @@ export default {
             .then((response) => {
             if (response.data.code === 200) {
                 console.log(response.data);
-                this.uploadFile(response.data.data);
+                if(this.fileToUpload != null){
+                    this.uploadFile(response.data.data);
+                }
                 this.$message.success('简历投递成功！');
                 this.router.push("/home")
             } else {

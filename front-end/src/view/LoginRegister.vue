@@ -21,7 +21,7 @@
               </div>
               <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
                 <!-- 注册表单内容 -->
-                <RegisterForm :registerUser="registerUser" :registerRules="registerRules"/>
+                <RegisterForm :registerUser="registerUser" :registerRules="registerRules"  @showLoginTab="showLoginTab"/>
               </div>
             </div>
             
@@ -56,22 +56,23 @@ export default{
     }
   },
   methods:{
-    modifyState(mode) {
-      //在点击事件后延迟执行隐藏
-      //通过修改两个div的display状态以实现表单框消失的效果
-      setTimeout(() => {
-        if(mode=='login'){
-            this.$data.registerState='none';
-            this.$data.loginState='';
-        }
-        else if(mode=='register'){
+    showLoginTab() {
+      this.$message.success("注册成功")
+      const authTab = document.getElementById('authTab');
+      const loginTab = document.getElementById('login-tab');
+      const loginForm = document.getElementById('login');
 
-             this.$data.loginState='none';
-            this.$data.registerState='';
-        }
-      }, 1000);
-    
-  }
+      authTab.classList.add('show');
+      authTab.classList.remove('hide');
+      loginTab.classList.add('active');
+      loginForm.classList.add('show', 'active');
+
+      const registerTab = document.getElementById('register-tab');
+      const registerForm = document.getElementById('register');
+
+      registerTab.classList.remove('active');
+      registerForm.classList.remove('show', 'active');
+    },
   },
   setup() {
   // @ts-ignore

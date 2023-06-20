@@ -89,7 +89,7 @@
             <div class="container" v-if="selectedProfile && selectedProfile.profileId">
               <div class="row container" style="display: flex;justify-content:space-between">
                 <span><h4>用户简历</h4></span>
-                <span><a :href="selectedProfile.annexUrl" target="_blank">用户上传的简历下载</a></span>
+                <span v-if="selectedProfile.annexUrl"><a :href="selectedProfile.annexUrl" target="_blank">用户上传的简历下载</a></span>
               </div>
               <div class="row">
                 <div class="col-3">
