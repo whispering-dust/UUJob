@@ -69,7 +69,7 @@ export default {
                 phone: "11451478910",
                 email: "11@qq.com",
                 edu: "学历",
-                college: "所在单位",
+                college: "毕业院校",
                 major: "专业",
                 expected_location: "意向城市",
                 description: "描述",

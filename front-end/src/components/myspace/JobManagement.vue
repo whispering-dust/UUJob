@@ -88,8 +88,11 @@
           <el-main>
             <div class="container" v-if="selectedProfile && selectedProfile.profileId">
               <div class="row container" style="display: flex;justify-content:space-between">
-                <span><h4>用户简历</h4></span>
-                <span v-if="selectedProfile.annexUrl"><a :href="selectedProfile.annexUrl" target="_blank">用户上传的简历下载</a></span>
+                <span>
+                  <h4>用户简历</h4>
+                </span>
+                <span v-if="selectedProfile.annexUrl"><a :href="selectedProfile.annexUrl"
+                    target="_blank">用户上传的简历下载</a></span>
               </div>
               <div class="row">
                 <div class="col-3">
@@ -160,7 +163,7 @@
                           <el-icon>
                             <office-building />
                           </el-icon>
-                          所在单位
+                          毕业院校
                         </div>
                       </template>
                       {{ selectedProfile.college }}
@@ -222,7 +225,7 @@
       </el-card>
     </el-main>
     <el-aside width="10%">
-      <div class="action-buttons" v-if="selectedJob.jobId!=null">
+      <div class="action-buttons" v-if="selectedJob.jobId != null">
         <el-button class="ml-2 mt-2" style="width: 75%;" type="primary" @click="passProfile">通过</el-button>
         <el-button class="ml-2 mt-2" style="width: 75%;" type="info" @click="neglectProfile">忽略</el-button>
         <br><br>
@@ -496,5 +499,4 @@ export default {
   color: #6b778c;
   font-size: 32px;
   font-weight: 600;
-}
-</style>
+}</style>

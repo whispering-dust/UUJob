@@ -96,6 +96,9 @@ export default {
           for (let i in this.userChatList) {
             var date = new Date(this.userChatList[i].lastMessageTime);
             this.userChatList[i].lastMessageTime = date.getFullYear() + "-" + (date.getMonth() + 1).toString().padStart(2, '0') + "-" + date.getDate().toString().padStart(2, '0');
+            if (date.getFullYear() == 1970) {
+              this.userChatList[i].lastMessageTime = '';
+            }
           }
 
           this.filteredChats = this.userChatList;
