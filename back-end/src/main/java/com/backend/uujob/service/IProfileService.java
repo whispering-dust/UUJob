@@ -10,4 +10,6 @@ public interface IProfileService extends IService<Profile> {
     List<Profile> getListByUserId(Integer userId);
 
     Profile copyGenerate(Integer profileId);
+
+    Integer getUserIdByProfileId(Integer profileId);
 }

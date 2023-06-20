@@ -3,44 +3,46 @@
         <div class="bg-tertiary text-white px-4 px-lg-5 py-5 rounded-0 border-0 mb-0" style="height: 300px;">
             <div class="container">
                 <el-card class="mt-5 ml-5" style="height: 100%;width:80%;">
-                <div class="row container" style="display: flex;justify-content: center;">
-                    <div class="font-weight-bold" style="font-size: large;margin-left:45% ; margin-right: auto;">投递简历</div>
-                    <el-button  type="success" style="background-color: black;" @click="download"><el-icon><Download /></el-icon>下载模板</el-button>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-4" style="padding-left: 100px;">
-                        <el-upload
-                            ref="upload"
-                            class="upload-demo"
-                            :limit="1"
-                            :on-exceed="handleExceed"
-                            :auto-upload="false"
-                            :on-change="handleChange"
-                        >
-                        <template #trigger>
-                            <el-button type="success" style="background-color: black;"><el-icon><Upload /></el-icon>上传简历 (PDF)</el-button>
-                        </template>
-                        <template #tip>
-                            <div class="el-upload__tip text-red">
-                                一次只能上传一个文件
-                            </div>
-                            </template>
-                            
-                        </el-upload>
-                        
+                    <div class="row container" style="display: flex;justify-content: center;">
+                        <div class="font-weight-bold" style="font-size: large;margin-left:45% ; margin-right: auto;">投递简历
+                        </div>
+                        <el-button type="success" style="background-color: black;" @click="download"><el-icon>
+                                <Download />
+                            </el-icon>下载模板</el-button>
                     </div>
-                    <div class="col-8 pt-1"><p>已经有简历? 那就上传你的简历🤗🤗🤗🤗🤗🤗🤗🤗</p></div>
-                </div>
-                <div style="display: flex;
+                    <div class="row mt-3">
+                        <div class="col-4" style="padding-left: 100px;">
+                            <el-upload ref="upload" class="upload-demo" :limit="1" :on-exceed="handleExceed"
+                                :auto-upload="false" :on-change="handleChange">
+                                <template #trigger>
+                                    <el-button type="success" style="background-color: black;"><el-icon>
+                                            <Upload />
+                                        </el-icon>上传简历 (PDF)</el-button>
+                                </template>
+                                <template #tip>
+                                    <div class="el-upload__tip text-red">
+                                        一次只能上传一个文件
+                                    </div>
+                                </template>
+
+                            </el-upload>
+
+                        </div>
+                        <div class="col-8 pt-1">
+                            <p>已经有简历? 那就上传你的简历🤗🤗🤗🤗🤗🤗🤗🤗</p>
+                        </div>
+                    </div>
+                    <div style="display: flex;
                     justify-content: center;
                     align-items: center;">
-                    <profile :profile="profile"/>
-                </div>
-                <div class="row mt-5 mb-3">
-                    <div style="margin-left: 40%;">
-                    <el-button type="success" style="background-color: black; width:150px" @click="submitResume">投递简历</el-button>
+                        <profile :profile="profile" />
                     </div>
-                </div>
+                    <div class="row mt-5 mb-3">
+                        <div style="margin-left: 40%;">
+                            <el-button type="success" style="background-color: black; width:150px"
+                                @click="submitResume">投递简历</el-button>
+                        </div>
+                    </div>
                 </el-card>
             </div>
         </div>
@@ -49,7 +51,7 @@
 
 <script>
 import Profile from '@/components/myspace/Profile.vue';
-import {useRoute,useRouter} from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useStore } from "vuex";
 import axios from "axios";
 
@@ -59,7 +61,7 @@ export default {
     },
     data() {
         return {
-            router:useRouter(),
+            router: useRouter(),
             jobId: useRoute().params.jobId,
             profile: {
                 name: "张三",
@@ -75,11 +77,11 @@ export default {
             },
             profileId: useStore().state.profileId,
             templateUrl: null,
-            fileToUpload:null,
+            fileToUpload: null,
         }
     },
-    mounted(){
-        
+    mounted() {
+
     },
     methods: {
         beforeUpload(file) {
@@ -99,33 +101,33 @@ export default {
         },
         submitResume() {
             let that = this;
-            console.log("in Apply.vue: ",that.profileId,that.jobId);
+            console.log("in Apply.vue: ", that.profileId, that.jobId);
             axios({
                 method: 'post',
                 url: 'http://localhost:9090/jobs/applications',
-                data:{
+                data: {
                     profileId: that.profileId,
                     jobId: that.jobId,
                 }
             })
-            .then((response) => {
-            if (response.data.code === 200) {
-                console.log(response.data);
-                if(this.fileToUpload != null){
-                    this.uploadFile(response.data.data);
-                }
-                this.$message.success('简历投递成功！');
-                this.router.push("/home")
-            } else {
-                this.$message.error('简历投递失败，改简历已投过！');
-            }
-            })
-            .catch((error) => {
-                console.error(error);
-                this.$message.error('简历投递失败，请重试！');
-            });
+                .then((response) => {
+                    if (response.data.code === 200) {
+                        console.log(response.data);
+                        if (this.fileToUpload != null) {
+                            this.uploadFile(response.data.data);
+                        }
+                        this.$message.success('简历投递成功！');
+                        this.router.push("/home")
+                    } else {
+                        this.$message.error('简历投递失败，该简历已投过！');
+                    }
+                })
+                .catch((error) => {
+                    console.error(error);
+                    this.$message.error('简历投递失败，请重试！');
+                });
         },
-        async download(){
+        async download() {
             //根据jobId获取templateUrl
             try {
                 const response = await axios.get("http://localhost:9090/jobs", {
@@ -135,7 +137,7 @@ export default {
                 });
 
                 if (response.data.code === 200) {
-                    this.templateUrl=response.data.data.templateUrl
+                    this.templateUrl = response.data.data.templateUrl
                     const a = document.createElement('a')
                     a.href = this.templateUrl
                     a.download = "简历模板.pdf" // 下载后文件名
@@ -179,20 +181,20 @@ export default {
         uploadFile(id) {
             console.log(id);
             let formData = new FormData();
-            
+
             formData.append("applicationId", id);
             formData.append("annex", this.fileToUpload.raw);
 
             axios.post("http://localhost:9090/jobs/applications/upload-files", formData)
-            .then(response => {
-                if (response.data.code === 200) {
-                    this.$message.success("文件上传成功");
-                } else {
-                    this.$message.error(response.data.msg);
-                }
-            }).catch(error => {
-                this.errorMsg("文件上传失败");
-            });
+                .then(response => {
+                    if (response.data.code === 200) {
+                        this.$message.success("文件上传成功");
+                    } else {
+                        this.$message.error(response.data.msg);
+                    }
+                }).catch(error => {
+                    this.errorMsg("文件上传失败");
+                });
         },
     },
 
@@ -200,6 +202,4 @@ export default {
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

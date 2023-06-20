@@ -3,11 +3,8 @@
     <el-form :model="updatedProfile" label-width="120px">
 
       <el-form-item label="简历头像">
-        <el-upload 
-          ref="upload"
-          class="upload-demo"
-          :show-file-list="false" :on-change="handleAvatarChange" :auto-upload="false"
-        >
+        <el-upload ref="upload" class="upload-demo" :show-file-list="false" :on-change="handleAvatarChange"
+          :auto-upload="false">
           <template #trigger>
             <el-button size="small" type="primary">点击上传</el-button>
           </template>
@@ -130,12 +127,12 @@ export default {
           major: that.updatedProfile.major,
           admissionDate: that.updatedProfile.admissionDate,
           graduationDate: that.updatedProfile.graduationDate,
-          reward: that.updatedProfile.reward,
+          reward: that.updatedProfile.honor,
           expectedLocation: that.updatedProfile.expected_location,
           personalDescription: that.updatedProfile.description,
           id: that.profileId,
         });
-        alert(response.data.code)
+        //alert(response.data.code)
         console.log("后端返回的数据", response.data.data)
         if (response.data.code === 200) {
           if (response.data.code === 200 && this.avatarToUpload !== null) {
@@ -167,7 +164,7 @@ export default {
     async uploadAvatar(id) {
       console.log(id);
       let formData = new FormData();
-      
+
       formData.append("profileId", id);
       formData.append("photo", this.avatarToUpload.raw);
 
@@ -175,15 +172,15 @@ export default {
       console.log(this.avatarToUpload.raw);
 
       axios.post("http://localhost:9090/profiles/upload-files", formData)
-      .then(response => {
-        if (response.data.code === 200) {
-          this.$message.success("头像上传成功");
-        } else {
-          this.$message.error(response.data.msg);
-        }
-      }).catch(error => {
-        this.$message.error("头像上传失败");
-      });
+        .then(response => {
+          if (response.data.code === 200) {
+            this.$message.success("头像上传成功");
+          } else {
+            this.$message.error(response.data.msg);
+          }
+        }).catch(error => {
+          this.$message.error("头像上传失败");
+        });
     },
   },
 };

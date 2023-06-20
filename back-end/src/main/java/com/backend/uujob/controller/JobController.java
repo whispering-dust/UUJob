@@ -111,6 +111,17 @@ public class JobController {
 
     @PostMapping("/applications")
     public Result applyForJob(@RequestBody Application application){
+        //检查是否已经投过该岗位
+        int userId = profileService.getUserIdByProfileId(application.getProfileId());
+        List<Profile> profileList =profileService.getListByUserId(userId);//获取用户的所有简历
+        for(Profile p : profileList){
+            Application tmp = applicationService.getByProfileId(p.getId());//查找简历对应的申请
+            if(tmp==null)
+                ;
+            else if (tmp.getJobId().equals(application.getJobId())) {//如果申请中的jobId和新提交的一致，说明重复提交
+                return Result.error(Constants.CODE_500,"已经投递过该岗位");
+            }
+        }
 
         //复制一份简历作为被投递的简历
         int targetProfileId =application.getProfileId();
@@ -123,7 +134,7 @@ public class JobController {
         if(applicationService.save(application)){
             return Result.success(application.getId());
         }
-        return Result.error();
+        return Result.error(Constants.CODE_500,"简历投递失败");
     }
 
     @DeleteMapping("/applications")
