@@ -70,6 +70,13 @@ public class UserController {
 
         user.setStatus(0);  //用户默认状态为未封禁
         userService.save(user);
+
+        //为用户创建初始简历
+        Profile profile = new Profile();
+        profile.setSeekerId(user.getId());
+        profile.setAdmissionDate(new java.sql.Timestamp(System.currentTimeMillis()));
+        profile.setGraduationDate(new java.sql.Timestamp(System.currentTimeMillis()));
+        profileService.save(profile);
         return Result.success(user.getId());
     }
 
