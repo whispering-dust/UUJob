@@ -37,7 +37,7 @@
                     <el-menu-item index="2" @click="selectedType = 2">求职经验</el-menu-item>
                     <el-menu-item index="3" @click="selectedType = 3">行业动态</el-menu-item>
                 </el-menu>
-                  
+
 
                 <div class="post-area row">
                     <div class="post-list pt-1 col-8 pl-0">
@@ -46,12 +46,13 @@
                                 <div class="card-header p-2">
                                     <div class="row align-items-center">
                                         <div class="col-8">
-                                            <h4 class="heading h5 ml-2 mb-0 ">{{ post.title }}</h4>
+                                            <h4 class="heading h4 ml-2 mb-0 ">{{ post.title }}
+                                            </h4>
                                         </div>
                                         <div class="col-4">
                                             <div class="card-icon-actions text-right">
-                                                <a href="#" class="favorite" data-toggle="tooltip"
-                                                    data-original-title="Save to favorites"><i class="fas fa-star"></i></a>
+                                                <!-- <a href="#" class="favorite" data-toggle="tooltip"
+                                                    data-original-title="Save to favorites"><i class="fas fa-star"></i></a> -->
                                             </div>
                                         </div>
                                     </div>
@@ -62,16 +63,16 @@
                                 <div class="card-footer">
                                     <div class="row align-items-center">
                                         <div class="col-6">
-                                            <el-button @click="enterPost(post.id)" color="black" 
+                                            <el-button @click="enterPost(post.id)" color="black"
                                                 style="width: 100px;">详情</el-button>
                                         </div>
                                         <div class="col-6 text-right">
                                             <ul class="list-inline mb-0">
-                                                <li class="list-inline-item pr-2">
+                                                <!-- <li class="list-inline-item pr-2">
                                                     <el-icon>
                                                         <View />
                                                     </el-icon> 750
-                                                </li>
+                                                </li> -->
                                                 <li class="list-inline-item ">
                                                     <span class="text-muted">{{ post.date }}</span>
                                                 </li>
@@ -154,7 +155,7 @@ export default {
                 }
             }).then(function (response) {
                 if (response.data.code === 200) {
-                    that.posts=response.data.data
+                    that.posts = response.data.data
                     // that.posts = [];
                     // response.data.data.forEach(element => {
                     //     that.posts.push(

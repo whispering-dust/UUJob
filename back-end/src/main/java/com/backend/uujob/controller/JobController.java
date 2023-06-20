@@ -328,4 +328,12 @@ public class JobController {
         }
         return Result.error(Constants.CODE_500,"数据库操作失败，可能是没有该id的job");
     }
+
+    @GetMapping("/companies")
+    public Result getCompany(@RequestParam String companyName){
+        Company target = companyService.getCompanyByName(companyName);
+        if(target!=null)
+            return Result.success(target);
+        return Result.error(Constants.CODE_500,"没有该公司信息");
+    }
 }
