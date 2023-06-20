@@ -1,5 +1,7 @@
 package com.backend.uujob.controller;
 
+import com.backend.uujob.entity.Comment;
+import com.backend.uujob.entity.Job;
 import com.backend.uujob.entity.Post;
 import com.backend.uujob.entity.Report;
 import com.backend.uujob.entity.VO.ReportVO;
@@ -84,6 +86,21 @@ public class ReportController {
 
     @PutMapping("/examinations")
     public Result handleReport(@RequestBody Report report){
+        if(report.getStatus() == ReportStatusEnum.REPORT_STATUS_SUCCESS.ordinal()){
+            if(report.getType() == ReportTypeEnum.REPORT_TYPE_POST.ordinal()){
+                Post post = postService.getById(report.getTargetId());
+                post.setStatus(CensorStatusEnum.CENSOR_STATUS_FAIL.ordinal());
+                postService.updateById(post);
+            }
+            else if (report.getType() == ReportTypeEnum.REPORT_TYPE_JOB.ordinal()) {
+                Job job = jobService.getById(report.getTargetId());
+                job.setStatus(CensorStatusEnum.CENSOR_STATUS_FAIL.ordinal());
+                jobService.updateById(job);
+            }
+            else if (report.getType() == ReportTypeEnum.REPORT_TYPE_COMMENT.ordinal()) {
+                commentService.removeById(report.getTargetId());
+            }
+        }
         return Result.success(reportService.updateById(report));
     }
 }
