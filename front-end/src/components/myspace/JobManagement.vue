@@ -94,7 +94,7 @@
               <div class="row">
                 <div class="col-3">
                   <div class="block mt-3">
-                    <el-avatar shape="square" style="width:100%;min-height:125px;" :src="userAvator" />
+                    <el-avatar shape="square" style="width:100%;min-height:125px;" :src="selectedProfile.photoUrl" />
                   </div>
                 </div>
                 <div class="col-9 mt-2">
@@ -222,12 +222,10 @@
       </el-card>
     </el-main>
     <el-aside width="10%">
-      <div class="action-buttons">
+      <div class="action-buttons" v-if="selectedJob.jobId!=null">
         <el-button class="ml-2 mt-2" style="width: 75%;" type="primary" @click="passProfile">通过</el-button>
         <el-button class="ml-2 mt-2" style="width: 75%;" type="info">忽略</el-button>
         <br><br>
-        <el-button class="ml-2 mt-2" style="width: 75%;" @click="back">上一个</el-button>
-        <el-button class="ml-2 mt-2" style="width: 75%;" @click="next">下一个</el-button>
       </div>
     </el-aside>
   </el-container>

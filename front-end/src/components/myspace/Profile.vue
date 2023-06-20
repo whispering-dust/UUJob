@@ -200,7 +200,7 @@ export default {
 
             }).then(function (response) {
                 if (response.data.code === 200) {
-                    that.Profile = [];
+                    that.Profile = {};
                     that.Profile.name = response.data.data.name;
                     that.Profile.phone = response.data.data.phone;
                     that.Profile.sex = response.data.data.sex;
@@ -215,8 +215,9 @@ export default {
                     that.Profile.graduationDate = response.data.data.graduationDate
                     that.Profile.photoUrl = response.data.data.photoUrl
 
-                    //alert(response.data.data.photoUrl)
-                    that.store.commit("setProfile", response.data.data.id);
+                    console.log(that.Profile.photoUrl);
+
+                    that.store.commit("setProfileId", response.data.data.id);
                     //alert('profileId:  ' + that.store.state.profileId)
 
                     //alert(that.Profile);
