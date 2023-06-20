@@ -114,16 +114,16 @@
                   </div>
 
                   <div class="row p-3" style="display: flex; flex-direction: column;">
-                    <div class="pb-2"><strong>公司地址</strong></div>
+                    <div class="pb-2"><strong>公司地点</strong></div>
                     <div>
                       {{ companyObj.address }}
                     </div>
                   </div>
 
-                  <div class="row p-3" style="display: flex; flex-direction: column;">
+                  <!-- <div class="row p-3" style="display: flex; flex-direction: column;">
                     <span class="pb-2"><strong>公司主页</strong></span>
                     <a href="#" @click="redirectToNewPage">{{ companyObj.homePageUrl }}</a>
-                  </div>
+                  </div> -->
                 </div>
 
               </el-card>
@@ -218,10 +218,9 @@ export default {
         description: '工作内容\n1、独立完成相关短视频的拍摄和后期剪辑工作'
       },
       companyObj: {
-        name: '平多多',
-        description: '信息缺失',
-        address: '上海长宁区金虹桥商业广场金虹桥国际中心',
-        homePageUrl: 'https://www.pinduoduo.com/'
+        name: '',
+        description: '',
+        address: '',
       },
       recommendData: [],
       successStar,
@@ -292,7 +291,7 @@ export default {
       }).then(function (response) {
         if (response.data.code == 200) {
           var data = response.data.data;
-          console.log('获取工作信息', response.data.data);
+          //console.log('获取工作信息', response.data.data);
           that.jobInfo = data;
           if (that.jobInfo.status == 1) {
             that.jobInfo.statusStr = "招聘中"
@@ -302,7 +301,7 @@ export default {
           var date = new Date(data.date);
           that.jobInfo.date = date.getFullYear() + "-" + (date.getMonth() + 1).toString().padStart(2, '0') + "-" + date.getDate().toString().padStart(2, '0');
           that.publisherId = response.data.data.publisherId
-
+          that.getCompany()
         } else {
           alert("error");
         }
@@ -311,18 +310,20 @@ export default {
     },
     async getCompany() {
       let that = this;
+      console.log(that.jobInfo)
       axios({
         method: "get",
-        url: "http://localhost:9090/jobs",
+        url: "http://localhost:9090/jobs/companies",
         params: {
-          id: that.jobId
+          companyName: that.jobInfo.companyName
         }
       }).then(function (response) {
         if (response.data.code == 200) {
 
-          that.companyObj.name = response.data.data.companyName;
-          that.companyObj.address = response.data.data.location;
-          console.log('获取公司信息', that.companyObj);
+          that.companyObj.name = response.data.data.name;
+          that.companyObj.address = response.data.data.address;
+          that.companyObj.description = response.data.data.description;
+          //console.log('获取公司信息', that.companyObj);
         } else {
           alert("error");
         }
@@ -401,7 +402,7 @@ export default {
       })
     },
     async getRecommendData() {
-      console.log(this.store.state.userId)
+      //console.log("用户id",this.store.state.userId)
       try {
         const response = await axios.get("http://localhost:9090/recommendation", {
           params: {
@@ -410,7 +411,7 @@ export default {
         });
 
         if (response.data.code === 200) {
-          console.log(response.data.data);
+          console.log("推荐的岗位", response.data.data);
           this.recommendData = response.data.data;
         } else {
           this.$message.error(response.data.msg);
@@ -428,7 +429,6 @@ export default {
 
   mounted() {
     this.getJob()
-    this.getCompany()
     this.getStarStatus()
     this.getRecommendData()
   },

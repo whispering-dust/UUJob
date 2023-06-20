@@ -26,5 +26,6 @@ public class PostDTO {
         this.status=p.getStatus();
         this.date=timeTransfer(p.getDate());
         this.type=p.getType();
+        this.publisherId = p.getPublisherId();
     }
 }
