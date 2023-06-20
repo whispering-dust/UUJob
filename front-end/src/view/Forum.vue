@@ -32,15 +32,16 @@
                 </div>
 
                 <el-menu :default-active="activeIndex" class="el-menu" mode="horizontal" @select="handleSelect">
-                    <el-menu-item index="0">推荐</el-menu-item>
-                    <el-menu-item index="1">关注</el-menu-item>
-                    <el-menu-item index="2">资讯</el-menu-item>
-                    <el-menu-item index="3">课程</el-menu-item>
+                    <el-menu-item index="0" @click="selectedType = null">推荐</el-menu-item>
+                    <el-menu-item index="1" @click="selectedType = 1">技术交流</el-menu-item>
+                    <el-menu-item index="2" @click="selectedType = 2">求职经验</el-menu-item>
+                    <el-menu-item index="3" @click="selectedType = 3">行业动态</el-menu-item>
                 </el-menu>
+                  
 
                 <div class="post-area row">
                     <div class="post-list pt-1 col-8 pl-0">
-                        <div v-for="post in posts" :key="post.id" class="post-item">
+                        <div v-for="post in filteredPosts" :key="post.id" class="post-item">
                             <el-card shadow="hover" class="card mb-2">
                                 <div class="card-header p-2">
                                     <div class="row align-items-center">
@@ -134,27 +135,8 @@ export default {
         const activeIndex = ref("0");
         return {
             activeIndex,
-            posts: [
-                {
-                    id: 1,
-                    title: '如何学习编程？',
-                    date: '2022-10-01',
-                    content: '学习编程的最好方法是......'
-                },
-                {
-                    id: 2,
-                    title: '如何学好英语？',
-                    date: '2022-10-02',
-                    content: '学好英语的秘诀是......'
-                },
-                {
-                    id: 3,
-                    title: '如何学习编程？',
-                    date: '2022-10-03',
-                    content: '学习编程的最好方法是......'
-                },
-
-            ]
+            posts: [],
+            selectedType: null,
         }
     },
     computed: {
@@ -170,23 +152,20 @@ export default {
                 params: {
 
                 }
-                // data: {
-                //     //参数自己接
-                //     id: that.useStore().state.userId,
-                // },
             }).then(function (response) {
                 if (response.data.code === 200) {
-                    that.posts = [];
-                    response.data.data.forEach(element => {
-                        that.posts.push(
-                            {
-                                id: element.id,
-                                title: element.title,
-                                date: element.date,
-                                content: element.content,
-                            }
-                        )
-                    });
+                    that.posts=response.data.data
+                    // that.posts = [];
+                    // response.data.data.forEach(element => {
+                    //     that.posts.push(
+                    //         {
+                    //             id: element.id,
+                    //             title: element.title,
+                    //             date: element.date,
+                    //             content: element.content,
+                    //         }
+                    //     )
+                    // });
 
 
                     console.log(response);
@@ -211,13 +190,27 @@ export default {
             this.$router.push('/post/' + id)
         },
         handleSelect(key, keyPath) {
+            this.selectedType = parseInt(key);
             console.log(key, keyPath);
-        }
+        },
+        filterPostsByType() {
+            if (this.selectedType === null) {
+                return this.posts; // No type selected, return all posts
+            } else {
+                return this.posts.filter(post => post.type === this.selectedType);
+            }
+        },
     },
     mounted() {
         this.getPosts();
 
     },
+    computed: {
+        filteredPosts() {
+            return this.filterPostsByType();
+        },
+    }
+
 }
 </script>
 

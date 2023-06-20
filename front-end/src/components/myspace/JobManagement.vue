@@ -87,8 +87,9 @@
           <!-- 简历 -->
           <el-main>
             <div class="container" v-if="selectedProfile && selectedProfile.profileId">
-              <div class="row container">
-                <h4>用户简历</h4>
+              <div class="row container" style="display: flex;justify-content:space-between">
+                <span><h4>用户简历</h4></span>
+                <span><a :href="selectedProfile.annexUrl" target="_blank">用户上传的简历下载</a></span>
               </div>
               <div class="row">
                 <div class="col-3">
@@ -349,14 +350,14 @@ export default {
       }
     },
 
-    //这玩意有问题
+    //FIXED
     async passProfile() {
       console.log(this.selectedJob.jobId);
-      console.log("this.selectedProfile.id:" + this.selectedProfile.id);
+      console.log(this.selectedProfile.profileId);
       try {
         const response = await axios.put("http://localhost:9090/jobs/applications", {
           data: {
-            id: this.selectedProfile.id,
+            id: this.selectedProfile.profileId,
             status: 1
           },
         });
@@ -364,10 +365,10 @@ export default {
         if (response.data.code === 200) {
           this.$message.success('已通过该简历')
         } else {
-          this.$message.error(response.data.msg);
+          this.$message.error('未知错误');
         }
       } catch (error) {
-        console.error("Failed to fetch job list:", error);
+        console.error("Failed to pass application:", error);
       }
     },
 
