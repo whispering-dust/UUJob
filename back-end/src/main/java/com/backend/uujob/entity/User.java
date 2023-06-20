@@ -17,7 +17,6 @@ public class User {
   private String position;
   private Integer status;
   private Timestamp bannedEndTime;
-  private String cookie;
 
 
   public Integer getId() {
@@ -100,13 +99,5 @@ public class User {
     this.bannedEndTime = bannedEndTime;
   }
 
-
-  public String getCookie() {
-    return cookie;
-  }
-
-  public void setCookie(String cookie) {
-    this.cookie = cookie;
-  }
 
 }

@@ -281,16 +281,16 @@ export default {
           console.log(response.data.data.subList);
           const profiles = [];
           response.data.data.subList.forEach(profile => {
-            profile.profileId = profile.id
+            profile.profileId = profile.profileId
             profile.status = 0
             profiles.push(profile)
           });
           response.data.data.passList.forEach(profile => {
-            profile.profileId = profile.id
+            profile.profileId = profile.profileId
             profile.status = 1
             profiles.push(profile)
           });
-          console.log(profiles);
+          console.log("获取一个岗位下的所有简历", profiles);
           this.ProfileList = profiles;;
 
         } else {
@@ -352,7 +352,7 @@ export default {
     //这玩意有问题
     async passProfile() {
       console.log(this.selectedJob.jobId);
-      console.log("this.selectedProfile.id:"+this.selectedProfile.id);
+      console.log("this.selectedProfile.id:" + this.selectedProfile.id);
       try {
         const response = await axios.put("http://localhost:9090/jobs/applications", {
           data: {
