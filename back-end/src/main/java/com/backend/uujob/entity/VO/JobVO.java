@@ -2,6 +2,7 @@ package com.backend.uujob.entity.VO;
 
 import com.backend.uujob.entity.Application;
 import com.backend.uujob.entity.Job;
+import com.backend.uujob.entity.Profile;
 import com.backend.uujob.enums.ApplStatusEnum;
 import lombok.Data;
 
@@ -17,5 +18,5 @@ public class JobVO {
     private String applicationDate;
     private Integer status;
     private String reviewDate;
-
+    private Profile profile;
 }

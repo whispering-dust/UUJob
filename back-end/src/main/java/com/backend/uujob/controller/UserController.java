@@ -125,6 +125,7 @@ public class UserController {
             if(ja.getStatus() != ApplStatusEnum.APPL_STATUS_SUBMIT.ordinal()){  //申请有结果才需要添加批复日期，否则不需要
                 ja.setReviewDate(timeTransfer(a.getReviewDate()));
             }
+            ja.setProfile(profileService.getById(a.getProfileId()));
 
             jobList.add(ja);
         }
