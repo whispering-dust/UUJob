@@ -62,6 +62,7 @@ public class FTPUtils {
         suffixList.add("pdf");
         suffixList.add("png");
         suffixList.add("jpg");
+        suffixList.add("docx");
         String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
         if (!suffixList.contains(suffix)) {
             throw new Exception("unsupported file format");

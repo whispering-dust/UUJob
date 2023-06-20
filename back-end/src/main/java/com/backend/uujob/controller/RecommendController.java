@@ -57,8 +57,11 @@ public class RecommendController {
         // 4.输出计算好的用户之间的相似度
         for (UserSimilarity u_sim : similarityList) {
             //System.out.println(u_sim.getUserId() + "\t" + u_sim.getRefUserId() + "\t" + u_sim.getSimilarity());
-            // 5.如果用户之间的相似度已经存在与数据库中就修改，不存在就添加
-            if (userSimilarityService.isExistsUserSimilarity(u_sim)) { // 修改
+            // 5.如果用户之间的相似度已经存在于数据库中就修改，不存在就添加
+            int id = userSimilarityService.isExistsUserSimilarity(u_sim);
+            System.out.println(u_sim+"的实际id是"+id);
+            if (id!=-1) { // 修改
+                u_sim.setId(id);
                 boolean flag = userSimilarityService.updateUserSimilarity(u_sim);
                 if (flag) {
                     //System.out.println("修改数据成功");
@@ -104,8 +107,8 @@ public class RecommendController {
         for (Integer positionId : recommendPosition) {
             List<Job> jobList = jobService.getListByPositionId(positionId);
 
-            //获取前三条工作
-            for(int i=0;i<3;i++){
+            //获取前两条工作
+            for(int i=0;i<2;i++){
                 if(i+1<=jobList.size()){
                     recommendJobs.add(jobList.get(i));
                 }

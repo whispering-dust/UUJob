@@ -37,16 +37,15 @@ public class UserSimilarityService extends ServiceImpl<UserSimilarityMapper, Use
     }
 
     @Override
-    public boolean isExistsUserSimilarity(UserSimilarity userSimilarity) {
+    public Integer isExistsUserSimilarity(UserSimilarity userSimilarity) {
         QueryWrapper<UserSimilarity> wrapper = new QueryWrapper<>();
         wrapper.eq("user_id",userSimilarity.getUserId()).eq("ref_user_id",userSimilarity.getRefUserId());
         List<UserSimilarity> list = list(wrapper);
-
         if(list.size()>0){
-            return true;
+            return list.get(0).getId();
         }
 
-        return false;
+        return -1;
     }
 
     @Override

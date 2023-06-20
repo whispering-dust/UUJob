@@ -38,4 +38,16 @@ public class ApplicationService extends ServiceImpl<ApplicationMapper, Applicati
         else
             return list(wrapper).get(0);
     }
+
+    @Override
+    public Boolean checkApplicationExist(Integer profileId, Integer jobId) {
+        QueryWrapper<Application> wrapper = new QueryWrapper<>();
+        wrapper
+                .eq("profile_id",profileId)
+                .eq("job_id",jobId);
+        if(list(wrapper).isEmpty()){
+            return false;
+        }
+        return true;
+    }
 }

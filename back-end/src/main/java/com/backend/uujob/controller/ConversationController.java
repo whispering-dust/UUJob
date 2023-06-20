@@ -32,6 +32,7 @@ public class ConversationController {
         if(c != null){  //若存在则直接返回其id，否则将其添加至数据库中
             return Result.success(c.getId());
         }
+        conversation.setLastMessageTime(new java.sql.Timestamp(System.currentTimeMillis()));
         conversationService.save(conversation);
         return Result.success(conversation.getId());
     }

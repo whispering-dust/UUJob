@@ -17,7 +17,8 @@
     </el-form-item>
 
     <el-form-item>
-      <el-button @click="handleLogin('loginForm')" type="primary" class="submit-btn">提交</el-button>
+      <el-button @click="handleLogin('loginForm'); updateRecommendation()" type="primary"
+        class="submit-btn">提交</el-button>
     </el-form-item>
 
     <!-- 找回密码 -->
@@ -70,10 +71,10 @@ export default {
               // alert("登录成功");
               console.log(response.data.data);
               /*修改全局用户变量*/
-              var userId = response.data.data;              
+              var userId = response.data.data;
               store.commit("setUserId", userId);
               store.commit("setUserName", ctx.loginUser.userName);
-              alert("欢迎登录，用户："+ctx.loginUser.userName);
+              alert("欢迎登录，用户：" + ctx.loginUser.userName);
               console.log(store.state);
 
               //获取用户身份
@@ -88,17 +89,17 @@ export default {
                 if (response.data.code === 200) {
                   // alert("登录成功");
                   console.log(response.data.data);
-                  /*修改全局用户变量*/              
+                  /*修改全局用户变量*/
                   store.commit("setRole", response.data.data.role);
                   console.log(store.state);
 
                   // window.localStorage.setItem("token",userId);
-                  if(store.state.role == 2){
+                  if (store.state.role == 2) {
                     router.push("../management");
-                  }else{
+                  } else {
                     router.push("../home");
                   }
-                } 
+                }
                 else {
                   alert(response.data.msg);
                 }
@@ -108,7 +109,7 @@ export default {
                 method: "get",
                 url: "http://localhost:9090/users/profiles",
                 params: {
-                    userId: userId
+                  userId: userId
                 }
 
               }).then(function (response) {
@@ -119,6 +120,7 @@ export default {
                   //alert(response.data.msg);
                 }
               });
+
 
             } // 登录失败输出错误信息
             else {
@@ -133,6 +135,23 @@ export default {
     };
 
     return { handleLogin };
+  },
+  methods: {
+    async updateRecommendation() {
+      axios({
+        method: "post",
+        url: "http://localhost:9090/recommendation/calculate",
+      }).then(function (response) {
+        // 登录成功
+        if (response.data.code === 200) {
+          // alert("登录成功");
+          console.log("推荐更新成功");
+        }
+        else {
+          console.log("推荐更新失败");
+        }
+      });
+    },
   },
 };
 </script>

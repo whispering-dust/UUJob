@@ -29,7 +29,7 @@ public interface IUserSimilarityService extends IService<UserSimilarity> {
      * @param userSimilarity 存储两个用户的id
      * @return true表示已经存在，false表示不存在
      */
-    boolean isExistsUserSimilarity(UserSimilarity userSimilarity);
+    Integer isExistsUserSimilarity(UserSimilarity userSimilarity);
 
     /**
      * 查询某个用户与其他用户之间的相似度列表

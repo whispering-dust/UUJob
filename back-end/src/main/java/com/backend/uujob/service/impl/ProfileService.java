@@ -50,6 +50,13 @@ public class ProfileService extends ServiceImpl<ProfileMapper, Profile> implemen
         return targetProfile;
     }
 
+    @Override
+    public Integer getUserIdByProfileId(Integer profileId) {
+        QueryWrapper<Profile> wrapper = new QueryWrapper<>();
+        wrapper.eq("id",profileId);
+        Profile targetProfile = getOne(wrapper);
+        return targetProfile.getSeekerId();
+    }
 
 
 }

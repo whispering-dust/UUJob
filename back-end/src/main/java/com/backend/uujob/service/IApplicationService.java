@@ -10,4 +10,5 @@ public interface IApplicationService extends IService<Application> {
 
     Application getByProfileId(int profileId);
 
+    Boolean checkApplicationExist(Integer profileId,Integer jobId);
 }
