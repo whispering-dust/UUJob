@@ -114,6 +114,8 @@ public class UserController {
         List<Application> applicationList = new ArrayList<>();
         for(Profile p : profileList){
             Application res = applicationService.getByProfileId(p.getId()); //再根据简历查找他被投递到哪些岗位
+            if(res==null)//简历没有被投递
+                continue;
             applicationList.add(res);
         }
 

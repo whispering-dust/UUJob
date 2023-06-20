@@ -288,8 +288,12 @@ export default {
   },
   computed: {
     formattedText() {
-      // 将换行符替换为 <br> 标签
-      return this.selectedJob.selectedJobText.replace(/\n/g, "<br>");
+      if (this.selectedJob.selectedJobText != null) {
+        // 将换行符替换为 <br> 标签
+        return this.selectedJob.selectedJobText.replace(/\n/g, "<br>");
+      }
+      else
+        return null;
     },
 
   },

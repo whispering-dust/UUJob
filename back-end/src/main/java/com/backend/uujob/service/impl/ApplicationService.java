@@ -32,7 +32,10 @@ public class ApplicationService extends ServiceImpl<ApplicationMapper, Applicati
         wrapper
                 .eq("profile_id",profileId)
                 .orderByDesc("application_date");
-
-        return list(wrapper).get(0);
+        List<Application> list = list(wrapper);
+        if (list.isEmpty())
+            return null;
+        else
+            return list(wrapper).get(0);
     }
 }
