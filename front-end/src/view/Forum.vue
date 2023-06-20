@@ -83,6 +83,15 @@
                                 </div>
                             </el-card>
                         </div>
+                        <el-pagination
+                            @current-change="handlePageChange"
+                            :current-page="currentPage"
+                            :page-size="pageSize"
+                            :hide-on-single-page="totalPosts <= 5? true : false"
+                            layout="prev, pager, next"
+                            background 
+                            :total="totalPosts">
+                        </el-pagination>
                     </div>
 
                     <div class="post-right pt-1 col-4 pr-0">
@@ -103,14 +112,14 @@
                             </div>
                         </div>
 
-                        <div class="card funtion">
+                        <!-- <div class="card funtion">
                             <div class="card-header">
                                 <h4>热点</h4>
                             </div>
                             <div class="card-body">
 
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -138,6 +147,9 @@ export default {
             activeIndex,
             posts: [],
             selectedType: null,
+            currentPage: 1, // Add to data return
+            pageSize: 5, // Add to data return
+            totalPosts: 0, // We'll update this when we get the posts
         }
     },
     computed: {
@@ -156,17 +168,7 @@ export default {
             }).then(function (response) {
                 if (response.data.code === 200) {
                     that.posts = response.data.data
-                    // that.posts = [];
-                    // response.data.data.forEach(element => {
-                    //     that.posts.push(
-                    //         {
-                    //             id: element.id,
-                    //             title: element.title,
-                    //             date: element.date,
-                    //             content: element.content,
-                    //         }
-                    //     )
-                    // });
+                    that.totalPosts = response.data.data.length
 
 
                     console.log(response);
@@ -201,6 +203,9 @@ export default {
                 return this.posts.filter(post => post.type === this.selectedType);
             }
         },
+        handlePageChange(page) {
+            this.currentPage = page;
+        },
     },
     mounted() {
         this.getPosts();
@@ -208,7 +213,11 @@ export default {
     },
     computed: {
         filteredPosts() {
-            return this.filterPostsByType();
+            let posts = this.filterPostsByType();
+            this.totalPosts = posts.length;
+            let start = (this.currentPage - 1) * this.pageSize;
+            let end = this.currentPage * this.pageSize;
+            return posts.slice(start, end);
         },
     }
 
