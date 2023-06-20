@@ -101,7 +101,7 @@
       </el-card>
     </el-main>
     <el-aside width="10%">
-      <div class="action-buttons">
+      <div class="action-buttons" v-if="selectedJob.id!=null">
         <el-button class="ml-2 mt-2" style="width: 75%;" type="danger" @click="deletDialogVisible = true"><el-icon
             class="mr-1">
             <DeleteFilled />

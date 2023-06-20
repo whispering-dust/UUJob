@@ -360,6 +360,17 @@ export default {
 
         if (response.data.code === 200) {
           this.$message.success('已通过该简历')
+          // Update the profile status locally
+          this.selectedProfile.status = 1;
+          // Move the profile from unreviewedProfile to reviewedProfile
+          const index = this.unreviewedProfile.findIndex(profile => profile.profileId === this.selectedProfile.profileId);
+          if (index !== -1) {
+            this.unreviewedProfile.splice(index, 1);
+            this.reviewedProfile.push(this.selectedProfile);
+          }
+
+          // Clear the selected profile
+          this.selectedProfile = {};
         } else {
           this.$message.error('未知错误');
         }
@@ -379,6 +390,16 @@ export default {
 
         if (response.data.code === 200) {
           this.$message.success('已忽略')
+          // Update the profile status locally
+          this.selectedProfile.status = 2;
+          // Remove the profile from unreviewedProfile
+          const index = this.unreviewedProfile.findIndex(profile => profile.profileId === this.selectedProfile.profileId);
+          if (index !== -1) {
+            this.unreviewedProfile.splice(index, 1);
+          }
+
+          // Clear the selected profile
+          this.selectedProfile = {};
         } else {
           alert(response.data.msg);
         }
