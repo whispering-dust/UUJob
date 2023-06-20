@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-2">
                 <div class="block mt-3">
-                    <el-avatar shape="square" style="width:100%;min-height:150px;" :src="userAvator" />
+                    <el-avatar shape="square" style="width:100%;min-height:150px;" :src="Profile.photoUrl" />
                 </div>
             </div>
             <div class="col-10">
@@ -213,7 +213,9 @@ export default {
                     that.Profile.honor = response.data.data.reward;
                     that.Profile.admissionDate = response.data.data.admissionDate
                     that.Profile.graduationDate = response.data.data.graduationDate
+                    that.Profile.photoUrl = response.data.data.photoUrl
 
+                    //alert(response.data.data.photoUrl)
                     that.store.commit("setProfile", response.data.data.id);
                     //alert('profileId:  ' + that.store.state.profileId)
 

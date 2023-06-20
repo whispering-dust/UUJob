@@ -1,7 +1,7 @@
 <template>
   <el-dialog :visible.sync="dialogVisible" title="编辑个人资料">
     <el-form :model="updatedProfile" label-width="120px">
-      <el-form-item label="头像">
+      <el-form-item label="简历头像">
         <el-upload :action="uploadUrl" accept="image/*" :show-file-list="false" :on-success="handleUploadSuccess"
           :before-upload="beforeUpload" :headers="headers">
           <el-button size="small" type="primary">点击上传</el-button>
@@ -80,9 +80,6 @@ export default {
   },
   data() {
     return {
-      imageUrl: "",
-      uploadUrl: "http://localhost:9090/users/upload-avatar",
-      headers: {},
 
       dialogVisible: this.visible,
       updatedProfile: { ...this.profile },
@@ -150,27 +147,6 @@ export default {
     closeDialog() {
       this.$emit("close");
       this.dialogVisible = false;
-    },
-    beforeUpload(file) {
-      const isImage = file.type.startsWith("image/");
-      const isLt2M = file.size / 1024 / 1024 < 2;
-
-      if (!isImage) {
-        this.$message.error("上传头像只能是图片格式!");
-      }
-      if (!isLt2M) {
-        this.$message.error("上传头像大小不能超过 2MB!");
-      }
-      return isImage && isLt2M;
-    },
-    handleUploadSuccess(response, file) {
-      if (response.code === 200) {
-        this.imageUrl = URL.createObjectURL(file.raw);
-        this.$message.success("头像上传成功");
-        this.updatedProfile.avatarUrl = response.data.avatarUrl;
-      } else {
-        this.$message.error("头像上传失败");
-      }
     },
   },
 };

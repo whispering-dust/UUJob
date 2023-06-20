@@ -36,6 +36,7 @@
 import { ref, getCurrentInstance } from "vue";
 import { useStore } from "vuex";
 import axios from "axios";
+import { useRouter } from "vue-router";
 import { tr } from 'element-plus/es/locale';
 // import axios from 'axios' // 仅限在当前组件使用
 export default {
@@ -53,12 +54,12 @@ export default {
     // @ts-ignore
     const { ctx } = getCurrentInstance();
     const store = useStore();
+    const router = useRouter();
 
     //注册按钮响应函数
     const handleRegister = (formName: string) => {
       ctx.$refs[formName].validate((valid: boolean) => {
         if (true) {
-          alert("submit!");
           axios({
             method: "post",
             url: "http://localhost:9090/users/registration",
@@ -70,19 +71,18 @@ export default {
             },
           }).then(function (response) {
             // 注册成功
-            if (response.data.code == 0) {
-              alert("注册成功");
-              alert("你的账号为" + response.data.data.userId);//弹窗输出返回的账号
+            if (response.data.code == 200) {
 
-              useStore().state.commit("setUserId", response.data.data.userId);
-              useStore().state.commit("setUserName", ctx.registerUser.name);
-              useStore().state.commit("setRole", ctx.registerUser.role);
+              store.commit("setUserId", response.data.data.userId);
+              store.commit("setUserName", ctx.registerUser.name);
+              store.commit("setRole", ctx.registerUser.role);
 
+              ctx.$emit('showLoginTab'); 
               console.log(response.data.data);
             }
             // 注册失败提示信息
             else {
-              alert(response.data.msg);
+              alert("未知错误");
             }
           });
           console.log(store.state.userId);
