@@ -30,7 +30,7 @@
     <el-main>
       <el-card v-if="selectedJob.title" class="box-card p-0 card" shadow="never">
         <div class="card-header p-0 mb-3">
-          <span style="font-size:larger;"><strong>{{ selectedJob.title }}</strong></span>
+          <span style="font-size:larger;"><h3>{{ selectedJob.title }}</h3></span>
           <p style="color:deepskyblue">
             薪资：{{ selectedJob.salary }}
           </p>
@@ -103,6 +103,139 @@
             </el-descriptions-item>
           </el-descriptions>
         </div>
+
+        <el-divider />
+        <!-- 简历 -->
+      <div class="container" v-if="selectedProfile && selectedProfile.id">
+        <div class="row container" style="display: flex;justify-content:space-between">
+          <span><h3>我的简历</h3></span>
+          <span v-if="selectedProfile.annexUrl"><a :href="selectedProfile.annexUrl" target="_blank">用户上传的简历下载</a></span>
+        </div>
+        <div class="row">
+          <div class="col-3">
+            <div class="block mt-3">
+              <el-avatar shape="square" style="width:100%;min-height:125px;" :src="selectedProfile.photoUrl" />
+            </div>
+          </div>
+          <div class="col-9 mt-2">
+            <el-descriptions title="" :column="2" border>
+              <el-descriptions-item>
+                <template #label>
+                  <div class="cell-item">
+                    <el-icon>
+                      <user />
+                    </el-icon>
+                    姓名
+                  </div>
+                </template>
+                {{ selectedProfile.name }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template #label>
+                  <div class="cell-item">
+                    <el-icon>
+                      <user />
+                    </el-icon>
+                    性别
+                  </div>
+                </template>
+                {{ selectedProfile.sex }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template #label>
+                  <div class="cell-item">
+                    <el-icon>
+                      <iphone />
+                    </el-icon>
+                    联系电话
+                  </div>
+                </template>
+                {{ selectedProfile.phone }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template #label>
+                  <div class="cell-item">
+                    <el-icon>
+                      <location />
+                    </el-icon>
+                    电子邮件
+                  </div>
+                </template>
+                {{ selectedProfile.email }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template #label>
+                  <div class="cell-item">
+                    <el-icon>
+                      <tickets />
+                    </el-icon>
+                    学历
+                  </div>
+                </template>
+                {{ selectedProfile.education }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template #label>
+                  <div class="cell-item">
+                    <el-icon>
+                      <office-building />
+                    </el-icon>
+                    所在单位
+                  </div>
+                </template>
+                {{ selectedProfile.college }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template #label>
+                  <div class="cell-item">
+                    <el-icon>
+                      <office-building />
+                    </el-icon>
+                    专业
+                  </div>
+                </template>
+                {{ selectedProfile.major }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template #label>
+                  <div class="cell-item">
+                    <el-icon>
+                      <office-building />
+                    </el-icon>
+                    意向地点
+                  </div>
+                </template>
+                {{ selectedProfile.expectedLocation }}
+              </el-descriptions-item>
+
+            </el-descriptions>
+          </div>
+        </div>
+
+
+        <el-descriptions class="mt-3" direction="vertical" :column="1" border>
+          <el-descriptions-item>
+            <template #label>
+              <div class="cell-item">
+                自我介绍
+              </div>
+            </template>
+            <div style="min-height:100px">
+              {{ selectedProfile.personalDescription }}
+            </div>
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template #label>
+              <div class="cell-item">
+                荣誉奖项
+              </div>
+            </template>
+            <div style="min-height:100px">
+              {{ selectedProfile.reward }}
+            </div>
+          </el-descriptions-item>
+        </el-descriptions>
+      </div>
       </el-card>
     </el-main>
     <el-aside width="10%">
@@ -243,6 +376,7 @@ export default {
     selectJob(jobId) {
       this.selectedJob = this.JobList.find((job) => job.jobId === jobId);
       this.selectedProfile = this.selectedJob.profile;
+      console.log("选择的简历信息",this.selectedProfile);
       console.log("选择的岗位信息", this.selectedJob)
       this.$nextTick(
         () => {
