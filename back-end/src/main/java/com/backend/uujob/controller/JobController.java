@@ -127,9 +127,7 @@ public class JobController {
     }
 
     @DeleteMapping("/applications")
-    public Result RevokeApplication(@RequestParam Integer applicationId){
-        Application application = applicationService.getById(applicationId);
-        Integer profileId = application.getProfileId();
+    public Result RevokeApplication(@RequestParam Integer profileId){
         if(profileService.removeById(profileId)){
             return Result.success();
         }

@@ -143,7 +143,7 @@
                     <el-table-column prop="location" label="地点" width="70" />
                     <el-table-column prop="salary" label="薪资" />
                     <el-table-column prop="companyName" label="公司" />
-                    
+
                   </el-table>
                 </div>
 
@@ -223,7 +223,7 @@ export default {
         address: '上海长宁区金虹桥商业广场金虹桥国际中心',
         homePageUrl: 'https://www.pinduoduo.com/'
       },
-      recommendData:[],
+      recommendData: [],
       successStar,
       failStar,
       successDeleteStar,
@@ -264,7 +264,7 @@ export default {
         const response = await axios.post("http://localhost:9090/reports/jobs", {
           content: this.reportContent,
           reporterId: this.store.state.userId,
-          targetId: this.publisherId
+          targetId: this.jobId
         });
 
         if (response.data.code === 200) {
@@ -400,7 +400,7 @@ export default {
         //window.location.reload();
       })
     },
-    async getRecommendData(){
+    async getRecommendData() {
       console.log(this.store.state.userId)
       try {
         const response = await axios.get("http://localhost:9090/recommendation", {
@@ -411,8 +411,7 @@ export default {
 
         if (response.data.code === 200) {
           console.log(response.data.data);
-          this.recommendData=response.data.data;
-
+          this.recommendData = response.data.data;
         } else {
           this.$message.error(response.data.msg);
         }
@@ -420,7 +419,7 @@ export default {
         console.error("Failed to fetch user:", error);
       }
     },
-    redirectToJob(row,column,event){
+    redirectToJob(row, column, event) {
       console.log(row)
       this.router.push("../job/" + row.id);
     },

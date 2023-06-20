@@ -86,21 +86,30 @@ public class ReportController {
 
     @PutMapping("/examinations")
     public Result handleReport(@RequestBody Report report){
-        if(report.getStatus() == ReportStatusEnum.REPORT_STATUS_SUCCESS.ordinal()){
-            if(report.getType() == ReportTypeEnum.REPORT_TYPE_POST.ordinal()){
-                Post post = postService.getById(report.getTargetId());
+        Report tmp = reportService.getById(report.getId());
+        tmp.setStatus(report.getStatus());
+
+        if(tmp.getStatus() == ReportStatusEnum.REPORT_STATUS_SUCCESS.ordinal()){  //如果举报被受理，则将被举报的目标改为封禁或直接删除
+            if(tmp.getType() == ReportTypeEnum.REPORT_TYPE_POST.ordinal()){
+                Post post = postService.getById(tmp.getTargetId());
                 post.setStatus(CensorStatusEnum.CENSOR_STATUS_FAIL.ordinal());
                 postService.updateById(post);
             }
-            else if (report.getType() == ReportTypeEnum.REPORT_TYPE_JOB.ordinal()) {
-                Job job = jobService.getById(report.getTargetId());
+            else if (tmp.getType() == ReportTypeEnum.REPORT_TYPE_JOB.ordinal()) {
+                Job job = jobService.getById(tmp.getTargetId());
                 job.setStatus(CensorStatusEnum.CENSOR_STATUS_FAIL.ordinal());
                 jobService.updateById(job);
             }
-            else if (report.getType() == ReportTypeEnum.REPORT_TYPE_COMMENT.ordinal()) {
-                commentService.removeById(report.getTargetId());
+            else if (tmp.getType() == ReportTypeEnum.REPORT_TYPE_COMMENT.ordinal()) {
+                commentService.removeById(tmp.getTargetId());
+            }
+
+            List<Report> reportList = reportService.getListByTargetIdAndType(tmp.getType(),tmp.getTargetId());  //同时将举报相同目标的举报一同改为举报成功状态
+            for(Report r : reportList){
+                r.setStatus(ReportStatusEnum.REPORT_STATUS_SUCCESS.ordinal());
+                reportService.updateById(r);
             }
         }
-        return Result.success(reportService.updateById(report));
+        return Result.success(reportService.updateById(tmp));
     }
 }

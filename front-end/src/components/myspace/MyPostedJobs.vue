@@ -106,7 +106,7 @@
       </el-card>
     </el-main>
     <el-aside width="10%">
-      <div class="action-buttons" v-if="selectedJob.jobId!=null">
+      <div class="action-buttons" v-if="selectedJob.jobId != null">
         <el-button class="ml-2 mt-2" style="width: 75%;" type="danger" @click="revokeApplication"><el-icon class="mr-1">
             <WarnTriangleFilled />
           </el-icon>撤销投递</el-button>
@@ -163,6 +163,7 @@ export default {
       ],
       filteredJobs: [],
       selectedJob: {},
+      selectedProfile: {},
       owner: {
         userId: '',
         userName: 'owner',
@@ -241,22 +242,25 @@ export default {
     },
     selectJob(jobId) {
       this.selectedJob = this.JobList.find((job) => job.jobId === jobId);
+      this.selectedProfile = this.selectedJob.profile;
+      console.log("选择的岗位信息", this.selectedJob)
       this.$nextTick(
-        ()=>{
+        () => {
           this.getJob();
         }
       )
-     
+
       //this.showStatus();
     },
     async revokeApplication() {
       try {
         // 撤销投递API调用
-        // await axios.post("https://your-api-endpoint.com/revoke_application", {
-        //   userId: this.userId,
-        //   jobId
-        //   jobId: this.selectedJob.jobId,
-        // });
+        console.log("撤销投递的简历：", this.selectedProfile.id);
+        await axios.delete("http://localhost:9090/jobs/applications", {
+          params: {
+            profileId: this.selectedProfile.id,
+          },
+        });
         console.log("撤销投递成功");
         this.getJobList();
         this.selectedJob = {};
@@ -306,6 +310,9 @@ export default {
         return "未审核"
       } else if (this.selectedJob.status == 1) {
         return "已通过"
+      }
+      else if (this.selectedJob.status == 2) {
+        return "未通过"
       }
     }
   },
