@@ -147,7 +147,7 @@ public class RecommendUtils {
         for (UserSimilarity userSimilarityDTO : userSimilarityList) {
             if (minHeap.size() < topN) {
                 minHeap.offer(userSimilarityDTO);
-                System.out.println(minHeap.peek().getSimilarity());
+                //System.out.println(minHeap.peek().getSimilarity());
             } else if (minHeap.peek().getSimilarity() < userSimilarityDTO.getSimilarity()) {
                 minHeap.poll();
                 minHeap.offer(userSimilarityDTO);
@@ -168,8 +168,8 @@ public class RecommendUtils {
      * @param userActiveList 所有用户的浏览行为
      * @return 可以推荐给userId的职位类别id列表
      */
-    public static List<Integer> getRecommendPosition(Integer userId, List<Integer> similarUserList, List<Active> userActiveList) {
-        List<Integer> recommendProductList = new ArrayList<Integer>();
+    public static Set<Integer> getRecommendPosition(Integer userId, List<Integer> similarUserList, List<Active> userActiveList) {
+        Set<Integer> recommendProductList = new HashSet<>();
 
         // userId的浏览行为列表
         List<Active> userIdActiveList = findUsersBrowsBehavior(userId, userActiveList);

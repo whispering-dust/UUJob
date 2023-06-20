@@ -224,7 +224,7 @@
     <el-aside width="10%">
       <div class="action-buttons">
         <el-button class="ml-2 mt-2" style="width: 75%;" type="primary" @click="passProfile">通过</el-button>
-        <el-button class="ml-2 mt-2" style="width: 75%;" type="info">忽略</el-button>
+        <el-button class="ml-2 mt-2" style="width: 75%;" type="info" @click="neglectProfile">忽略</el-button>
         <br><br>
         <el-button class="ml-2 mt-2" style="width: 75%;" @click="back">上一个</el-button>
         <el-button class="ml-2 mt-2" style="width: 75%;" @click="next">下一个</el-button>
@@ -356,10 +356,8 @@ export default {
       console.log(this.selectedProfile.profileId);
       try {
         const response = await axios.put("http://localhost:9090/jobs/applications", {
-          data: {
-            id: this.selectedProfile.profileId,
-            status: 1
-          },
+          profileId: this.selectedProfile.profileId,
+          status: 1
         });
 
         if (response.data.code === 200) {
@@ -377,10 +375,8 @@ export default {
       console.log(this.selectedProfile.profileId);
       try {
         const response = await axios.put("http://localhost:9090/jobs/applications", {
-          data: {
-            id: this.selectedProfile.id,
-            status: 2
-          },
+          profileId: this.selectedProfile.profileId,
+          status: 2
         });
 
         if (response.data.code === 200) {

@@ -13,7 +13,9 @@ import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -37,7 +39,7 @@ public class RecommendController {
         if(activeList.size()==0){
             return Result.error(Constants.CODE_500,"数据库为空");
         }
-        System.out.println(activeList);
+        //System.out.println(activeList);
         return Result.success(activeList);
     }
 
@@ -92,16 +94,15 @@ public class RecommendController {
             return Result.error(Constants.CODE_500,"无法获取相似用户");
         }
 
-        List<Integer> recommendPosition = RecommendUtils.getRecommendPosition(id,userIds,allActiveList);
+        Set<Integer> recommendPosition = RecommendUtils.getRecommendPosition(id,userIds,allActiveList);
         for (Integer positionId : recommendPosition) {
             System.out.println("被推荐的岗位类别：" + positionId);
         }
 
         // 找出岗位类别中对应的所有工作
-        List<Job> recommendJobs = new ArrayList<Job>();
+        Set<Job> recommendJobs = new HashSet<>();
         for (Integer positionId : recommendPosition) {
             List<Job> jobList = jobService.getListByPositionId(positionId);
-            System.out.println("本岗位类型的工作有:"+jobList);
 
             //获取前三条工作
             for(int i=0;i<3;i++){
@@ -110,7 +111,6 @@ public class RecommendController {
                 }
             }
             // 找出当前岗位类型中中发布时间最近的工作
-
         }
         if(recommendJobs.isEmpty()){
             return Result.error(Constants.CODE_500,"推荐岗位的数据为空");

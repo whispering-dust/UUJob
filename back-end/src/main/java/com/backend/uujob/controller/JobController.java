@@ -127,8 +127,8 @@ public class JobController {
     }
 
     @DeleteMapping("/applications")
-    public Result RevokeApplication(@RequestParam Integer applicationId){
-        if(applicationService.removeById(applicationId)){
+    public Result RevokeApplication(@RequestParam Integer profileId){
+        if(profileService.removeById(profileId)){
             return Result.success();
         }
         return Result.error();
@@ -207,9 +207,13 @@ public class JobController {
 
     @PutMapping("/applications")
     public Result processApplication(@RequestBody Application application){
-        application.setReviewDate(new java.sql.Timestamp(System.currentTimeMillis())); //设置当前时间为审查时间
-        if(applicationService.updateById(application)){
-            return Result.success();
+        //根据前端传来的profileId来查找application
+        Application targetApplication =applicationService.getByProfileId(application.getProfileId());
+        targetApplication.setStatus(application.getStatus());
+        targetApplication.setReviewDate(new java.sql.Timestamp(System.currentTimeMillis()));//设置当前时间为审查时间
+
+        if(applicationService.updateById(targetApplication)){
+            return Result.success(targetApplication.getId());
         }
         return Result.error();
     }

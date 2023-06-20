@@ -70,6 +70,13 @@ public class UserController {
 
         user.setStatus(0);  //用户默认状态为未封禁
         userService.save(user);
+
+        //为用户创建初始简历
+        Profile profile = new Profile();
+        profile.setSeekerId(user.getId());
+        profile.setAdmissionDate(new java.sql.Timestamp(System.currentTimeMillis()));
+        profile.setGraduationDate(new java.sql.Timestamp(System.currentTimeMillis()));
+        profileService.save(profile);
         return Result.success(user.getId());
     }
 
@@ -107,6 +114,8 @@ public class UserController {
         List<Application> applicationList = new ArrayList<>();
         for(Profile p : profileList){
             Application res = applicationService.getByProfileId(p.getId()); //再根据简历查找他被投递到哪些岗位
+            if(res==null)//简历没有被投递
+                continue;
             applicationList.add(res);
         }
 
@@ -125,6 +134,7 @@ public class UserController {
             if(ja.getStatus() != ApplStatusEnum.APPL_STATUS_SUBMIT.ordinal()){  //申请有结果才需要添加批复日期，否则不需要
                 ja.setReviewDate(timeTransfer(a.getReviewDate()));
             }
+            ja.setProfile(profileService.getById(a.getProfileId()));
 
             jobList.add(ja);
         }
