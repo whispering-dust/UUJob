@@ -70,7 +70,7 @@ public class UserSimilarityService extends ServiceImpl<UserSimilarityMapper, Use
 
         //2.打印输出
         for (UserSimilarity userSimilarity: userSimilarityList) {
-            System.out.println(userSimilarity.getUserId() + "\t" + userSimilarity.getRefUserId() + "\t" + userSimilarity.getSimilarity());
+            //System.out.println(userSimilarity.getUserId() + "\t" + userSimilarity.getRefUserId() + "\t" + userSimilarity.getSimilarity());
         }
 
         // 3.获取与id为userId的用户的浏览行为最相似的前num个用户

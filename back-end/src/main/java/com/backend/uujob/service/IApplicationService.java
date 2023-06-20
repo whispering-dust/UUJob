@@ -9,4 +9,5 @@ public interface IApplicationService extends IService<Application> {
     List<Application> getByJobIdAndStatus(int jobId, int status);
 
     Application getByProfileId(int profileId);
+
 }
