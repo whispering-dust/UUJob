@@ -13,7 +13,7 @@
                     <el-avatar class="mr-2" src="avatar.png" :size="50"></el-avatar>
                     <div class="comment-right">
                         <div style="display: flex; height:20px">
-                            <p class="mr-2">{{ comment.userName }}</p>
+                            <p class="mr-2" style="font-weight: 800;">{{ comment.userName }}</p>
                             <p style="color: dodgerblue;">{{ comment.date }}</p>
                         </div>
                         <div>
