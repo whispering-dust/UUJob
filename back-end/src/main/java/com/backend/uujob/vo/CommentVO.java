@@ -1,4 +1,4 @@
-package com.backend.uujob.entity.VO;
+package com.backend.uujob.vo;
 
 import lombok.Data;
 

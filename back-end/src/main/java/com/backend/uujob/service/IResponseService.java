@@ -1,8 +1,7 @@
 package com.backend.uujob.service;
 
-import com.backend.uujob.entity.Comment;
 import com.backend.uujob.entity.Response;
-import com.backend.uujob.entity.VO.ResponseVO;
+import com.backend.uujob.vo.ResponseVO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;

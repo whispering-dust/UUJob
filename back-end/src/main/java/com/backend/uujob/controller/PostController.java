@@ -1,16 +1,13 @@
 package com.backend.uujob.controller;
 
-import com.backend.uujob.controller.dto.JobExamineDTO;
-import com.backend.uujob.controller.dto.PostDTO;
-import com.backend.uujob.controller.dto.PostDetailDTO;
-import com.backend.uujob.controller.dto.PostExamineDTO;
+import com.backend.uujob.dto.PostDTO;
+import com.backend.uujob.dto.PostDetailDTO;
+import com.backend.uujob.dto.PostExamineDTO;
 import com.backend.uujob.entity.Comment;
-import com.backend.uujob.entity.Job;
 import com.backend.uujob.entity.Post;
-import com.backend.uujob.entity.VO.CommentVO;
-import com.backend.uujob.entity.VO.ResponseVO;
+import com.backend.uujob.vo.CommentVO;
+import com.backend.uujob.vo.ResponseVO;
 import com.backend.uujob.enums.CensorStatusEnum;
-import com.backend.uujob.enums.ReportStatusEnum;
 import com.backend.uujob.result.Constants;
 import com.backend.uujob.result.Result;
 import com.backend.uujob.service.ICommentService;
@@ -68,7 +65,7 @@ public class PostController {
 
     @PostMapping("")
     public Result addPost(@RequestBody Post post){
-        post.setStatus(CensorStatusEnum.CENSOR_STATUS_SUBMIT.ordinal());
+        post.setStatus(CensorStatusEnum.CENSOR_STATUS_SUBMIT.getValue());
         if(postService.save(post)){
             return Result.success(post.getId());
         }

@@ -12,32 +12,32 @@ import org.springframework.web.bind.annotation.*;
 public class StarController {
     @Resource
     private IStarService starService;
-
+    
     @PostMapping("/jobs")
-    public Result starJob(@RequestBody Star star){
-        star.setStarType(StarTypeEnum.STAR_TYPE_JOB.ordinal());
+    public Result starJob(@RequestBody Star star) {
+        star.setStarType(StarTypeEnum.STAR_TYPE_JOB.getValue());
         starService.save(star);
         return Result.success(star.getId());
     }
-
+    
     @PostMapping("/posts")
-    public Result starPost(@RequestBody Star star){
-        star.setStarType(StarTypeEnum.STAR_TYPE_POST.ordinal());
+    public Result starPost(@RequestBody Star star) {
+        star.setStarType(StarTypeEnum.STAR_TYPE_POST.getValue());
         starService.save(star);
         return Result.success(star.getId());
     }
-
+    
     @PostMapping("")
-    public Result getStar(@RequestBody Star star){
+    public Result getStar(@RequestBody Star star) {
         Star s = starService.getByAll(star);
-        if(s == null){
+        if (s == null) {
             return Result.success(-1);
         }
         return Result.success(s.getId());
     }
-
+    
     @DeleteMapping("")
-    public Result deleteStar(@RequestParam Integer id){
+    public Result deleteStar(@RequestParam Integer id) {
         starService.removeById(id);
         return Result.success();
     }

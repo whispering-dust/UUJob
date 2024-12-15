@@ -1,6 +1,6 @@
-package com.backend.uujob.controller.dto;
+package com.backend.uujob.dto;
 
-import com.backend.uujob.entity.VO.CommentVO;
+import com.backend.uujob.vo.CommentVO;
 import lombok.Data;
 
 import java.util.List;

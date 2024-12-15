@@ -155,7 +155,7 @@ public class RecommendUtils {
         }
         // 把得到的最大的相似度的用户的id取出来(不要取它自己)
         for (UserSimilarity userSimilarityDTO : minHeap) {
-            similarityList.add(userSimilarityDTO.getUserId() == userId ? userSimilarityDTO.getRefUserId() : userSimilarityDTO.getUserId());
+            similarityList.add(Objects.equals(userSimilarityDTO.getUserId(), userId) ? userSimilarityDTO.getRefUserId() : userSimilarityDTO.getUserId());
         }
 
         return similarityList;
