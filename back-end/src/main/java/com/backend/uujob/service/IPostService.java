@@ -1,7 +1,7 @@
 package com.backend.uujob.service;
 
-import com.backend.uujob.controller.dto.PostDTO;
-import com.backend.uujob.controller.dto.PostDetailDTO;
+import com.backend.uujob.dto.PostDTO;
+import com.backend.uujob.dto.PostDetailDTO;
 import com.backend.uujob.entity.Post;
 import com.backend.uujob.enums.CensorStatusEnum;
 import com.baomidou.mybatisplus.extension.service.IService;

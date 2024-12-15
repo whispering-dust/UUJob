@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,9 +17,8 @@ import java.util.List;
  * @date 2023年05月31日14:38
  */
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class UserSimilarityService extends ServiceImpl<UserSimilarityMapper, UserSimilarity> implements IUserSimilarityService {
-    @Resource
-    private UserSimilarityMapper userSimilarityMapper;
 
     @Override
     public boolean saveUserSimilarity(UserSimilarity userSimilarity) {
@@ -68,9 +68,9 @@ public class UserSimilarityService extends ServiceImpl<UserSimilarityMapper, Use
         List<UserSimilarity> userSimilarityList = listUserSimilarityByUId(userId);
 
         //2.打印输出
-        for (UserSimilarity userSimilarity: userSimilarityList) {
-            //System.out.println(userSimilarity.getUserId() + "\t" + userSimilarity.getRefUserId() + "\t" + userSimilarity.getSimilarity());
-        }
+//        for (UserSimilarity userSimilarity: userSimilarityList) {
+//            //System.out.println(userSimilarity.getUserId() + "\t" + userSimilarity.getRefUserId() + "\t" + userSimilarity.getSimilarity());
+//        }
 
         // 3.获取与id为userId的用户的浏览行为最相似的前num个用户
         List<Integer> userIds = RecommendUtils.getSimilarityBetweenUsers(userId, userSimilarityList, num);
@@ -82,6 +82,4 @@ public class UserSimilarityService extends ServiceImpl<UserSimilarityMapper, Use
         }
         return userIds;
     }
-
-
 }

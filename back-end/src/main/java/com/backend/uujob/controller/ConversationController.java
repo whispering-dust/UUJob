@@ -1,6 +1,6 @@
 package com.backend.uujob.controller;
 
-import com.backend.uujob.controller.dto.ConversationDTO;
+import com.backend.uujob.dto.ConversationDTO;
 import com.backend.uujob.entity.Conversation;
 import com.backend.uujob.entity.Message;
 import com.backend.uujob.enums.MessageStautsEnum;
@@ -75,7 +75,7 @@ public class ConversationController {
     @PostMapping("/messages")
     public Result addMessage(@RequestBody Message message){
         //设置为未读和当前时间
-        message.setStatus(MessageStautsEnum.MESSAGE_STAUTS_UNREAD.ordinal());
+        message.setStatus(MessageStautsEnum.MESSAGE_STAUTS_UNREAD.getValue());
         message.setCreatedAt(new java.sql.Timestamp(System.currentTimeMillis()));
 
         //将所属聊天室的最新消息设置为当前消息

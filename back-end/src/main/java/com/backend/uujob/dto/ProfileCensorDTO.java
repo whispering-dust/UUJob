@@ -1,6 +1,6 @@
-package com.backend.uujob.controller.dto;
+package com.backend.uujob.dto;
 
-import com.backend.uujob.entity.VO.ProfileVO;
+import com.backend.uujob.vo.ProfileVO;
 import lombok.Data;
 
 import java.util.List;

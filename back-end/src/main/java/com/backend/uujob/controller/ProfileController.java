@@ -1,6 +1,5 @@
 package com.backend.uujob.controller;
 
-import com.backend.uujob.entity.Job;
 import com.backend.uujob.entity.Profile;
 import com.backend.uujob.result.Constants;
 import com.backend.uujob.result.Result;
@@ -16,48 +15,48 @@ import static com.backend.uujob.utils.FTPUtils.uploadFolder;
 public class ProfileController {
     @Resource
     private IProfileService profileService;
-
+    
     @PostMapping("")
     public Result addProfile(@RequestBody Profile profile) {
         profileService.save(profile);
         return Result.success(profile.getId());
     }
-
+    
     @PutMapping("")
     public Result modifyProfile(@RequestBody Profile profile) {
-        if(profileService.getById(profile.getId()) == null){
+        if (profileService.getById(profile.getId()) == null) {
             return Result.error(Constants.CODE_500, "档案不存在");
         }
         profileService.updateById(profile);
         System.out.println(profile);
         return Result.success(profile.getId());
     }
-
+    
     @DeleteMapping("")
     public Result deleteProfile(@RequestParam int id) {
-        if(profileService.getById(id) == null){
+        if (profileService.getById(id) == null) {
             return Result.error(Constants.CODE_500, "档案不存在");
         }
         profileService.removeById(id);
         return Result.success();
     }
-
+    
     @PostMapping("/upload-files")
     public Result addPhotoForProfile(
             @RequestParam("profileId") Integer profileId,
             @RequestParam("photo") MultipartFile photo
     ) {
         Profile profile = profileService.getById(profileId);
-        if(profile == null){
-            return Result.error(Constants.CODE_400,"该简历不存在");
+        if (profile == null) {
+            return Result.error(Constants.CODE_400, "该简历不存在");
         }
-
+        
         String url = uploadFolder(photo);
-        if(url != null){
+        if (url != null) {
             profile.setPhotoUrl(url);
             profileService.updateById(profile);
             return Result.success(url);
         }
-        return Result.error(Constants.CODE_500,"文件上传失败");
+        return Result.error(Constants.CODE_500, "文件上传失败");
     }
 }

@@ -7,15 +7,15 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 import static com.baomidou.mybatisplus.extension.toolkit.Db.getOne;
 
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class ProfileService extends ServiceImpl<ProfileMapper, Profile> implements IProfileService {
-    @Resource
-    private ProfileMapper profileMapper;
 
     @Override
     public Profile getByUserId(int userId){

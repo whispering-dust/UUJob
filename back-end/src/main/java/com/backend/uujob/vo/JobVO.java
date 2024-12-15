@@ -1,12 +1,7 @@
-package com.backend.uujob.entity.VO;
+package com.backend.uujob.vo;
 
-import com.backend.uujob.entity.Application;
-import com.backend.uujob.entity.Job;
 import com.backend.uujob.entity.Profile;
-import com.backend.uujob.enums.ApplStatusEnum;
 import lombok.Data;
-
-import static com.backend.uujob.utils.TimeUtils.timeTransfer;
 
 @Data
 public class JobVO {

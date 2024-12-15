@@ -1,7 +1,7 @@
 package com.backend.uujob.mapper;
 
 import com.backend.uujob.entity.Response;
-import com.backend.uujob.entity.VO.ResponseVO;
+import com.backend.uujob.vo.ResponseVO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Select;
 

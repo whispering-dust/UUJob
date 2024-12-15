@@ -1,4 +1,4 @@
-package com.backend.uujob.controller.dto;
+package com.backend.uujob.dto;
 
 import com.backend.uujob.entity.Post;
 import lombok.Data;

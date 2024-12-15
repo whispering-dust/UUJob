@@ -9,11 +9,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class CompanyService extends ServiceImpl<CompanyMapper, Company> implements ICompanyService {
-    @Resource
-    private CompanyMapper companyMapper;
 
     @Override
     public Company getCompanyByName(String name) {

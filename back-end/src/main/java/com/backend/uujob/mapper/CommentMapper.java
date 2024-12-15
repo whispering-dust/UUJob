@@ -1,9 +1,8 @@
 package com.backend.uujob.mapper;
 
 import com.backend.uujob.entity.Comment;
-import com.backend.uujob.entity.VO.CommentVO;
+import com.backend.uujob.vo.CommentVO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;

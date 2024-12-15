@@ -1,4 +1,4 @@
-package com.backend.uujob.controller.dto;
+package com.backend.uujob.dto;
 
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;

@@ -3,9 +3,11 @@ package com.backend.uujob.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.Data;
 
 import java.sql.Timestamp;
 
+@Data
 public class Post {
   @TableId(value = "id",type = IdType.AUTO)
   private Integer id;
@@ -15,65 +17,4 @@ public class Post {
   private Timestamp date;
   private Integer status;
   private Integer type;
-  public void setType(Integer type) {
-    this.type = type;
-  }
-
-  public Integer getType() {
-    return type;
-  }
-
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
-
-  public String getContent() {
-    return content;
-  }
-
-  public void setContent(String content) {
-    this.content = content;
-  }
-
-
-  public Integer getPublisherId() {
-    return publisherId;
-  }
-
-  public void setPublisherId(Integer publisherId) {
-    this.publisherId = publisherId;
-  }
-
-
-  public java.sql.Timestamp getDate() {
-    return date;
-  }
-
-  public void setDate(java.sql.Timestamp date) {
-    this.date = date;
-  }
-
-
-  public Integer getStatus() {
-    return status;
-  }
-
-  public void setStatus(Integer status) {
-    this.status = status;
-  }
-
 }
